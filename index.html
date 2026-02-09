@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>SB Burger Week 2026 Map</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+
+  <!-- MarkerCluster CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>SB Burger Week 2026 <span>| Feb 19–25</span></h1>
+    <a href="https://www.independent.com/2026/02/05/burger-week-2026/" target="_blank" rel="noopener">Source: The Independent</a>
+  </header>
+
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="drag-handle" id="dragHandle"></div>
+      <div class="sidebar-controls">
+        <input type="text" class="search-box" id="searchBox" placeholder="Search restaurants…">
+        <div class="area-filters" id="areaFilters"></div>
+      </div>
+      <div class="restaurant-count" id="restaurantCount"></div>
+      <ul class="restaurant-list" id="restaurantList"></ul>
+    </aside>
+
+    <div id="map"></div>
+
+    <button class="mobile-toggle" id="mobileToggle">Show Restaurant List</button>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- MarkerCluster JS -->
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>
