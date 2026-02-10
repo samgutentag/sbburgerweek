@@ -41,15 +41,21 @@
       fillOpacity: 0.85
     });
 
-    var appleMapsUrl = "https://maps.apple.com/?daddr=" + encodeURIComponent(r.address);
+    var appleMapsUrl = r.appleMapsUrl || "https://maps.apple.com/?daddr=" + encodeURIComponent(r.address);
 
-    var popupHtml =
-      '<div class="popup-content">' +
+    var popupHtml = '<div class="popup-content">' +
         "<h3>" + escapeHtml(r.name) + "</h3>";
     if (r.burger) popupHtml += '<p class="popup-burger">🍔 ' + escapeHtml(r.burger) + "</p>";
     if (r.description) popupHtml += '<p class="popup-description"><em>' + escapeHtml(r.description) + "</em></p>";
+    popupHtml += "<p>" + escapeHtml(r.address) + "</p>";
+    if (r.website || r.phone) {
+      popupHtml += '<div class="directions-links">';
+      if (r.website) popupHtml += '<a href="' + r.website + '" target="_blank" rel="noopener">Website</a>';
+      if (r.website && r.phone) popupHtml += '<span class="link-sep">|</span>';
+      if (r.phone) popupHtml += '<a href="tel:' + r.phone + '">' + escapeHtml(r.phone) + "</a>";
+      popupHtml += "</div>";
+    }
     popupHtml +=
-        "<p>" + escapeHtml(r.address) + "</p>" +
         '<div class="directions-links">' +
           '<a href="' + appleMapsUrl + '" target="_blank" rel="noopener">Apple Maps</a>' +
           '<span class="link-sep">|</span>' +
@@ -75,16 +81,24 @@
 
   var activeOverlay = null;
 
-  map.on("popupopen", function (e) {
-    var latlng = e.popup.getLatLng();
-    activeOverlay = L.marker(latlng, { icon: burgerIcon, interactive: false }).addTo(map);
-  });
+  function showBurgerOverlay(latlng) {
+    removeBurgerOverlay();
+    activeOverlay = L.marker(latlng, { icon: burgerIcon, interactive: false, zIndexOffset: 10000 }).addTo(map);
+  }
 
-  map.on("popupclose", function () {
+  function removeBurgerOverlay() {
     if (activeOverlay) {
       map.removeLayer(activeOverlay);
       activeOverlay = null;
     }
+  }
+
+  map.on("popupopen", function (e) {
+    showBurgerOverlay(e.popup.getLatLng());
+  });
+
+  map.on("popupclose", function () {
+    removeBurgerOverlay();
   });
 
   // Fit bounds to show all markers
@@ -180,6 +194,17 @@
 
       li.appendChild(nameSpan);
       li.appendChild(badge);
+
+      li.addEventListener("mouseenter", function () {
+        showBurgerOverlay([r.lat, r.lng]);
+      });
+
+      li.addEventListener("mouseleave", function () {
+        // Only remove if no popup is open on this marker
+        if (!marker || !marker.isPopupOpen()) {
+          removeBurgerOverlay();
+        }
+      });
 
       li.addEventListener("click", function () {
         map.flyTo([r.lat, r.lng], 17, { duration: 0.8 });

@@ -250,10 +250,11 @@ header a:hover {
   color: var(--dark);
 }
 
+
 .popup-content p {
   font-size: 0.82rem;
   color: #555;
-  margin-bottom: 6px;
+  margin-bottom: 2px;
 }
 
 .popup-content .popup-burger {

@@ -1,5 +1,7 @@
 # SB Burger Week 2026 Map
 
+[![Hits](https://hits.sh/samgutentag.github.io/sbburgerweek.svg)](https://hits.sh/samgutentag.github.io/sbburgerweek/)
+
 An interactive map of all participating restaurants for [Santa Barbara Burger Week 2026](https://www.independent.com/2026/02/05/burger-week-2026/) (Feb 19–25).
 
 ## Features
