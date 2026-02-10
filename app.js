@@ -231,6 +231,12 @@
 
       listEl.appendChild(li);
     });
+
+    // Fit map to filtered markers
+    var coords = filtered.map(function (r) { return [r.lat, r.lng]; });
+    if (coords.length) {
+      map.fitBounds(coords, { padding: [30, 30] });
+    }
   }
 
   renderList();
