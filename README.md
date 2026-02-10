@@ -98,6 +98,24 @@ The `.github/workflows/check-source.yml` workflow checks a source article daily 
 
 To disable it, just delete the workflow file.
 
+## Embed
+
+Want to embed the map on your website? Use this iframe snippet in a WordPress Gutenberg **Custom HTML** block or any HTML page:
+
+```html
+<iframe
+  src="https://sbburgerweekmap.com/embed"
+  width="100%"
+  height="600"
+  style="border: none; border-radius: 8px;"
+  title="SB Burger Week 2026 Interactive Map"
+  loading="lazy"
+  allowfullscreen>
+</iframe>
+```
+
+The embed shows the full interactive map with all markers, popups, and directions links. Adjust the `height` value to fit your layout.
+
 ## Issues & Feedback
 
 Found a bug, missing restaurant, or wrong detail? [Open an issue](../../issues) and let us know.
