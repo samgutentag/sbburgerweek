@@ -19,7 +19,7 @@
   // ── Marker cluster group ───────────────────────
 
   const clusterGroup = L.markerClusterGroup({
-    maxClusterRadius: 35,
+    maxClusterRadius: 20,
     spiderfyOnMaxZoom: true,
     showCoverageOnHover: false,
     zoomToBoundsOnClick: true
@@ -64,11 +64,40 @@
       "</div>";
 
     marker.bindPopup(popupHtml, { maxWidth: 240 });
+
+    // Show popup and burger overlay on hover
+    marker.on("mouseover", function () {
+      showBurgerOverlay([r.lat, r.lng]);
+      this.openPopup();
+    });
+
     clusterGroup.addLayer(marker);
     markerMap.set(r.name, marker);
   });
 
   map.addLayer(clusterGroup);
+
+  // ── Cluster hover tooltip ────────────────────
+
+  clusterGroup.on("clustermouseover", function (e) {
+    var childMarkers = e.layer.getAllChildMarkers();
+    var names = childMarkers.map(function (m) {
+      // Find restaurant name from markerMap
+      var name = "";
+      markerMap.forEach(function (marker, key) {
+        if (marker === m) name = key;
+      });
+      return name;
+    }).sort();
+    var html = '<div class="cluster-tooltip">' +
+      names.map(function (n) { return "<div>" + n + "</div>"; }).join("") +
+      "</div>";
+    e.layer.bindTooltip(html, { sticky: true, direction: "right", className: "cluster-tooltip-wrapper" }).openTooltip();
+  });
+
+  clusterGroup.on("clustermouseout", function (e) {
+    e.layer.unbindTooltip();
+  });
 
   // ── Burger emoji overlay on selected marker ──
 

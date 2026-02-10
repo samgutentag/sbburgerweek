@@ -261,20 +261,20 @@ const restaurants = [
     burger: null,
     description: null
   },
-  // {
-  //   name: "Validation Ale (Downtown)",
-  //   address: "102 E. Yanonali St., Santa Barbara, CA",
-  //   website: "validationale.com",
-  //   phone: "805-500-3111",
-  //   area: "Downtown SB",
-  //   lat: 34.415026,
-  //   lng: -119.690101,
-  //   mapUrl: "https://maps.app.goo.gl/ZeQpwXm2LdCZo4S88",
-  //   appleMapsUrl: "https://maps.apple/p/FS_Cg~a~WvM-8~",
-  //   burger: null,
-  //   description: null
-  //  type: "sponsor"
-  // },
+  {
+    name: "Validation Ale",
+    address: "102 E. Yanonali St., Santa Barbara, CA",
+    website: "validationale.com",
+    phone: "805-500-3111",
+    area: "Downtown SB",
+    lat: 34.415026,
+    lng: -119.690101,
+    mapUrl: "https://maps.app.goo.gl/ZeQpwXm2LdCZo4S88",
+    appleMapsUrl: "https://maps.apple/p/FS_Cg~a~WvM-8~",
+    burger: null,
+    description: null,
+    type: "sponsor"
+  },
   {
     name: "Crushcakes",
     address: "1315 Anacapa St., Santa Barbara, CA",

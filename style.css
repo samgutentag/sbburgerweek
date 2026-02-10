@@ -86,6 +86,12 @@ header a:hover {
   text-decoration: underline;
 }
 
+.github-icon {
+  width: 0.9em;
+  height: 0.9em;
+  vertical-align: -0.1em;
+}
+
 .sidebar .attribution {
   padding: 12px 14px 16px;
   text-align: center;
@@ -374,6 +380,25 @@ header a:hover {
   .drag-handle {
     display: block;
   }
+}
+
+/* ── Cluster tooltip ────────────────────────── */
+
+.cluster-tooltip-wrapper {
+  padding: 0;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.cluster-tooltip {
+  font-size: 0.82rem;
+  line-height: 1.6;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.cluster-tooltip div {
+  padding: 2px 4px;
 }
 
 /* ── Marker Cluster overrides ───────────────── */
