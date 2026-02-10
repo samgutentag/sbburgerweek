@@ -43,9 +43,12 @@
 
     var appleMapsUrl = "https://maps.apple.com/?daddr=" + encodeURIComponent(r.address);
 
-    const popupHtml =
+    var popupHtml =
       '<div class="popup-content">' +
-        "<h3>" + escapeHtml(r.name) + "</h3>" +
+        "<h3>" + escapeHtml(r.name) + "</h3>";
+    if (r.burger) popupHtml += '<p class="popup-burger">🍔 ' + escapeHtml(r.burger) + "</p>";
+    if (r.description) popupHtml += '<p class="popup-description"><em>' + escapeHtml(r.description) + "</em></p>";
+    popupHtml +=
         "<p>" + escapeHtml(r.address) + "</p>" +
         '<div class="directions-links">' +
           '<a href="' + appleMapsUrl + '" target="_blank" rel="noopener">Apple Maps</a>' +
@@ -60,6 +63,29 @@
   });
 
   map.addLayer(clusterGroup);
+
+  // ── Burger emoji overlay on selected marker ──
+
+  var burgerIcon = L.divIcon({
+    html: '<span class="burger-icon">🍔</span>',
+    className: 'burger-icon-wrapper',
+    iconSize: [28, 28],
+    iconAnchor: [14, 14]
+  });
+
+  var activeOverlay = null;
+
+  map.on("popupopen", function (e) {
+    var latlng = e.popup.getLatLng();
+    activeOverlay = L.marker(latlng, { icon: burgerIcon, interactive: false }).addTo(map);
+  });
+
+  map.on("popupclose", function () {
+    if (activeOverlay) {
+      map.removeLayer(activeOverlay);
+      activeOverlay = null;
+    }
+  });
 
   // Fit bounds to show all markers
   const allCoords = restaurants.map(function (r) { return [r.lat, r.lng]; });
@@ -118,6 +144,10 @@
         r.address.toLowerCase().indexOf(searchTerm) !== -1 ||
         r.area.toLowerCase().indexOf(searchTerm) !== -1;
       return matchesArea && matchesSearch;
+    });
+
+    filtered.sort(function (a, b) {
+      return a.name.localeCompare(b.name);
     });
 
     countEl.textContent = filtered.length + " of " + restaurants.length + " restaurants";

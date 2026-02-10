@@ -89,11 +89,12 @@ jobs:
           echo "hash=$HASH" >> "$GITHUB_OUTPUT"
           echo "Current content hash: $HASH"
 
-      - name: Compare against stored hash
+      - name: Compare against stored content
         id: compare
         run: |
           HASH="${{ steps.fetch.outputs.hash }}"
           HASH_FILE=".github/source-hash.txt"
+          CONTENT_FILE=".github/source-content.txt"
 
           if [ ! -f "$HASH_FILE" ]; then
             echo "No previous hash found — first run"
@@ -107,6 +108,13 @@ jobs:
             echo "Hash differs — content has changed!"
             echo "changed=true" >> "$GITHUB_OUTPUT"
             echo "first_run=false" >> "$GITHUB_OUTPUT"
+
+            # Generate diff if previous content exists
+            if [ -f "$CONTENT_FILE" ]; then
+              diff -u "$CONTENT_FILE" cleaned.txt > /tmp/content-diff.txt || true
+            else
+              echo "(No previous content to diff against)" > /tmp/content-diff.txt
+            fi
           fi
 
       - name: Open GitHub Issue
@@ -128,21 +136,27 @@ jobs:
             printf 'The source article content has changed as of **%s**.\n\n' "$DATE" > /tmp/issue-body.md
             printf '**Article:** %s\n\n' "$ARTICLE_URL" >> /tmp/issue-body.md
             printf 'Please review the article for updates and sync any changes to `data.js`.\n\n' >> /tmp/issue-body.md
+            printf '### Changes\n\n' >> /tmp/issue-body.md
+            printf '```diff\n' >> /tmp/issue-body.md
+            # Truncate diff to avoid hitting issue body limits
+            head -200 /tmp/content-diff.txt >> /tmp/issue-body.md
+            printf '\n```\n\n' >> /tmp/issue-body.md
             printf -- '---\n' >> /tmp/issue-body.md
             printf '*Detected by the [check-source](%s) workflow.*\n' "$RUN_URL" >> /tmp/issue-body.md
 
             gh issue create --title "$TITLE" --body-file /tmp/issue-body.md
           fi
 
-      - name: Commit updated hash
+      - name: Commit updated hash and content
         if: steps.compare.outputs.changed == 'true' || steps.compare.outputs.first_run == 'true'
         run: |
           HASH="${{ steps.fetch.outputs.hash }}"
           echo "$HASH" > .github/source-hash.txt
+          cp cleaned.txt .github/source-content.txt
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .github/source-hash.txt
+          git add .github/source-hash.txt .github/source-content.txt
           git commit -m "Update source article hash [skip ci]"
           git push
 

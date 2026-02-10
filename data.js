@@ -22,7 +22,6 @@ const restaurants = [
     lng: -119.6968,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=501+State+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -33,7 +32,6 @@ const restaurants = [
     lng: -119.7078,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=1209+State+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -44,7 +42,6 @@ const restaurants = [
     lng: -119.6988,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=9+W+Victoria+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -55,7 +52,6 @@ const restaurants = [
     lng: -119.7008,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=820+State+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -66,7 +62,6 @@ const restaurants = [
     lng: -119.6900,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=119+State+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -77,7 +72,6 @@ const restaurants = [
     lng: -119.6975,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=20+E+Cota+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -88,7 +82,6 @@ const restaurants = [
     lng: -119.6973,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=18+E+Ortega+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -99,7 +92,6 @@ const restaurants = [
     lng: -119.6896,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=14+State+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -110,7 +102,6 @@ const restaurants = [
     lng: -119.7020,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=907+State+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -121,7 +112,6 @@ const restaurants = [
     lng: -119.6998,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=38+W+Victoria+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -132,7 +122,6 @@ const restaurants = [
     lng: -119.6988,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=17+W+De+La+Guerra+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -143,7 +132,6 @@ const restaurants = [
     lng: -119.6970,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=512+State+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -154,7 +142,6 @@ const restaurants = [
     lng: -119.7308,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=3422+State+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -165,7 +152,6 @@ const restaurants = [
     lng: -119.6994,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=38+W+Victoria+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -176,7 +162,6 @@ const restaurants = [
     lng: -119.6997,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=710+State+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -187,7 +172,6 @@ const restaurants = [
     lng: -119.7118,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=1972+Cliff+Dr+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -198,7 +182,6 @@ const restaurants = [
     lng: -119.8260,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=225+N+Fairview+Ave+Goleta+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -209,7 +192,6 @@ const restaurants = [
     lng: -119.7012,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=30+W+Anapamu+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -220,7 +202,6 @@ const restaurants = [
     lng: -119.7038,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=18+W+Figueroa+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -231,7 +212,6 @@ const restaurants = [
     lng: -119.6978,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=8+E+Cota+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -242,7 +222,6 @@ const restaurants = [
     lng: -119.7002,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=38+W+Victoria+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -253,7 +232,6 @@ const restaurants = [
     lng: -119.6940,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=317+State+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -264,7 +242,6 @@ const restaurants = [
     lng: -119.6960,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=128+E+Canon+Perdido+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -275,7 +252,6 @@ const restaurants = [
     lng: -119.6990,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=38+W+Victoria+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -286,7 +262,6 @@ const restaurants = [
     lng: -119.6972,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=525+State+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -297,7 +272,6 @@ const restaurants = [
     lng: -119.6980,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=6+E+Cota+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -308,7 +282,6 @@ const restaurants = [
     lng: -119.7170,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=1614+De+La+Vina+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -319,7 +292,6 @@ const restaurants = [
     lng: -119.6870,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=730+N+Milpas+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -330,7 +302,6 @@ const restaurants = [
     lng: -119.8120,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=5709+Calle+Real+Goleta+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -341,7 +312,6 @@ const restaurants = [
     lng: -119.5955,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=2318+Lillie+Ave+Summerland+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -352,7 +322,6 @@ const restaurants = [
     lng: -119.5175,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=4532+Carpinteria+Ave+Carpinteria+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -363,7 +332,6 @@ const restaurants = [
     lng: -119.8580,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=928+Embarcadero+del+Norte+Isla+Vista+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -374,7 +342,6 @@ const restaurants = [
     lng: -119.6885,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=209+Helena+Ave+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -385,7 +352,6 @@ const restaurants = [
     lng: -119.6890,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=121+E+Yanonali+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -396,7 +362,6 @@ const restaurants = [
     lng: -119.8090,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=5600+Calle+Real+Goleta+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -407,7 +372,6 @@ const restaurants = [
     lng: -120.1927,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=45+Industrial+Way+Buellton+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -418,7 +382,6 @@ const restaurants = [
     lng: -119.9885,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=3687+Sagunto+St+Santa+Ynez+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -429,7 +392,6 @@ const restaurants = [
     lng: -119.6958,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=436+State+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -440,7 +402,6 @@ const restaurants = [
     lng: -119.6880,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=16+Helena+Ave+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -451,7 +412,6 @@ const restaurants = [
     lng: -119.7005,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=615+Chapala+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   },
   {
@@ -462,7 +422,6 @@ const restaurants = [
     lng: -119.6865,
     mapUrl: "https://www.google.com/maps/search/?api=1&query=1+S+Milpas+St+Santa+Barbara+CA",
     burger: null,
-    price: null,
     description: null
   }
 ];

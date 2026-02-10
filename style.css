@@ -54,6 +54,13 @@ header h1 span {
   margin-left: 6px;
 }
 
+.header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
 header a {
   color: var(--orange);
   text-decoration: none;
@@ -63,6 +70,28 @@ header a {
 
 header a:hover {
   text-decoration: underline;
+}
+
+.attribution {
+  font-size: 0.82rem;
+  color: #999;
+}
+
+.attribution a {
+  color: var(--orange);
+  text-decoration: none;
+}
+
+.attribution a:hover {
+  text-decoration: underline;
+}
+
+.sidebar .attribution {
+  padding: 12px 14px 16px;
+  text-align: center;
+  border-top: 1px solid #eee;
+  background: #fafafa;
+  flex-shrink: 0;
 }
 
 /* ── Layout ─────────────────────────────────── */
@@ -198,6 +227,18 @@ header a:hover {
   z-index: 1;
 }
 
+/* Burger icon overlay on selected marker */
+.burger-icon-wrapper {
+  background: none !important;
+  border: none !important;
+}
+
+.burger-icon {
+  font-size: 24px;
+  line-height: 1;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.4));
+}
+
 /* Popup styling */
 .leaflet-popup-content-wrapper {
   border-radius: 8px;
@@ -213,6 +254,16 @@ header a:hover {
   font-size: 0.82rem;
   color: #555;
   margin-bottom: 6px;
+}
+
+.popup-content .popup-burger {
+  font-weight: 600;
+  color: var(--dark);
+  margin-bottom: 2px;
+}
+
+.popup-content .popup-description {
+  margin-top: 0;
 }
 
 .directions-links {
@@ -304,6 +355,7 @@ header a:hover {
   header h1 {
     font-size: 1rem;
   }
+
 }
 
 /* Drag handle for mobile drawer */
