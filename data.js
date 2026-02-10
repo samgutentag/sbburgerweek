@@ -121,7 +121,7 @@ const restaurants = [
   {
     name: "Little Bird Kitchen",
     address: "38 W. Victoria St., Santa Barbara, CA",
-    website: "littlebirdsb.com",
+    website: "https://www.littlebirdsb.com",
     phone: "805-303-7865",
     area: "Downtown SB",
     lat: 34.423532, 
@@ -134,7 +134,7 @@ const restaurants = [
   {
     name: "Pascucci",
     address: "1230-A State St., Santa Barbara, CA",
-    website: "pascuccirestaurant-sb.com",
+    website: "https://www.pascuccirestaurant-sb.com",
     phone: "805-963-8123",
     area: "Downtown SB",
     lat: 34.424304, 
@@ -160,7 +160,7 @@ const restaurants = [
   {
     name: "Que Smoke Shack",
     address: "38 W. Victoria St., Santa Barbara, CA",
-    website: "quesmokeshack.com",
+    website: "https://www.quesmokeshack.com",
     phone: "805-869-2193",
     area: "Downtown SB",
     lat: 34.423601, 
@@ -173,7 +173,7 @@ const restaurants = [
   {
     name: "SB Biergarten",
     address: "11 Anacapa St., Santa Barbara, CA",
-    website: "beersantabarbara.com",
+    website: "https://www.beersantabarbara.com",
     phone: "805-856-6694",
     area: "Downtown SB",
     lat: 34.413321, 
@@ -186,7 +186,7 @@ const restaurants = [
   {
     name: "The Brewhouse",
     address: "229 W Montecito St., Santa Barbara, CA",
-    website: "sbbrewhouse.com",
+    website: "https://www.sbbrewhouse.com",
     phone: "805-884-4664",
     area: "Downtown SB",
     lat: 34.411938, 
@@ -199,7 +199,7 @@ const restaurants = [
   {
     name: "Seoulmate Kitchen",
     address: "38 W. Victoria St. Ste. 115, Santa Barbara, CA",
-    website: "seoulmatekitchen.com",
+    website: "https://www.seoulmatekitchen.com",
     phone: "805-869-2566",
     area: "Downtown SB",
     lat: 34.423601, 
@@ -212,7 +212,7 @@ const restaurants = [
   {
     name: "Shalhoob's Funk Zone Patio",
     address: "220 Gray Ave., Santa Barbara, CA",
-    website: "shalhoob.com",
+    website: "https://www.shalhoob.com",
     phone: "805-963-7733",
     area: "Downtown SB",
     lat: 34.416328, 
@@ -225,7 +225,7 @@ const restaurants = [
   {
     name: "The Blue Owl",
     address: "5 W. Canon Perdido, Santa Barbara, CA",
-    website: "theblueowlsb.com",
+    website: "https://www.theblueowlsb.com",
     phone: "805-705-0991",
     area: "Downtown SB",
     lat: 34.420052, 
@@ -238,7 +238,7 @@ const restaurants = [
   {
     name: "The Win-dow",
     address: "701 Chapala St., Santa Barbara, CA",
-    website: "thewin-dow.la/santa-barbara",
+    website: "https://www.thewin-dow.la/santa-barbara",
     phone: "805-880-2775",
     area: "Downtown SB",
     lat: 34.417568, 
@@ -251,7 +251,7 @@ const restaurants = [
   {
     name: "Third Window Brewing (Santa Barbara)",
     address: "406 E. Haley St. Ste #3, Santa Barbara, CA",
-    website: "thirdwindowbrewing.com",
+    website: "https://www.thirdwindowbrewing.com",
     phone: "805-979-5090",
     area: "Downtown SB",
     lat: 34.420992, 
@@ -264,7 +264,7 @@ const restaurants = [
   {
     name: "Validation Ale",
     address: "102 E. Yanonali St., Santa Barbara, CA",
-    website: "validationale.com",
+    website: "https://www.validationale.com",
     phone: "805-500-3111",
     area: "Downtown SB",
     lat: 34.415026,
@@ -278,7 +278,7 @@ const restaurants = [
   {
     name: "Crushcakes",
     address: "1315 Anacapa St., Santa Barbara, CA",
-    website: "crushcakes.com",
+    website: "https://www.crushcakes.com",
     phone: "805-963-9353",
     area: "Downtown SB",
     lat: 34.425637, 
@@ -293,7 +293,7 @@ const restaurants = [
   {
     name: "Corner Tap",
     address: "1905 Cliff Dr., Santa Barbara, CA",
-    website: "sbcornertap.com",
+    website: "https://www.sbcornertap.com",
     phone: "805-690-2739",
     area: "Other SB",
     lat: 34.401264, 
@@ -306,7 +306,7 @@ const restaurants = [
   {
     name: "Dave's Dogs Grill",
     address: "149 S Turnpike Rd., Santa Barbara, CA",
-    website: "davesdogs805.com/home",
+    website: "https://www.davesdogs805.com/home",
     phone: "805-770-7772",
     area: "Other SB",
     lat: 34.437770, 
@@ -319,7 +319,7 @@ const restaurants = [
   {
     name: "Islands Fine Burgers & Drinks",
     address: "3825 State St. Space E-149, Santa Barbara, CA",
-    website: "islandsrestaurants.com",
+    website: "https://www.islandsrestaurants.com",
     phone: "805-946-0044",
     area: "Other SB",
     lat: 34.438006, 
@@ -332,7 +332,7 @@ const restaurants = [
   {
     name: "Mesa Burger",
     address: "315 Meigs Rd., Santa Barbara, CA",
-    website: "mesaburger.com",
+    website: "https://www.mesaburger.com",
     phone: "805-963-7492",
     area: "Other SB",
     lat: 34.400806, 
@@ -345,7 +345,7 @@ const restaurants = [
   {
     name: "Sama San Roque",
     address: "3435 State St., Santa Barbara, CA",
-    website: "samasanroque.com",
+    website: "https://www.samasanroque.com",
     phone: "805-450-8288",
     area: "Other SB",
     lat: 34.439916, 
@@ -358,7 +358,7 @@ const restaurants = [
   {
     name: "The Patio Cafe",
     address: "3007 De La Vina St., Santa Barbara, CA",
-    website: "thepatiocafesb.com",
+    website: "https://www.thepatiocafesb.com",
     phone: "805-687-3663",
     area: "Other SB",
     lat: 34.438691, 
@@ -371,7 +371,7 @@ const restaurants = [
   {
     name: "Yellow Belly Tap",
     address: "2611 De La Vina St., Santa Barbara, CA",
-    website: "yellowbellytap.com",
+    website: "https://www.yellowbellytap.com",
     phone: "805-770-5694",
     area: "Other SB",
     lat: 34.434846, 
@@ -386,7 +386,7 @@ const restaurants = [
   {
     name: "Caya",
     address: "5650 Calle Real, Goleta, CA",
-    website: "cayarestaurant.com",
+    website: "https://www.cayarestaurant.com",
     phone: "805-964-1288",
     area: "Goleta",
     lat: 34.441588, 
@@ -399,7 +399,7 @@ const restaurants = [
   {
     name: "Cristino's Bakery",
     address: "170 Aero Camino, Goleta, CA",
-    website: "cristinosbakery.com",
+    website: "https://www.cristinosbakery.com",
     phone: "805-455-6900",
     area: "Goleta",
     lat: 34.432364, 
@@ -412,7 +412,7 @@ const restaurants = [
   {
     name: "Crushcakes and Cafe",
     address: "5392 Hollister Ave., Goleta, CA",
-    website: "crushcakes.com",
+    website: "https://www.crushcakes.com",
     phone: "805-845-2780",
     area: "Goleta",
     lat: 34.435346, 
@@ -425,7 +425,7 @@ const restaurants = [
   {
     name: "Home Plate Grill",
     address: "7398 Calle Real #C, Goleta, CA",
-    website: "homeplategoleta.com",
+    website: "https://www.homeplategoleta.com",
     phone: "805-845-3323",
     area: "Goleta",
     lat: 34.433550, 
@@ -438,7 +438,7 @@ const restaurants = [
   {
     name: "Jonesy's Fried Chicken",
     address: "282 Orange Ave., Goleta, CA",
-    website: "jonesysfriedchicken.com",
+    website: "https://www.jonesysfriedchicken.com",
     phone: "805-770-2428",
     area: "Goleta",
     lat: 34.434138, 
@@ -451,7 +451,7 @@ const restaurants = [
   {
     name: "Kyle's Kitchen (Hollister)",
     address: "7000 Hollister Ave., Goleta, CA",
-    website: "kyleskitchen.com",
+    website: "https://www.kyleskitchen.com",
     phone: "805-845-3436",
     area: "Goleta",
     lat: 34.430453, 
@@ -464,7 +464,7 @@ const restaurants = [
   {
     name: "Kyle's Kitchen (Calle Real)",
     address: "5723 Calle Real, Goleta, CA",
-    website: "kyleskitchen.com",
+    website: "https://www.kyleskitchen.com",
     phone: "805-845-2260",
     area: "Goleta",
     lat: 34.440780, 
@@ -477,7 +477,7 @@ const restaurants = [
   {
     name: "Rinkside Cafe",
     address: "6985 Santa Felicia Dr., Goleta, CA",
-    website: "iceinparadise.org/rinkside-cafe",
+    website: "https://www.iceinparadise.org/rinkside-cafe",
     phone: "805-335-4521",
     area: "Goleta",
     lat: 34.425835, 
@@ -490,7 +490,7 @@ const restaurants = [
   {
     name: "Santa Barbara Fish Market",
     address: "7127 Hollister Ave. Ste. 18, Goleta, CA",
-    website: "sbfish.com",
+    website: "https://www.sbfish.com",
     phone: "805-966-1000",
     area: "Goleta",
     lat: 34.428633, 
@@ -503,7 +503,7 @@ const restaurants = [
   {
     name: "Shalhoob's (Magnolia)",
     address: "5112 Hollister Ave., Goleta, CA",
-    website: "shalhoob.com",
+    website: "https://www.shalhoob.com",
     phone: "805-880-0733",
     area: "Goleta",
     lat: 34.435304, 
@@ -516,7 +516,7 @@ const restaurants = [
   {
     name: "The Nugget (Goleta)",
     address: "5687 Calle Real, Goleta, CA",
-    website: "nuggetbarandgrill.com",
+    website: "https://www.nuggetbarandgrill.com",
     phone: "805-964-5200",
     area: "Goleta",
     lat: 34.440838, 
@@ -529,7 +529,7 @@ const restaurants = [
   {
     name: "White Caps Beach Club",
     address: "6775 Hollister Ave., Goleta, CA",
-    website: "whitecapsbeachclub.com",
+    website: "https://www.whitecapsbeachclub.com",
     phone: "805-705-6412",
     area: "Goleta",
     lat: 34.429618, 
@@ -544,7 +544,7 @@ const restaurants = [
   {
     name: "Dang Burger",
     address: "5080 A Carpinteria Ave., Carpinteria, CA",
-    website: "dangburger.com",
+    website: "https://www.dangburger.com",
     phone: "",
     area: "Carpinteria",
     lat: 34.398305, 
@@ -557,7 +557,7 @@ const restaurants = [
   {
     name: "Padaro Beach Grill",
     address: "3765 Santa Claus Lane, Carpinteria, CA",
-    website: "padarobeachgrill.com",
+    website: "https://www.padarobeachgrill.com",
     phone: "805-566-9800",
     area: "Carpinteria",
     lat: 34.406855, 
@@ -570,7 +570,7 @@ const restaurants = [
   {
     name: "The Nugget (Summerland)",
     address: "2318 Lillie Ave., Summerland, CA",
-    website: "nuggetbarandgrill.com",
+    website: "https://www.nuggetbarandgrill.com",
     phone: "805-969-6135",
     area: "Carpinteria",
     lat: 34.421723, 
@@ -583,7 +583,7 @@ const restaurants = [
   {
     name: "The Nugget (Carpinteria)",
     address: "892 Linden Ave., Carpinteria, CA",
-    website: "nuggetbarandgrill.com",
+    website: "https://www.nuggetbarandgrill.com",
     phone: "+1 (805) 576-9007",
     area: "Carpinteria",
     lat: 34.398042, 
@@ -596,7 +596,7 @@ const restaurants = [
   {
     name: "Third Window Brewing (Carpinteria)",
     address: "720 Linden Ave., Carpinteria, CA",
-    website: "thirdwindowbrewing.com",
+    website: "https://www.thirdwindowbrewing.com",
     phone: "+1 (805) 562-6475",
     area: "Carpinteria",
     lat: 34.397040, 
@@ -611,7 +611,7 @@ const restaurants = [
   {
     name: "IV Deli Mart",
     address: "6553 Pardall Rd., Isla Vista, CA",
-    website: "facebook.com/ivdelimart",
+    website: "https://www.facebook.com/ivdelimart",
     phone: "+1 (805) 562-8858",
     area: "Isla Vista",
     lat: 34.412906, 
@@ -626,7 +626,7 @@ const restaurants = [
   {
     name: "The Victor",
     address: "3631 Sagunto St., Santa Ynez, CA",
-    website: "thevictor.us",
+    website: "https://www.thevictor.us",
     phone: "+1 (805) 695-2999",
     area: "Santa Ynez",
     lat: 34.613083, 
