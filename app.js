@@ -7,14 +7,18 @@
 
   const map = L.map("map", {
     zoomControl: true,
-    attributionControl: true
-  }).setView([34.42, -119.70], 13);
+    attributionControl: true,
+  }).setView([34.42, -119.7], 13);
 
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-    maxZoom: 20,
-    subdomains: "abcd",
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-  }).addTo(map);
+  L.tileLayer(
+    "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+    {
+      maxZoom: 20,
+      subdomains: "abcd",
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    },
+  ).addTo(map);
 
   // ── Marker cluster group ───────────────────────
 
@@ -22,7 +26,7 @@
     maxClusterRadius: 20,
     spiderfyOnMaxZoom: true,
     showCoverageOnHover: false,
-    zoomToBoundsOnClick: true
+    zoomToBoundsOnClick: true,
   });
 
   // ── Build markers ──────────────────────────────
@@ -38,29 +42,47 @@
       color: "#fff",
       weight: 2,
       opacity: 1,
-      fillOpacity: 0.85
+      fillOpacity: 0.85,
     });
 
-    var appleMapsUrl = r.appleMapsUrl || "https://maps.apple.com/?daddr=" + encodeURIComponent(r.address);
+    var appleMapsUrl =
+      r.appleMapsUrl ||
+      "https://maps.apple.com/?daddr=" + encodeURIComponent(r.address);
 
-    var popupHtml = '<div class="popup-content">' +
-        "<h3>" + escapeHtml(r.name) + "</h3>";
-    if (r.burger) popupHtml += '<p class="popup-burger">🍔 ' + escapeHtml(r.burger) + "</p>";
-    if (r.description) popupHtml += '<p class="popup-description"><em>' + escapeHtml(r.description) + "</em></p>";
+    var popupHtml =
+      '<div class="popup-content">' + "<h3>" + escapeHtml(r.name) + "</h3>";
+    if (r.burger)
+      popupHtml +=
+        '<p class="popup-burger">🍔 ' + escapeHtml(r.burger) + "</p>";
+    if (r.description)
+      popupHtml +=
+        '<p class="popup-description"><em>' +
+        escapeHtml(r.description) +
+        "</em></p>";
     popupHtml += "<p>" + escapeHtml(r.address) + "</p>";
     if (r.website || r.phone) {
       popupHtml += '<div class="directions-links">';
-      if (r.website) popupHtml += '<a href="' + r.website + '" target="_blank" rel="noopener">Website</a>';
+      if (r.website)
+        popupHtml +=
+          '<a href="' +
+          r.website +
+          '" target="_blank" rel="noopener">Website</a>';
       if (r.website && r.phone) popupHtml += '<span class="link-sep">|</span>';
-      if (r.phone) popupHtml += '<a href="tel:' + r.phone + '">' + escapeHtml(r.phone) + "</a>";
+      if (r.phone)
+        popupHtml +=
+          '<a href="tel:' + r.phone + '">' + escapeHtml(r.phone) + "</a>";
       popupHtml += "</div>";
     }
     popupHtml +=
-        '<div class="directions-links">' +
-          '<a href="' + appleMapsUrl + '" target="_blank" rel="noopener">Apple Maps</a>' +
-          '<span class="link-sep">|</span>' +
-          '<a href="' + r.mapUrl + '" target="_blank" rel="noopener">Google Maps</a>' +
-        "</div>" +
+      '<div class="directions-links">' +
+      '<a href="' +
+      appleMapsUrl +
+      '" target="_blank" rel="noopener">Apple Maps</a>' +
+      '<span class="link-sep">|</span>' +
+      '<a href="' +
+      r.mapUrl +
+      '" target="_blank" rel="noopener">Google Maps</a>' +
+      "</div>" +
       "</div>";
 
     marker.bindPopup(popupHtml, { maxWidth: 240 });
@@ -81,18 +103,31 @@
 
   clusterGroup.on("clustermouseover", function (e) {
     var childMarkers = e.layer.getAllChildMarkers();
-    var names = childMarkers.map(function (m) {
-      // Find restaurant name from markerMap
-      var name = "";
-      markerMap.forEach(function (marker, key) {
-        if (marker === m) name = key;
-      });
-      return name;
-    }).sort();
-    var html = '<div class="cluster-tooltip">' +
-      names.map(function (n) { return "<div>" + n + "</div>"; }).join("") +
+    var names = childMarkers
+      .map(function (m) {
+        // Find restaurant name from markerMap
+        var name = "";
+        markerMap.forEach(function (marker, key) {
+          if (marker === m) name = key;
+        });
+        return name;
+      })
+      .sort();
+    var html =
+      '<div class="cluster-tooltip">' +
+      names
+        .map(function (n) {
+          return "<div>" + n + "</div>";
+        })
+        .join("") +
       "</div>";
-    e.layer.bindTooltip(html, { sticky: true, direction: "right", className: "cluster-tooltip-wrapper" }).openTooltip();
+    e.layer
+      .bindTooltip(html, {
+        sticky: true,
+        direction: "right",
+        className: "cluster-tooltip-wrapper",
+      })
+      .openTooltip();
   });
 
   clusterGroup.on("clustermouseout", function (e) {
@@ -103,16 +138,20 @@
 
   var burgerIcon = L.divIcon({
     html: '<span class="burger-icon">🍔</span>',
-    className: 'burger-icon-wrapper',
+    className: "burger-icon-wrapper",
     iconSize: [28, 28],
-    iconAnchor: [14, 14]
+    iconAnchor: [14, 14],
   });
 
   var activeOverlay = null;
 
   function showBurgerOverlay(latlng) {
     removeBurgerOverlay();
-    activeOverlay = L.marker(latlng, { icon: burgerIcon, interactive: false, zIndexOffset: 10000 }).addTo(map);
+    activeOverlay = L.marker(latlng, {
+      icon: burgerIcon,
+      interactive: false,
+      zIndexOffset: 10000,
+    }).addTo(map);
   }
 
   function removeBurgerOverlay() {
@@ -131,7 +170,9 @@
   });
 
   // Fit bounds to show all markers
-  const allCoords = restaurants.map(function (r) { return [r.lat, r.lng]; });
+  const allCoords = restaurants.map(function (r) {
+    return [r.lat, r.lng];
+  });
   if (allCoords.length) {
     map.fitBounds(allCoords, { padding: [30, 30] });
   }
@@ -156,7 +197,9 @@
 
   filtersEl.addEventListener("click", function (e) {
     if (!e.target.classList.contains("area-btn")) return;
-    filtersEl.querySelectorAll(".area-btn").forEach(function (b) { b.classList.remove("active"); });
+    filtersEl.querySelectorAll(".area-btn").forEach(function (b) {
+      b.classList.remove("active");
+    });
     e.target.classList.add("active");
     activeArea = e.target.getAttribute("data-area");
     renderList();
@@ -182,7 +225,8 @@
 
     var filtered = restaurants.filter(function (r) {
       var matchesArea = activeArea === "All" || r.area === activeArea;
-      var matchesSearch = !searchTerm ||
+      var matchesSearch =
+        !searchTerm ||
         r.name.toLowerCase().indexOf(searchTerm) !== -1 ||
         r.address.toLowerCase().indexOf(searchTerm) !== -1 ||
         r.area.toLowerCase().indexOf(searchTerm) !== -1;
@@ -193,7 +237,8 @@
       return a.name.localeCompare(b.name);
     });
 
-    countEl.textContent = filtered.length + " of " + restaurants.length + " restaurants";
+    countEl.textContent =
+      filtered.length + " of " + restaurants.length + " restaurants";
 
     if (filtered.length === 0) {
       var noRes = document.createElement("li");
@@ -244,7 +289,9 @@
             var parent = clusterGroup.getVisibleParent(marker);
             if (parent && parent !== marker) {
               parent.spiderfy();
-              setTimeout(function () { marker.openPopup(); }, 300);
+              setTimeout(function () {
+                marker.openPopup();
+              }, 300);
             } else {
               marker.openPopup();
             }
@@ -262,7 +309,9 @@
     });
 
     // Fit map to filtered markers
-    var coords = filtered.map(function (r) { return [r.lat, r.lng]; });
+    var coords = filtered.map(function (r) {
+      return [r.lat, r.lng];
+    });
     if (coords.length) {
       map.fitBounds(coords, { padding: [30, 30] });
     }
@@ -306,5 +355,4 @@
     div.appendChild(document.createTextNode(str));
     return div.innerHTML;
   }
-
 })();

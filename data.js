@@ -5,11 +5,11 @@ const SOURCE_URL = "https://www.independent.com/2026/02/05/burger-week-2026/";
 
 const AREA_COLORS = {
   "Downtown SB": "#e63946",
-  "Goleta": "#2d6a4f",
-  "Carpinteria": "#1d3557",
+  Goleta: "#2d6a4f",
+  Carpinteria: "#1d3557",
   "Isla Vista": "#7b2cbf",
   "Santa Ynez": "#e76f51",
-  "Other SB": "#e07a5f"
+  "Other SB": "#e07a5f",
 };
 
 const restaurants = [
@@ -20,12 +20,12 @@ const restaurants = [
     website: "https://www.arnoldis.com/",
     phone: "805-962-5394",
     area: "Downtown SB",
-    lat: 34.423278, 
+    lat: 34.423278,
     lng: -119.691155,
     mapUrl: "https://maps.app.goo.gl/UUefNcGFbYjGUNPd7",
     appleMapsUrl: "https://maps.apple/p/U3gWeWbcVqKjsb",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Downtown Eats",
@@ -33,12 +33,12 @@ const restaurants = [
     website: "https://www.yelp.com/biz/downtown-eats-santa-barbara",
     phone: "805-453-9796",
     area: "Downtown SB",
-    lat: 34.418771, 
+    lat: 34.418771,
     lng: -119.697599,
     mapUrl: "https://maps.app.goo.gl/Xk6icnj39UPAacR47",
     appleMapsUrl: "https://maps.apple/p/CH80ruBx0tokCj",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Dom's Taverna",
@@ -46,12 +46,12 @@ const restaurants = [
     website: "https://www.domstaverna.com/",
     phone: "805-724-4338",
     area: "Downtown SB",
-    lat: 34.424864, 
+    lat: 34.424864,
     lng: -119.704726,
     mapUrl: "https://maps.app.goo.gl/C1E679wZKXZsSLpj8",
     appleMapsUrl: "https://maps.apple/p/xvK6mAKKw55U4p",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Eureka!",
@@ -59,12 +59,12 @@ const restaurants = [
     website: "https://eurekarestaurantgroup.com/locations/santa-barbara",
     phone: "805-618-3388",
     area: "Downtown SB",
-    lat: 34.418597, 
+    lat: 34.418597,
     lng: -119.700307,
     mapUrl: "https://maps.app.goo.gl/Gsya1VEdNZBjPmoD8",
     appleMapsUrl: "https://maps.apple/p/o6XV_nkn5Yobot",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Finch and Fork",
@@ -72,12 +72,12 @@ const restaurants = [
     website: "https://www.finchandforkrestaurant.com/",
     phone: "805-879-9100",
     area: "Downtown SB",
-    lat: 34.420427, 
+    lat: 34.420427,
     lng: -119.702788,
     mapUrl: "https://maps.app.goo.gl/ypafV2iQED8v5vYeA",
     appleMapsUrl: "https://maps.apple/p/P6GFr7sFA.Xmp-",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Fresco At The Market",
@@ -85,12 +85,12 @@ const restaurants = [
     website: "https://www.fresco-sb.com/",
     phone: "805-770-7994",
     area: "Downtown SB",
-    lat: 34.423601, 
+    lat: 34.423601,
     lng: -119.707027,
     mapUrl: "https://maps.app.goo.gl/a7gmQtRfSGiXUdR37",
     appleMapsUrl: "https://maps.apple/p/9pZqFtJLsFJMmn",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Gala",
@@ -98,12 +98,12 @@ const restaurants = [
     website: "https://www.galasb.com/",
     phone: "805-869-2813",
     area: "Downtown SB",
-    lat: 34.419770, 
+    lat: 34.41977,
     lng: -119.697264,
     mapUrl: "https://maps.app.goo.gl/5z5GXb8SGmx14QGn8",
     appleMapsUrl: "https://maps.apple/p/hFLAzvWWQkJEUn",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Goat Tree",
@@ -111,12 +111,12 @@ const restaurants = [
     website: "https://www.hotelcalifornian.com/goat-tree.htm",
     phone: "805-882-0137",
     area: "Downtown SB",
-    lat: 34.413505, 
+    lat: 34.413505,
     lng: -119.690624,
     mapUrl: "https://maps.app.goo.gl/h4TARh9WuJcSLujF9",
     appleMapsUrl: "https://maps.apple/p/PcPGZE_I~qS5LH",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Little Bird Kitchen",
@@ -124,12 +124,12 @@ const restaurants = [
     website: "https://www.littlebirdsb.com",
     phone: "805-303-7865",
     area: "Downtown SB",
-    lat: 34.423532, 
-    lng: -119.706990,
+    lat: 34.423532,
+    lng: -119.70699,
     mapUrl: "https://maps.app.goo.gl/2y4qVPcjub2o29dKA",
     appleMapsUrl: "https://maps.apple/p/mC3RDF86ZgNghN",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Pascucci",
@@ -137,12 +137,12 @@ const restaurants = [
     website: "https://www.pascuccirestaurant-sb.com",
     phone: "805-963-8123",
     area: "Downtown SB",
-    lat: 34.424304, 
+    lat: 34.424304,
     lng: -119.705252,
     mapUrl: "https://maps.app.goo.gl/Np3d4iumbLR7txnS9",
     appleMapsUrl: "https://maps.apple/p/.acg2UBX9RIsmD",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Poke House",
@@ -150,12 +150,12 @@ const restaurants = [
     website: "https://www.poke.house/",
     phone: "805-869-2722",
     area: "Downtown SB",
-    lat: 34.419647, 
+    lat: 34.419647,
     lng: -119.700116,
     mapUrl: "https://maps.app.goo.gl/yELnA6Nf6gKkUnq28",
     appleMapsUrl: "https://maps.apple/p/prDjK9G_-rFP.K",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Que Smoke Shack",
@@ -163,12 +163,12 @@ const restaurants = [
     website: "https://www.quesmokeshack.com",
     phone: "805-869-2193",
     area: "Downtown SB",
-    lat: 34.423601, 
+    lat: 34.423601,
     lng: -119.707027,
     mapUrl: "https://maps.app.goo.gl/JjMZXMkxcnsDEBLm7",
     appleMapsUrl: "https://maps.apple/p/ocM85RZ2z3h26k",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "SB Biergarten",
@@ -176,12 +176,12 @@ const restaurants = [
     website: "https://www.beersantabarbara.com",
     phone: "805-856-6694",
     area: "Downtown SB",
-    lat: 34.413321, 
+    lat: 34.413321,
     lng: -119.688943,
     mapUrl: "https://maps.app.goo.gl/sSgP1bi7teQWbd2p9",
     appleMapsUrl: "https://maps.apple/p/dUKud0Wn3XcgJw",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "The Brewhouse",
@@ -189,12 +189,12 @@ const restaurants = [
     website: "https://www.sbbrewhouse.com",
     phone: "805-884-4664",
     area: "Downtown SB",
-    lat: 34.411938, 
+    lat: 34.411938,
     lng: -119.695913,
     mapUrl: "https://maps.app.goo.gl/u86a8XNtQ9gM7DfW6",
     appleMapsUrl: "https://maps.apple/p/Ua9iRD~BAuQ5s.z",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Seoulmate Kitchen",
@@ -202,12 +202,12 @@ const restaurants = [
     website: "https://www.seoulmatekitchen.com",
     phone: "805-869-2566",
     area: "Downtown SB",
-    lat: 34.423601, 
+    lat: 34.423601,
     lng: -119.707027,
     mapUrl: "https://maps.app.goo.gl/xzV7swXZ83gfgELA6",
     appleMapsUrl: "https://maps.apple/p/IAXTbR~k-gkNIa",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Shalhoob's Funk Zone Patio",
@@ -215,12 +215,12 @@ const restaurants = [
     website: "https://www.shalhoob.com",
     phone: "805-963-7733",
     area: "Downtown SB",
-    lat: 34.416328, 
+    lat: 34.416328,
     lng: -119.690533,
     mapUrl: "https://maps.app.goo.gl/V86GgAv3aB1vH7As8",
     appleMapsUrl: "https://maps.apple/p/y~H7PBSHU37cZZ",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "The Blue Owl",
@@ -228,12 +228,12 @@ const restaurants = [
     website: "https://www.theblueowlsb.com",
     phone: "805-705-0991",
     area: "Downtown SB",
-    lat: 34.420052, 
-    lng: -119.700900,
+    lat: 34.420052,
+    lng: -119.7009,
     mapUrl: "https://maps.app.goo.gl/1h1oVTPVCz5xG1tg9",
     appleMapsUrl: "https://maps.apple/p/afaRbEdoeqivz_",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "The Win-dow",
@@ -241,12 +241,12 @@ const restaurants = [
     website: "https://www.thewin-dow.la/santa-barbara",
     phone: "805-880-2775",
     area: "Downtown SB",
-    lat: 34.417568, 
+    lat: 34.417568,
     lng: -119.699434,
     mapUrl: "https://maps.app.goo.gl/umr83npQPfSKA8AM8",
     appleMapsUrl: "https://maps.apple/p/pDBVZsfDszCyIQ",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Third Window Brewing (Santa Barbara)",
@@ -254,12 +254,12 @@ const restaurants = [
     website: "https://www.thirdwindowbrewing.com",
     phone: "805-979-5090",
     area: "Downtown SB",
-    lat: 34.420992, 
+    lat: 34.420992,
     lng: -119.690444,
     mapUrl: "https://maps.app.goo.gl/CxyGVg16v1dAXkVq6",
     appleMapsUrl: "https://maps.apple/p/o2.x6VY5-8B~c4",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Validation Ale",
@@ -273,7 +273,7 @@ const restaurants = [
     appleMapsUrl: "https://maps.apple/p/FS_Cg~a~WvM-8~",
     burger: null,
     description: null,
-    type: "sponsor"
+    type: "sponsor",
   },
   {
     name: "Crushcakes",
@@ -281,12 +281,12 @@ const restaurants = [
     website: "https://www.crushcakes.com",
     phone: "805-963-9353",
     area: "Downtown SB",
-    lat: 34.425637, 
+    lat: 34.425637,
     lng: -119.705214,
     mapUrl: "https://maps.app.goo.gl/BwkDspDsomjtTNk79",
     appleMapsUrl: "https://maps.apple/p/u2LdIBaUBhX.u.z",
     burger: null,
-    description: null
+    description: null,
   },
 
   // --- Other SB ---
@@ -296,12 +296,12 @@ const restaurants = [
     website: "https://www.sbcornertap.com",
     phone: "805-690-2739",
     area: "Other SB",
-    lat: 34.401264, 
+    lat: 34.401264,
     lng: -119.722428,
     mapUrl: "https://maps.app.goo.gl/Qsq2ycSkog53L7Pq9",
     appleMapsUrl: "https://maps.apple/p/DsZrwRqcd5gMWR",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Dave's Dogs Grill",
@@ -309,12 +309,12 @@ const restaurants = [
     website: "https://www.davesdogs805.com/home",
     phone: "805-770-7772",
     area: "Other SB",
-    lat: 34.437770, 
+    lat: 34.43777,
     lng: -119.789698,
     mapUrl: "https://maps.app.goo.gl/3gGbzqPgfVrLvNJk8",
     appleMapsUrl: "https://maps.apple/p/JHLABwb8-a48tQ",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Islands Fine Burgers & Drinks",
@@ -322,12 +322,12 @@ const restaurants = [
     website: "https://www.islandsrestaurants.com",
     phone: "805-946-0044",
     area: "Other SB",
-    lat: 34.438006, 
+    lat: 34.438006,
     lng: -119.748441,
     mapUrl: "https://maps.app.goo.gl/qBiuwTnxZLJBDouK9",
     appleMapsUrl: "https://maps.apple/p/NTQ.NjBT-8oA2L",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Mesa Burger",
@@ -335,12 +335,12 @@ const restaurants = [
     website: "https://www.mesaburger.com",
     phone: "805-963-7492",
     area: "Other SB",
-    lat: 34.400806, 
+    lat: 34.400806,
     lng: -119.722701,
     mapUrl: "https://maps.app.goo.gl/g2QpAoPb1cGtsjrZ8",
     appleMapsUrl: "https://maps.apple/p/~6wPW6hFmMWnNH",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Sama San Roque",
@@ -348,12 +348,12 @@ const restaurants = [
     website: "https://www.samasanroque.com",
     phone: "805-450-8288",
     area: "Other SB",
-    lat: 34.439916, 
+    lat: 34.439916,
     lng: -119.738005,
     mapUrl: "https://maps.app.goo.gl/iNqeXdJEw6Q9Mucd6",
     appleMapsUrl: "https://maps.apple/p/oBfTD-.Q6N0Av_",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "The Patio Cafe",
@@ -361,12 +361,12 @@ const restaurants = [
     website: "https://www.thepatiocafesb.com",
     phone: "805-687-3663",
     area: "Other SB",
-    lat: 34.438691, 
+    lat: 34.438691,
     lng: -119.728472,
     mapUrl: "https://maps.app.goo.gl/raNcJPmmkn5mMp4x9",
     appleMapsUrl: "https://maps.apple/p/PsEIKM3fsXn3z5",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Yellow Belly Tap",
@@ -374,12 +374,12 @@ const restaurants = [
     website: "https://www.yellowbellytap.com",
     phone: "805-770-5694",
     area: "Other SB",
-    lat: 34.434846, 
+    lat: 34.434846,
     lng: -119.724707,
     mapUrl: "https://maps.app.goo.gl/vxF6Kn8zHgkJTzRZA",
     appleMapsUrl: "https://maps.apple/p/KaHQjm176IenYn",
     burger: null,
-    description: null
+    description: null,
   },
 
   // --- Goleta ---
@@ -389,12 +389,12 @@ const restaurants = [
     website: "https://www.cayarestaurant.com",
     phone: "805-964-1288",
     area: "Goleta",
-    lat: 34.441588, 
+    lat: 34.441588,
     lng: -119.820858,
     mapUrl: "https://maps.app.goo.gl/KDWoCpGP4Bj5tKxG8",
     appleMapsUrl: "https://maps.apple/p/qsKhePr8N5NbRr",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Cristino's Bakery",
@@ -402,12 +402,12 @@ const restaurants = [
     website: "https://www.cristinosbakery.com",
     phone: "805-455-6900",
     area: "Goleta",
-    lat: 34.432364, 
-    lng: -119.848040,
+    lat: 34.432364,
+    lng: -119.84804,
     mapUrl: "https://maps.app.goo.gl/5ateAZg2XUFRejKn8",
     appleMapsUrl: "https://maps.apple/p/PwbJwZa5okKqG8",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Crushcakes and Cafe",
@@ -415,12 +415,12 @@ const restaurants = [
     website: "https://www.crushcakes.com",
     phone: "805-845-2780",
     area: "Goleta",
-    lat: 34.435346, 
+    lat: 34.435346,
     lng: -119.812297,
     mapUrl: "https://maps.app.goo.gl/YXrd5iwBn4oCouXA9",
     appleMapsUrl: "https://maps.apple/p/Ir9WS14tYcDv6N",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Home Plate Grill",
@@ -428,12 +428,12 @@ const restaurants = [
     website: "https://www.homeplategoleta.com",
     phone: "805-845-3323",
     area: "Goleta",
-    lat: 34.433550, 
+    lat: 34.43355,
     lng: -119.884676,
     mapUrl: "https://maps.app.goo.gl/Y5UCLYBhX1y4vxY18",
     appleMapsUrl: "https://maps.apple/p/6Zw5j8CDzQhADd",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Jonesy's Fried Chicken",
@@ -441,12 +441,12 @@ const restaurants = [
     website: "https://www.jonesysfriedchicken.com",
     phone: "805-770-2428",
     area: "Goleta",
-    lat: 34.434138, 
+    lat: 34.434138,
     lng: -119.828632,
     mapUrl: "https://maps.app.goo.gl/tQ7zzEVcJvqCFVYn6",
     appleMapsUrl: "https://maps.apple/p/S~V0TY8QH3zT30",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Kyle's Kitchen (Hollister)",
@@ -454,12 +454,12 @@ const restaurants = [
     website: "https://www.kyleskitchen.com",
     phone: "805-845-3436",
     area: "Goleta",
-    lat: 34.430453, 
+    lat: 34.430453,
     lng: -119.872319,
     mapUrl: "https://maps.app.goo.gl/7mobFJW4rD6S8gZc8",
     appleMapsUrl: "https://maps.apple/p/pY1SoTqf10FswS",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Kyle's Kitchen (Calle Real)",
@@ -467,12 +467,12 @@ const restaurants = [
     website: "https://www.kyleskitchen.com",
     phone: "805-845-2260",
     area: "Goleta",
-    lat: 34.440780, 
-    lng: -119.824050,
+    lat: 34.44078,
+    lng: -119.82405,
     mapUrl: "https://maps.app.goo.gl/pwHJn1FJksgvYt3A9",
     appleMapsUrl: "https://maps.apple/p/dw.tRLQFoqQ~rH",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Rinkside Cafe",
@@ -480,12 +480,12 @@ const restaurants = [
     website: "https://www.iceinparadise.org/rinkside-cafe",
     phone: "805-335-4521",
     area: "Goleta",
-    lat: 34.425835, 
+    lat: 34.425835,
     lng: -119.871156,
     mapUrl: "https://maps.app.goo.gl/9aS1C1VuTfqo6L4T8",
     appleMapsUrl: "https://maps.apple/p/PsgrujLZSVcRHf",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Santa Barbara Fish Market",
@@ -493,12 +493,12 @@ const restaurants = [
     website: "https://www.sbfish.com",
     phone: "805-966-1000",
     area: "Goleta",
-    lat: 34.428633, 
+    lat: 34.428633,
     lng: -119.876655,
     mapUrl: "https://maps.app.goo.gl/fATpYsiitbhoVSRm7",
     appleMapsUrl: "https://maps.apple/p/MFjhN9uKSytnZH",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Shalhoob's (Magnolia)",
@@ -506,12 +506,12 @@ const restaurants = [
     website: "https://www.shalhoob.com",
     phone: "805-880-0733",
     area: "Goleta",
-    lat: 34.435304, 
+    lat: 34.435304,
     lng: -119.802869,
     mapUrl: "https://maps.app.goo.gl/35q8XFMUXjyyAk8b6",
     appleMapsUrl: "https://maps.apple/p/0b-Z3yLt-pt29a",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "The Nugget (Goleta)",
@@ -519,12 +519,12 @@ const restaurants = [
     website: "https://www.nuggetbarandgrill.com",
     phone: "805-964-5200",
     area: "Goleta",
-    lat: 34.440838, 
+    lat: 34.440838,
     lng: -119.823059,
     mapUrl: "https://maps.app.goo.gl/nTom9qBWAcJ9FzKz9",
     appleMapsUrl: "https://maps.apple/p/g~6tyn2jtzVFQ6",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "White Caps Beach Club",
@@ -532,12 +532,12 @@ const restaurants = [
     website: "https://www.whitecapsbeachclub.com",
     phone: "805-705-6412",
     area: "Goleta",
-    lat: 34.429618, 
+    lat: 34.429618,
     lng: -119.865668,
     mapUrl: "https://maps.app.goo.gl/nAJvesRCHdofkBez6",
     appleMapsUrl: "https://maps.apple/p/UB7AB5J928n9EF",
     burger: null,
-    description: null
+    description: null,
   },
 
   // --- Carpinteria ---
@@ -547,12 +547,12 @@ const restaurants = [
     website: "https://www.dangburger.com",
     phone: "",
     area: "Carpinteria",
-    lat: 34.398305, 
+    lat: 34.398305,
     lng: -119.517345,
     mapUrl: "https://maps.app.goo.gl/7gdDkJgfhikYn82W6",
     appleMapsUrl: "https://maps.apple/p/wjhX3Jh.V2_I5p",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Padaro Beach Grill",
@@ -560,12 +560,12 @@ const restaurants = [
     website: "https://www.padarobeachgrill.com",
     phone: "805-566-9800",
     area: "Carpinteria",
-    lat: 34.406855, 
+    lat: 34.406855,
     lng: -119.548572,
     mapUrl: "https://maps.app.goo.gl/8ZDu63gFeurVYCeM6",
     appleMapsUrl: "https://maps.apple/p/uqiyiVKwDzDndx",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "The Nugget (Summerland)",
@@ -573,12 +573,12 @@ const restaurants = [
     website: "https://www.nuggetbarandgrill.com",
     phone: "805-969-6135",
     area: "Carpinteria",
-    lat: 34.421723, 
+    lat: 34.421723,
     lng: -119.599547,
     mapUrl: "https://maps.app.goo.gl/Qqp5pJiaCNDZ3uRDA",
     appleMapsUrl: "https://maps.apple/p/HM7pAt5EhvmgQx",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "The Nugget (Carpinteria)",
@@ -586,12 +586,12 @@ const restaurants = [
     website: "https://www.nuggetbarandgrill.com",
     phone: "+1 (805) 576-9007",
     area: "Carpinteria",
-    lat: 34.398042, 
-    lng: -119.519160,
+    lat: 34.398042,
+    lng: -119.51916,
     mapUrl: "https://maps.app.goo.gl/xwmjKDJvPnS1oe4w7",
     appleMapsUrl: "https://maps.apple/p/ZP.ggEK10P5_Go",
     burger: null,
-    description: null
+    description: null,
   },
   {
     name: "Third Window Brewing (Carpinteria)",
@@ -599,12 +599,12 @@ const restaurants = [
     website: "https://www.thirdwindowbrewing.com",
     phone: "+1 (805) 562-6475",
     area: "Carpinteria",
-    lat: 34.397040, 
+    lat: 34.39704,
     lng: -119.520395,
     mapUrl: "https://maps.app.goo.gl/gpcE5McRYoq2aY4MA",
     appleMapsUrl: "https://maps.apple/p/HhNum2x75sTZXQ",
     burger: null,
-    description: null
+    description: null,
   },
 
   // --- Isla Vista ---
@@ -614,12 +614,12 @@ const restaurants = [
     website: "https://www.facebook.com/ivdelimart",
     phone: "+1 (805) 562-8858",
     area: "Isla Vista",
-    lat: 34.412906, 
+    lat: 34.412906,
     lng: -119.856403,
     mapUrl: "https://maps.app.goo.gl/3ywpf2asZSic4c6f8",
     appleMapsUrl: "https://maps.apple/p/P8CHoGZ8.n~99_",
     burger: null,
-    description: null
+    description: null,
   },
 
   // --- Santa Ynez ---
@@ -629,11 +629,11 @@ const restaurants = [
     website: "https://www.thevictor.us",
     phone: "+1 (805) 695-2999",
     area: "Santa Ynez",
-    lat: 34.613083, 
+    lat: 34.613083,
     lng: -120.078474,
     mapUrl: "https://maps.app.goo.gl/tQ9GFna3qRasLufZ7",
     appleMapsUrl: "https://maps.apple/p/NvE-BeGF4haMtX",
     burger: null,
-    description: null
-  }
+    description: null,
+  },
 ];

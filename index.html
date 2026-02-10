@@ -1,75 +1,146 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>SB Burger Week 2026 Map</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍔</text></svg>">
-  <meta name="description" content="Interactive map of all participating restaurants for Santa Barbara Burger Week 2026 (Feb 19–25). Search, filter by area, and get directions.">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>SB Burger Week 2026 Map</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍔</text></svg>"
+    />
+    <meta
+      name="description"
+      content="Interactive map of all participating restaurants for Santa Barbara Burger Week 2026 (Feb 19–25). Search, filter by area, and get directions."
+    />
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="SB Burger Week 2026 Map">
-  <meta property="og:description" content="Interactive map of all participating restaurants. Search, filter by area, and get directions.">
-  <meta property="og:image" content="https://sbburgerweekmap.com/og-image.png">
-  <meta property="og:url" content="https://sbburgerweekmap.com/">
-  <meta property="og:type" content="website">
+    <!-- Open Graph -->
+    <meta property="og:title" content="SB Burger Week 2026 Map" />
+    <meta
+      property="og:description"
+      content="Interactive map of all participating restaurants. Search, filter by area, and get directions."
+    />
+    <meta
+      property="og:image"
+      content="https://sbburgerweekmap.com/og-image.png"
+    />
+    <meta property="og:url" content="https://sbburgerweekmap.com/" />
+    <meta property="og:type" content="website" />
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="SB Burger Week 2026 Map">
-  <meta name="twitter:description" content="Interactive map of all participating restaurants. Search, filter by area, and get directions.">
-  <meta name="twitter:image" content="https://sbburgerweekmap.com/og-image.png">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="SB Burger Week 2026 Map" />
+    <meta
+      name="twitter:description"
+      content="Interactive map of all participating restaurants. Search, filter by area, and get directions."
+    />
+    <meta
+      name="twitter:image"
+      content="https://sbburgerweekmap.com/og-image.png"
+    />
 
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+    <!-- Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
 
-  <!-- MarkerCluster CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+    <!-- MarkerCluster CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"
+    />
 
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-  <header>
-    <h1>SB Burger Week 2026 <span>| Feb 19–25</span></h1>
-    <div class="header-right">
-      <a href="https://www.independent.com/2026/02/05/burger-week-2026/" target="_blank" rel="noopener">Source: The Independent</a>
-      <a href="https://venmo.com/u/samgutentag?txn=pay&amount=5&note=%F0%9F%8D%94%20Buy%20me%20a%20burger!" target="_blank" rel="noopener noreferrer">🍔 Buy me a burger?</a>
-    </div>
-  </header>
-
-  <div class="app">
-    <aside class="sidebar" id="sidebar">
-      <div class="drag-handle" id="dragHandle"></div>
-      <div class="sidebar-controls">
-        <input type="text" class="search-box" id="searchBox" placeholder="Search restaurants…">
-        <div class="area-filters" id="areaFilters"></div>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>SB Burger Week 2026 <span>| Feb 19–25</span></h1>
+      <div class="header-right">
+        <a
+          href="https://www.independent.com/2026/02/05/burger-week-2026/"
+          target="_blank"
+          rel="noopener"
+          >Source: The Independent</a
+        >
+        <a
+          href="https://venmo.com/u/samgutentag?txn=pay&amount=5&note=%F0%9F%8D%94%20Buy%20me%20a%20burger!"
+          target="_blank"
+          rel="noopener noreferrer"
+          >🍔 Buy me a burger?</a
+        >
       </div>
-      <div class="restaurant-count" id="restaurantCount"></div>
-      <ul class="restaurant-list" id="restaurantList"></ul>
-      <p class="attribution"><a href="https://github.com/samgutentag/sbburgerweek" target="_blank" rel="noopener" title="View source on GitHub"><svg class="github-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> Made</a> by <a href="https://www.gutentag.world" target="_blank" rel="noopener">Sam Gutentag</a> in Santa Barbara, CA</p>
-    </aside>
+    </header>
 
-    <div id="map"></div>
+    <div class="app">
+      <aside class="sidebar" id="sidebar">
+        <div class="drag-handle" id="dragHandle"></div>
+        <div class="sidebar-controls">
+          <input
+            type="text"
+            class="search-box"
+            id="searchBox"
+            placeholder="Search restaurants…"
+          />
+          <div class="area-filters" id="areaFilters"></div>
+        </div>
+        <div class="restaurant-count" id="restaurantCount"></div>
+        <ul class="restaurant-list" id="restaurantList"></ul>
+        <p class="attribution">
+          <a
+            href="https://github.com/samgutentag/sbburgerweek"
+            target="_blank"
+            rel="noopener"
+            title="View source on GitHub"
+            ><svg class="github-icon" viewBox="0 0 16 16" fill="currentColor">
+              <path
+                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+              />
+            </svg>
+            Made</a
+          >
+          by
+          <a href="https://www.gutentag.world" target="_blank" rel="noopener"
+            >Sam Gutentag</a
+          >
+          in Santa Barbara, CA
+        </p>
+      </aside>
 
-    <button class="mobile-toggle" id="mobileToggle">Show Restaurant List</button>
-  </div>
+      <div id="map"></div>
 
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+      <button class="mobile-toggle" id="mobileToggle">
+        Show Restaurant List
+      </button>
+    </div>
 
-  <!-- MarkerCluster JS -->
-  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+    <!-- Leaflet JS -->
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
 
-  <script src="data.js"></script>
-  <script src="app.js"></script>
+    <!-- MarkerCluster JS -->
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
-  <!-- Cloudflare Web Analytics -->
-  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "4a7b8d80cde44aaeae633e477756e567"}'></script>
-  <!-- End Cloudflare Web Analytics -->
+    <script src="data.js"></script>
+    <script src="app.js"></script>
 
-</body>
+    <!-- Cloudflare Web Analytics -->
+    <script
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon='{"token": "4a7b8d80cde44aaeae633e477756e567"}'
+    ></script>
+    <!-- End Cloudflare Web Analytics -->
+  </body>
 </html>

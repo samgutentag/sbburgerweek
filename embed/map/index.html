@@ -1,53 +1,78 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SB Burger Week 2026 Map</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍔</text></svg>">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SB Burger Week 2026 Map</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍔</text></svg>"
+    />
 
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+    <!-- Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
 
-  <!-- MarkerCluster CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+    <!-- MarkerCluster CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"
+    />
 
-  <link rel="stylesheet" href="embed.css">
-</head>
-<body>
+    <link rel="stylesheet" href="embed.css" />
+  </head>
+  <body>
+    <div class="embed-bar">
+      <span class="embed-title"
+        >SB Burger Week 2026 <span class="embed-dates">| Feb 19–25</span></span
+      >
+      <a href="https://sbburgerweekmap.com/" target="_blank" rel="noopener"
+        >Open full map &nearr;</a
+      >
+    </div>
 
-  <div class="embed-bar">
-    <span class="embed-title">SB Burger Week 2026 <span class="embed-dates">| Feb 19–25</span></span>
-    <a href="https://sbburgerweekmap.com/" target="_blank" rel="noopener">Open full map &nearr;</a>
-  </div>
+    <div class="app">
+      <aside class="sidebar" id="sidebar">
+        <div class="drag-handle" id="dragHandle"></div>
+        <div class="sidebar-controls">
+          <input
+            type="text"
+            class="search-box"
+            id="searchBox"
+            placeholder="Search restaurants…"
+          />
+          <div class="area-filters" id="areaFilters"></div>
+        </div>
+        <div class="restaurant-count" id="restaurantCount"></div>
+        <ul class="restaurant-list" id="restaurantList"></ul>
+      </aside>
 
-  <div class="app">
-    <aside class="sidebar" id="sidebar">
-      <div class="drag-handle" id="dragHandle"></div>
-      <div class="sidebar-controls">
-        <input type="text" class="search-box" id="searchBox" placeholder="Search restaurants…">
-        <div class="area-filters" id="areaFilters"></div>
-      </div>
-      <div class="restaurant-count" id="restaurantCount"></div>
-      <ul class="restaurant-list" id="restaurantList"></ul>
-    </aside>
+      <div id="map"></div>
 
-    <div id="map"></div>
+      <button class="mobile-toggle" id="mobileToggle">
+        Show Restaurant List
+      </button>
+    </div>
 
-    <button class="mobile-toggle" id="mobileToggle">Show Restaurant List</button>
-  </div>
+    <!-- Leaflet JS -->
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
 
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- MarkerCluster JS -->
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
-  <!-- MarkerCluster JS -->
-  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
-
-  <script src="../../data.js"></script>
-  <script src="embed.js"></script>
-
-</body>
+    <script src="../../data.js"></script>
+    <script src="embed.js"></script>
+  </body>
 </html>

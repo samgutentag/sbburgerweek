@@ -110,7 +110,8 @@ Want to embed the map on your website? Use this iframe snippet in a WordPress Gu
   style="border: none; border-radius: 8px;"
   title="SB Burger Week 2026 Interactive Map"
   loading="lazy"
-  allowfullscreen>
+  allowfullscreen
+>
 </iframe>
 ```
 
