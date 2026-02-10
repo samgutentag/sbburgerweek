@@ -104,7 +104,7 @@ Want to embed the map on your website? Use this iframe snippet in a WordPress Gu
 
 ```html
 <iframe
-  src="https://sbburgerweekmap.com/embed"
+  src="https://sbburgerweekmap.com/embed/map"
   width="100%"
   height="600"
   style="border: none; border-radius: 8px;"
