@@ -13,19 +13,46 @@ An interactive map of all participating restaurants for [Santa Barbara Burger We
 - Website, phone, Apple Maps, and Google Maps links per restaurant
 - Hover over a restaurant in the list to spot it on the map
 - Hover over map markers to preview details, hover over clusters to see names
-- Mobile-friendly with a slide-up restaurant list
+- **Pick Favorites** — toggle checklist mode to check/uncheck restaurants, with All/None bulk actions. Selections persist across sessions via localStorage
+- **Print Selected** — generate a printable page with a numbered map and grouped restaurant list for your favorites
+- Mobile-friendly with a slide-up drawer that stays open while browsing, auto-opens on page load
+- Embeddable map with its own sidebar, search, filters, and Pick Favorites support
 - Automated source monitoring via GitHub Actions
 
 ## How It Works
 
-This is a static site — plain HTML, CSS, and JavaScript with no build step and no dependencies to install. Just open `index.html` in a browser.
+This is a static site — plain HTML, CSS, and JavaScript with no build step and no dependencies to install.
 
 - `data.js` — All restaurant data (names, addresses, coordinates, links, burger details)
-- `app.js` — Map rendering, markers, sidebar, filtering, search
+- `mock_data.js` — Copy of `data.js` with placeholder burger names and descriptions for testing
+- `app.js` — Map rendering, markers, sidebar, filtering, search, checklist, print
 - `style.css` — All styles including mobile responsive layout
 - `index.html` — Page shell, loads everything via `<script>` tags
+- `embed/map/` — Self-contained embeddable map (own JS, CSS, shares `data.js`)
 
 The map uses [Leaflet](https://leafletjs.com/) with [MarkerCluster](https://github.com/Leaflet/Leaflet.markercluster) and [CARTO](https://carto.com/) basemap tiles, all loaded from CDNs.
+
+## Run Locally
+
+Start a local server from the project root:
+
+```bash
+python3 -m http.server 8000
+```
+
+Then open [http://localhost:8000](http://localhost:8000). A local server is required for the embed page (`/embed`) to load correctly — it won't work via `file://`.
+
+### Using mock data
+
+To test with placeholder burger names and descriptions, swap the data source in `index.html` (lines 154–156):
+
+```html
+<!-- <script src="data.js"></script> -->
+<!-- Uncomment this and comment out the first line to load some mock data-->
+<script src="mock_data.js"></script>
+```
+
+Comment out `data.js` and uncomment `mock_data.js`, then refresh the page.
 
 ## Fork It
 
@@ -115,7 +142,7 @@ Want to embed the map on your website? Use this iframe snippet in a WordPress Gu
 </iframe>
 ```
 
-The embed shows the full interactive map with all markers, popups, and directions links. Adjust the `height` value to fit your layout.
+The embed includes the full interactive map with search, area filters, Pick Favorites with print, and directions links. It shares `data.js` with the main site so data updates propagate automatically. Checklist selections are shared between the main site and embed via localStorage. Adjust the `height` value to fit your layout.
 
 ## Issues & Feedback
 
