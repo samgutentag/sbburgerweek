@@ -448,13 +448,15 @@
     renderList();
   });
 
-  document.getElementById("checklistAllOn").addEventListener("click", function () {
-    restaurants.forEach(function (r) {
-      checkedSet.add(r.name);
+  document
+    .getElementById("checklistAllOn")
+    .addEventListener("click", function () {
+      restaurants.forEach(function (r) {
+        checkedSet.add(r.name);
+      });
+      saveChecklist();
+      renderList();
     });
-    saveChecklist();
-    renderList();
-  });
 
   document
     .getElementById("checklistAllOff")
@@ -522,7 +524,7 @@
             r.lng +
             "],{icon:L.divIcon({html:'<div style=\"background:" +
             (AREA_COLORS[r.area] || "#999") +
-            ";color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,0.3)\">" +
+            ';color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,0.3)">' +
             item.num +
             "</div>',className:'',iconSize:[24,24],iconAnchor:[12,12]})}).addTo(m);"
           );
@@ -545,7 +547,7 @@
         listHtml +=
           '<h2 style="margin:18px 0 8px;font-size:1.1rem;color:' +
           (AREA_COLORS[area] || "#999") +
-          ';border-bottom:2px solid ' +
+          ";border-bottom:2px solid " +
           (AREA_COLORS[area] || "#999") +
           ';padding-bottom:4px">' +
           escapeHtml(area) +
@@ -554,11 +556,14 @@
           var n = numberedItems.find(function (item) {
             return item.restaurant === r;
           }).num;
-          listHtml += '<div style="margin-bottom:12px;padding-left:8px">';
+          listHtml +=
+            '<div style="display:flex;gap:12px;margin-bottom:12px;padding-left:8px">';
+          // Left column: number, name, address, phone
+          listHtml += '<div style="flex:1;min-width:0">';
           listHtml +=
             '<div style="font-weight:700;font-size:0.95rem"><span style="display:inline-block;background:' +
             (AREA_COLORS[r.area] || "#999") +
-            ";color:#fff;width:22px;height:22px;border-radius:50%;text-align:center;line-height:22px;font-size:11px;margin-right:6px\">" +
+            ';color:#fff;width:22px;height:22px;border-radius:50%;text-align:center;line-height:22px;font-size:11px;margin-right:6px">' +
             n +
             "</span>" +
             escapeHtml(r.name) +
@@ -572,16 +577,22 @@
               '<div style="font-size:0.85rem;color:#555">' +
               escapeHtml(r.phone) +
               "</div>";
-          if (r.burger)
-            listHtml +=
-              '<div style="font-size:0.85rem;font-weight:600;margin-top:2px">' +
-              escapeHtml(r.burger) +
-              "</div>";
-          if (r.description)
-            listHtml +=
-              '<div style="font-size:0.82rem;color:#666;font-style:italic">' +
-              escapeHtml(r.description) +
-              "</div>";
+          listHtml += "</div>";
+          // Right column: burger name, description
+          if (r.burger || r.description) {
+            listHtml += '<div style="flex:1;min-width:0">';
+            if (r.burger)
+              listHtml +=
+                '<div style="font-size:0.85rem;font-weight:600">' +
+                escapeHtml(r.burger) +
+                "</div>";
+            if (r.description)
+              listHtml +=
+                '<div style="font-size:0.82rem;color:#666;font-style:italic">' +
+                escapeHtml(r.description) +
+                "</div>";
+            listHtml += "</div>";
+          }
           listHtml += "</div>";
         });
       });
