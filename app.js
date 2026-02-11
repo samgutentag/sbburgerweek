@@ -363,7 +363,22 @@
       });
 
       li.addEventListener("click", function () {
-        map.flyTo([r.lat, r.lng], 17, { duration: 0.8 });
+        var isMobile = window.innerWidth <= 768;
+        var keepDrawerOpen = isMobile && checklistMode;
+
+        if (keepDrawerOpen) {
+          // Offset the target so marker appears in the visible area above the drawer
+          // Drawer is 55vh, so visible map is ~45vh. Shift target down by ~25% of window height
+          // so the marker lands in the upper portion.
+          var offsetY = Math.round(window.innerHeight * 0.25);
+          var targetPoint = map.project([r.lat, r.lng], 17);
+          targetPoint.y += offsetY;
+          var offsetLatLng = map.unproject(targetPoint, 17);
+          map.flyTo(offsetLatLng, 17, { duration: 0.8 });
+        } else {
+          map.flyTo([r.lat, r.lng], 17, { duration: 0.8 });
+        }
+
         // After fly, open popup (with slight delay for cluster to resolve)
         setTimeout(function () {
           if (marker) {
@@ -380,8 +395,8 @@
           }
         }, 900);
 
-        // Close mobile drawer
-        if (window.innerWidth <= 768) {
+        // Close mobile drawer (but keep open in checklist mode)
+        if (isMobile && !checklistMode) {
           document.getElementById("sidebar").classList.remove("open");
           document.getElementById("mobileToggle").style.display = "block";
         }
