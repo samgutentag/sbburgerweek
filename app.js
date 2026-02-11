@@ -33,6 +33,41 @@
 
   const markerMap = new Map(); // restaurant name → marker
 
+  // ── Checklist state ─────────────────────────────
+  var checklistMode = false;
+  var checkedSet = new Set();
+  var STORAGE_KEY = "sbburgerweek-checklist";
+
+  function loadChecklist() {
+    try {
+      var saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        JSON.parse(saved).forEach(function (n) {
+          checkedSet.add(n);
+        });
+      } else {
+        // Default: all checked
+        restaurants.forEach(function (r) {
+          checkedSet.add(r.name);
+        });
+      }
+    } catch (e) {
+      restaurants.forEach(function (r) {
+        checkedSet.add(r.name);
+      });
+    }
+  }
+
+  function saveChecklist() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(checkedSet)));
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  loadChecklist();
+
   restaurants.forEach(function (r) {
     const color = AREA_COLORS[r.area] || "#999";
 
@@ -237,8 +272,21 @@
       return a.name.localeCompare(b.name);
     });
 
-    countEl.textContent =
-      filtered.length + " of " + restaurants.length + " restaurants";
+    if (checklistMode) {
+      var checkedCount = filtered.filter(function (r) {
+        return checkedSet.has(r.name);
+      }).length;
+      countEl.innerHTML =
+        filtered.length +
+        " of " +
+        restaurants.length +
+        ' restaurants — <span class="checklist-summary">' +
+        checkedCount +
+        " selected</span>";
+    } else {
+      countEl.textContent =
+        filtered.length + " of " + restaurants.length + " restaurants";
+    }
 
     if (filtered.length === 0) {
       var noRes = document.createElement("li");
@@ -251,11 +299,40 @@
     filtered.forEach(function (r) {
       // Re-add marker to cluster
       var marker = markerMap.get(r.name);
-      if (marker) clusterGroup.addLayer(marker);
+      if (marker) {
+        clusterGroup.addLayer(marker);
+        updateMarkerOpacity(r.name);
+      }
 
       // List item
       var li = document.createElement("li");
       li.className = "restaurant-item";
+      var isChecked = checkedSet.has(r.name);
+      if (checklistMode && !isChecked) {
+        li.classList.add("unchecked");
+      }
+
+      // Checkbox (only in checklist mode)
+      if (checklistMode) {
+        var cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.className = "checklist-checkbox";
+        cb.checked = isChecked;
+        cb.addEventListener("change", function (e) {
+          e.stopPropagation();
+          if (this.checked) {
+            checkedSet.add(r.name);
+            li.classList.remove("unchecked");
+          } else {
+            checkedSet.delete(r.name);
+            li.classList.add("unchecked");
+          }
+          saveChecklist();
+          updateMarkerOpacity(r.name);
+          updateChecklistCount();
+        });
+        li.appendChild(cb);
+      }
 
       var nameSpan = document.createElement("span");
       nameSpan.className = "name";
@@ -318,6 +395,230 @@
   }
 
   renderList();
+
+  // ── Checklist helpers ───────────────────────────
+
+  function updateMarkerOpacity(name) {
+    var marker = markerMap.get(name);
+    if (!marker) return;
+    if (checklistMode && !checkedSet.has(name)) {
+      marker.setStyle({ fillOpacity: 0.2, opacity: 0.3 });
+    } else {
+      marker.setStyle({ fillOpacity: 0.85, opacity: 1 });
+    }
+  }
+
+  function updateChecklistCount() {
+    var countEl = document.getElementById("restaurantCount");
+    var filtered = restaurants.filter(function (r) {
+      var matchesArea = activeArea === "All" || r.area === activeArea;
+      var matchesSearch =
+        !searchTerm ||
+        r.name.toLowerCase().indexOf(searchTerm) !== -1 ||
+        r.address.toLowerCase().indexOf(searchTerm) !== -1 ||
+        r.area.toLowerCase().indexOf(searchTerm) !== -1;
+      return matchesArea && matchesSearch;
+    });
+    checkedVisible = filtered.filter(function (r) {
+      return checkedSet.has(r.name);
+    }).length;
+    countEl.innerHTML =
+      filtered.length +
+      " of " +
+      restaurants.length +
+      ' restaurants — <span class="checklist-summary">' +
+      checkedVisible +
+      " selected</span>";
+  }
+
+  // ── Checklist toggle + bulk actions ─────────────
+
+  var checklistToggleBtn = document.getElementById("checklistToggle");
+  var checklistActionsEl = document.getElementById("checklistActions");
+
+  checklistToggleBtn.addEventListener("click", function () {
+    checklistMode = !checklistMode;
+    this.classList.toggle("active", checklistMode);
+    checklistActionsEl.classList.toggle("visible", checklistMode);
+    renderList();
+  });
+
+  document.getElementById("checklistAllOn").addEventListener("click", function () {
+    restaurants.forEach(function (r) {
+      checkedSet.add(r.name);
+    });
+    saveChecklist();
+    renderList();
+  });
+
+  document
+    .getElementById("checklistAllOff")
+    .addEventListener("click", function () {
+      checkedSet.clear();
+      saveChecklist();
+      renderList();
+    });
+
+  // ── Print selected restaurants ──────────────────
+
+  document
+    .getElementById("checklistPrint")
+    .addEventListener("click", function () {
+      var selected = restaurants.filter(function (r) {
+        return checkedSet.has(r.name);
+      });
+
+      if (selected.length === 0) {
+        alert("No restaurants selected. Check some restaurants first.");
+        return;
+      }
+
+      // Group by area, sorted
+      var areaOrder = Object.keys(AREA_COLORS);
+      var groups = {};
+      selected.forEach(function (r) {
+        if (!groups[r.area]) groups[r.area] = [];
+        groups[r.area].push(r);
+      });
+
+      // Sort restaurants within each group
+      Object.keys(groups).forEach(function (area) {
+        groups[area].sort(function (a, b) {
+          return a.name.localeCompare(b.name);
+        });
+      });
+
+      // Sorted area keys
+      var sortedAreas = Object.keys(groups).sort(function (a, b) {
+        var ai = areaOrder.indexOf(a);
+        var bi = areaOrder.indexOf(b);
+        if (ai === -1) ai = 999;
+        if (bi === -1) bi = 999;
+        return ai - bi;
+      });
+
+      // Assign sequential numbers
+      var num = 1;
+      var numberedItems = [];
+      sortedAreas.forEach(function (area) {
+        groups[area].forEach(function (r) {
+          numberedItems.push({ num: num++, restaurant: r, area: area });
+        });
+      });
+
+      // Build markers JS for the print map
+      var markersJs = numberedItems
+        .map(function (item) {
+          var r = item.restaurant;
+          return (
+            "L.marker([" +
+            r.lat +
+            "," +
+            r.lng +
+            "],{icon:L.divIcon({html:'<div style=\"background:" +
+            (AREA_COLORS[r.area] || "#999") +
+            ";color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,0.3)\">" +
+            item.num +
+            "</div>',className:'',iconSize:[24,24],iconAnchor:[12,12]})}).addTo(m);"
+          );
+        })
+        .join("\n");
+
+      // Build bounds
+      var boundsJs =
+        "m.fitBounds([" +
+        numberedItems
+          .map(function (item) {
+            return "[" + item.restaurant.lat + "," + item.restaurant.lng + "]";
+          })
+          .join(",") +
+        "],{padding:[30,30]});";
+
+      // Build list HTML grouped by area
+      var listHtml = "";
+      sortedAreas.forEach(function (area) {
+        listHtml +=
+          '<h2 style="margin:18px 0 8px;font-size:1.1rem;color:' +
+          (AREA_COLORS[area] || "#999") +
+          ';border-bottom:2px solid ' +
+          (AREA_COLORS[area] || "#999") +
+          ';padding-bottom:4px">' +
+          escapeHtml(area) +
+          "</h2>";
+        groups[area].forEach(function (r) {
+          var n = numberedItems.find(function (item) {
+            return item.restaurant === r;
+          }).num;
+          listHtml += '<div style="margin-bottom:12px;padding-left:8px">';
+          listHtml +=
+            '<div style="font-weight:700;font-size:0.95rem"><span style="display:inline-block;background:' +
+            (AREA_COLORS[r.area] || "#999") +
+            ";color:#fff;width:22px;height:22px;border-radius:50%;text-align:center;line-height:22px;font-size:11px;margin-right:6px\">" +
+            n +
+            "</span>" +
+            escapeHtml(r.name) +
+            "</div>";
+          listHtml +=
+            '<div style="font-size:0.85rem;color:#555">' +
+            escapeHtml(r.address) +
+            "</div>";
+          if (r.phone)
+            listHtml +=
+              '<div style="font-size:0.85rem;color:#555">' +
+              escapeHtml(r.phone) +
+              "</div>";
+          if (r.burger)
+            listHtml +=
+              '<div style="font-size:0.85rem;font-weight:600;margin-top:2px">' +
+              escapeHtml(r.burger) +
+              "</div>";
+          if (r.description)
+            listHtml +=
+              '<div style="font-size:0.82rem;color:#666;font-style:italic">' +
+              escapeHtml(r.description) +
+              "</div>";
+          listHtml += "</div>";
+        });
+      });
+
+      var printHtml =
+        "<!DOCTYPE html><html><head>" +
+        '<meta charset="UTF-8">' +
+        '<meta name="viewport" content="width=device-width,initial-scale=1">' +
+        "<title>SB Burger Week 2026 — My Picks</title>" +
+        '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">' +
+        "<style>" +
+        "body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;margin:0;padding:20px;color:#2b2b2b}" +
+        "h1{font-size:1.3rem;margin-bottom:4px}" +
+        ".subtitle{color:#888;font-size:0.85rem;margin-bottom:16px}" +
+        "#printMap{height:400px;border-radius:8px;border:1px solid #ddd;margin-bottom:20px}" +
+        ".print-btn{display:block;margin:0 auto 20px;padding:10px 28px;background:#e63946;color:#fff;border:none;border-radius:20px;font-size:0.95rem;font-weight:600;cursor:pointer}" +
+        ".print-btn:hover{background:#c62d3a}" +
+        "@media print{.print-btn{display:none}#printMap{height:350px;break-inside:avoid}}" +
+        "</style>" +
+        "</head><body>" +
+        "<h1>SB Burger Week 2026 — My Picks</h1>" +
+        '<p class="subtitle">' +
+        selected.length +
+        " restaurants selected | sbburgerweekmap.com</p>" +
+        '<button class="print-btn" onclick="window.print()">Print This Page</button>' +
+        '<div id="printMap"></div>' +
+        listHtml +
+        '<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></' +
+        "script>" +
+        "<script>" +
+        'var m=L.map("printMap",{zoomControl:false,attributionControl:false});' +
+        'L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",{maxZoom:20,subdomains:"abcd"}).addTo(m);' +
+        markersJs +
+        boundsJs +
+        "</" +
+        "script>" +
+        "</body></html>";
+
+      var printWindow = window.open("", "_blank");
+      printWindow.document.write(printHtml);
+      printWindow.document.close();
+    });
 
   // ── Mobile toggle ──────────────────────────────
 
