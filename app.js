@@ -364,12 +364,8 @@
 
       li.addEventListener("click", function () {
         var isMobile = window.innerWidth <= 768;
-        var keepDrawerOpen = isMobile && checklistMode;
-
-        if (keepDrawerOpen) {
+        if (isMobile && sidebar.classList.contains("open")) {
           // Offset the target so marker appears in the visible area above the drawer
-          // Drawer is 55vh, so visible map is ~45vh. Shift target down by ~25% of window height
-          // so the marker lands in the upper portion.
           var offsetY = Math.round(window.innerHeight * 0.25);
           var targetPoint = map.project([r.lat, r.lng], 17);
           targetPoint.y += offsetY;
@@ -395,11 +391,7 @@
           }
         }, 900);
 
-        // Close mobile drawer (but keep open in checklist mode)
-        if (isMobile && !checklistMode) {
-          document.getElementById("sidebar").classList.remove("open");
-          document.getElementById("mobileToggle").style.display = "block";
-        }
+        // Keep mobile drawer open — map offset handles visibility
       });
 
       listEl.appendChild(li);
@@ -679,6 +671,22 @@
 
   var mobileToggle = document.getElementById("mobileToggle");
   var sidebar = document.getElementById("sidebar");
+
+  // Open drawer on load for mobile, then re-fit map to visible area
+  if (window.innerWidth <= 768) {
+    sidebar.classList.add("open");
+    mobileToggle.style.display = "none";
+    setTimeout(function () {
+      map.invalidateSize();
+      if (allCoords.length) {
+        var drawerHeight = Math.round(window.innerHeight * 0.55);
+        map.fitBounds(allCoords, {
+          paddingTopLeft: [20, 20],
+          paddingBottomRight: [20, drawerHeight],
+        });
+      }
+    }, 350);
+  }
 
   mobileToggle.addEventListener("click", function () {
     sidebar.classList.add("open");
