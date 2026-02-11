@@ -85,7 +85,7 @@
       "</div>" +
       "</div>";
 
-    marker.bindPopup(popupHtml, { maxWidth: 240 });
+    marker.bindPopup(popupHtml, { maxWidth: 240, offset: [0, -4] });
 
     marker.on("mouseover", function () {
       showBurgerOverlay([r.lat, r.lng]);
@@ -141,6 +141,9 @@
     iconAnchor: [14, 14],
   });
 
+  map.createPane("burgerOverlay");
+  map.getPane("burgerOverlay").style.zIndex = 750;
+
   var activeOverlay = null;
 
   function showBurgerOverlay(latlng) {
@@ -148,6 +151,7 @@
     activeOverlay = L.marker(latlng, {
       icon: burgerIcon,
       interactive: false,
+      pane: "burgerOverlay",
       zIndexOffset: 10000,
     }).addTo(map);
   }

@@ -120,7 +120,7 @@
       "</div>" +
       "</div>";
 
-    marker.bindPopup(popupHtml, { maxWidth: 240 });
+    marker.bindPopup(popupHtml, { maxWidth: 240, offset: [0, -4] });
 
     // Show popup and burger overlay on hover
     marker.on("mouseover", function () {
@@ -178,6 +178,10 @@
     iconAnchor: [14, 14],
   });
 
+  // Custom pane so the burger emoji renders above popups
+  map.createPane("burgerOverlay");
+  map.getPane("burgerOverlay").style.zIndex = 750;
+
   var activeOverlay = null;
 
   function showBurgerOverlay(latlng) {
@@ -185,6 +189,7 @@
     activeOverlay = L.marker(latlng, {
       icon: burgerIcon,
       interactive: false,
+      pane: "burgerOverlay",
       zIndexOffset: 10000,
     }).addTo(map);
   }
@@ -532,7 +537,7 @@
             return "[" + item.restaurant.lat + "," + item.restaurant.lng + "]";
           })
           .join(",") +
-        "],{padding:[30,30]});";
+        "],{padding:[50,50]});";
 
       // Build list HTML grouped by area
       var listHtml = "";
@@ -588,29 +593,53 @@
         "<title>SB Burger Week 2026 — My Picks</title>" +
         '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">' +
         "<style>" +
-        "body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;margin:0;padding:20px;color:#2b2b2b}" +
+        "body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;margin:0 auto;padding:20px;color:#2b2b2b;width:800px}" +
         "h1{font-size:1.3rem;margin-bottom:4px}" +
         ".subtitle{color:#888;font-size:0.85rem;margin-bottom:16px}" +
         "#printMap{height:400px;border-radius:8px;border:1px solid #ddd;margin-bottom:20px}" +
+        "#mapImage{width:100%;height:400px;border-radius:8px;border:1px solid #ddd;margin-bottom:20px;object-fit:cover;display:none}" +
         ".print-btn{display:block;margin:0 auto 20px;padding:10px 28px;background:#e63946;color:#fff;border:none;border-radius:20px;font-size:0.95rem;font-weight:600;cursor:pointer}" +
         ".print-btn:hover{background:#c62d3a}" +
-        "@media print{.print-btn{display:none}#printMap{height:350px;break-inside:avoid}}" +
+        "@media print{.print-btn{display:none}" +
+        "*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}" +
+        "}" +
         "</style>" +
         "</head><body>" +
         "<h1>SB Burger Week 2026 — My Picks</h1>" +
         '<p class="subtitle">' +
         selected.length +
         " restaurants selected | sbburgerweekmap.com</p>" +
-        '<button class="print-btn" onclick="window.print()">Print This Page</button>' +
+        '<button class="print-btn" id="printBtn">Print This Page</button>' +
         '<div id="printMap"></div>' +
+        '<img id="mapImage" alt="Map of selected restaurants">' +
         listHtml +
         '<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></' +
         "script>" +
+        '<script src="https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"></' +
+        "script>" +
         "<script>" +
         'var m=L.map("printMap",{zoomControl:false,attributionControl:false});' +
-        'L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",{maxZoom:20,subdomains:"abcd"}).addTo(m);' +
+        'L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",{maxZoom:20,subdomains:"abcd",crossOrigin:true}).addTo(m);' +
         markersJs +
         boundsJs +
+        'document.getElementById("printBtn").addEventListener("click",function(){' +
+        "var btn=this;btn.textContent='Capturing map...';btn.disabled=true;" +
+        "var mapEl=document.getElementById('printMap');" +
+        "var imgEl=document.getElementById('mapImage');" +
+        "html2canvas(mapEl,{useCORS:true,scale:2,logging:false}).then(function(canvas){" +
+        "imgEl.src=canvas.toDataURL('image/png');" +
+        "imgEl.style.display='block';" +
+        "mapEl.style.display='none';" +
+        "setTimeout(function(){window.print();" +
+        "imgEl.style.display='none';" +
+        "mapEl.style.display='block';" +
+        "btn.textContent='Print This Page';btn.disabled=false;" +
+        "},300);" +
+        "}).catch(function(){" +
+        "btn.textContent='Print This Page';btn.disabled=false;" +
+        "window.print();" +
+        "});" +
+        "});" +
         "</" +
         "script>" +
         "</body></html>";
