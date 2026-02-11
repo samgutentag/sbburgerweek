@@ -33,6 +33,40 @@
 
   var markerMap = new Map();
 
+  // ── Checklist state ─────────────────────────────
+  var checklistMode = false;
+  var checkedSet = new Set();
+  var STORAGE_KEY = "sbburgerweek-checklist";
+
+  function loadChecklist() {
+    try {
+      var saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        JSON.parse(saved).forEach(function (n) {
+          checkedSet.add(n);
+        });
+      } else {
+        restaurants.forEach(function (r) {
+          checkedSet.add(r.name);
+        });
+      }
+    } catch (e) {
+      restaurants.forEach(function (r) {
+        checkedSet.add(r.name);
+      });
+    }
+  }
+
+  function saveChecklist() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(checkedSet)));
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  loadChecklist();
+
   restaurants.forEach(function (r) {
     var color = AREA_COLORS[r.area] || "#999";
 
@@ -238,8 +272,21 @@
       return a.name.localeCompare(b.name);
     });
 
-    countEl.textContent =
-      filtered.length + " of " + restaurants.length + " restaurants";
+    if (checklistMode) {
+      var checkedCount = filtered.filter(function (r) {
+        return checkedSet.has(r.name);
+      }).length;
+      countEl.innerHTML =
+        filtered.length +
+        " of " +
+        restaurants.length +
+        ' restaurants — <span class="checklist-summary">' +
+        checkedCount +
+        " selected</span>";
+    } else {
+      countEl.textContent =
+        filtered.length + " of " + restaurants.length + " restaurants";
+    }
 
     if (filtered.length === 0) {
       var noRes = document.createElement("li");
@@ -251,10 +298,38 @@
 
     filtered.forEach(function (r) {
       var marker = markerMap.get(r.name);
-      if (marker) clusterGroup.addLayer(marker);
+      if (marker) {
+        clusterGroup.addLayer(marker);
+        updateMarkerOpacity(r.name);
+      }
 
       var li = document.createElement("li");
       li.className = "restaurant-item";
+      var isChecked = checkedSet.has(r.name);
+      if (checklistMode && !isChecked) {
+        li.classList.add("unchecked");
+      }
+
+      if (checklistMode) {
+        var cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.className = "checklist-checkbox";
+        cb.checked = isChecked;
+        cb.addEventListener("change", function (e) {
+          e.stopPropagation();
+          if (this.checked) {
+            checkedSet.add(r.name);
+            li.classList.remove("unchecked");
+          } else {
+            checkedSet.delete(r.name);
+            li.classList.add("unchecked");
+          }
+          saveChecklist();
+          updateMarkerOpacity(r.name);
+          updateChecklistCount();
+        });
+        li.appendChild(cb);
+      }
 
       var nameSpan = document.createElement("span");
       nameSpan.className = "name";
@@ -293,12 +368,6 @@
             }
           }
         }, 900);
-
-        // Close mobile drawer
-        if (window.innerWidth <= 600) {
-          document.getElementById("sidebar").classList.remove("open");
-          document.getElementById("mobileToggle").style.display = "block";
-        }
       });
 
       listEl.appendChild(li);
@@ -314,27 +383,255 @@
 
   renderList();
 
-  // ── Mobile toggle ──────────────────────────────
+  // ── Checklist helpers ───────────────────────────
 
-  var mobileToggle = document.getElementById("mobileToggle");
-  var sidebar = document.getElementById("sidebar");
-
-  mobileToggle.addEventListener("click", function () {
-    sidebar.classList.add("open");
-    this.style.display = "none";
-  });
-
-  document.getElementById("dragHandle").addEventListener("click", function () {
-    sidebar.classList.remove("open");
-    mobileToggle.style.display = "block";
-  });
-
-  map.on("click", function () {
-    if (window.innerWidth <= 600 && sidebar.classList.contains("open")) {
-      sidebar.classList.remove("open");
-      mobileToggle.style.display = "block";
+  function updateMarkerOpacity(name) {
+    var marker = markerMap.get(name);
+    if (!marker) return;
+    if (checklistMode && !checkedSet.has(name)) {
+      marker.setStyle({ fillOpacity: 0.2, opacity: 0.3 });
+    } else {
+      marker.setStyle({ fillOpacity: 0.85, opacity: 1 });
     }
+  }
+
+  function updateChecklistCount() {
+    var countEl = document.getElementById("restaurantCount");
+    var filtered = restaurants.filter(function (r) {
+      var matchesArea = activeArea === "All" || r.area === activeArea;
+      var matchesSearch =
+        !searchTerm ||
+        r.name.toLowerCase().indexOf(searchTerm) !== -1 ||
+        r.address.toLowerCase().indexOf(searchTerm) !== -1 ||
+        r.area.toLowerCase().indexOf(searchTerm) !== -1;
+      return matchesArea && matchesSearch;
+    });
+    var checkedVisible = filtered.filter(function (r) {
+      return checkedSet.has(r.name);
+    }).length;
+    countEl.innerHTML =
+      filtered.length +
+      " of " +
+      restaurants.length +
+      ' restaurants — <span class="checklist-summary">' +
+      checkedVisible +
+      " selected</span>";
+  }
+
+  // ── Checklist toggle + bulk actions ─────────────
+
+  var checklistToggleBtn = document.getElementById("checklistToggle");
+  var checklistActionsEl = document.getElementById("checklistActions");
+
+  checklistToggleBtn.addEventListener("click", function () {
+    checklistMode = !checklistMode;
+    this.classList.toggle("active", checklistMode);
+    checklistActionsEl.classList.toggle("visible", checklistMode);
+    renderList();
   });
+
+  document
+    .getElementById("checklistAllOn")
+    .addEventListener("click", function () {
+      restaurants.forEach(function (r) {
+        checkedSet.add(r.name);
+      });
+      saveChecklist();
+      renderList();
+    });
+
+  document
+    .getElementById("checklistAllOff")
+    .addEventListener("click", function () {
+      checkedSet.clear();
+      saveChecklist();
+      renderList();
+    });
+
+  // ── Print selected restaurants ──────────────────
+
+  document
+    .getElementById("checklistPrint")
+    .addEventListener("click", function () {
+      var selected = restaurants.filter(function (r) {
+        return checkedSet.has(r.name);
+      });
+
+      if (selected.length === 0) {
+        alert("No restaurants selected. Check some restaurants first.");
+        return;
+      }
+
+      var areaOrder = Object.keys(AREA_COLORS);
+      var groups = {};
+      selected.forEach(function (r) {
+        if (!groups[r.area]) groups[r.area] = [];
+        groups[r.area].push(r);
+      });
+
+      Object.keys(groups).forEach(function (area) {
+        groups[area].sort(function (a, b) {
+          return a.name.localeCompare(b.name);
+        });
+      });
+
+      var sortedAreas = Object.keys(groups).sort(function (a, b) {
+        var ai = areaOrder.indexOf(a);
+        var bi = areaOrder.indexOf(b);
+        if (ai === -1) ai = 999;
+        if (bi === -1) bi = 999;
+        return ai - bi;
+      });
+
+      var num = 1;
+      var numberedItems = [];
+      sortedAreas.forEach(function (area) {
+        groups[area].forEach(function (r) {
+          numberedItems.push({ num: num++, restaurant: r, area: area });
+        });
+      });
+
+      var markersJs = numberedItems
+        .map(function (item) {
+          var r = item.restaurant;
+          return (
+            "L.marker([" +
+            r.lat +
+            "," +
+            r.lng +
+            "],{icon:L.divIcon({html:'<div style=\"background:" +
+            (AREA_COLORS[r.area] || "#999") +
+            ';color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,0.3)">' +
+            item.num +
+            "</div>',className:'',iconSize:[24,24],iconAnchor:[12,12]})}).addTo(m);"
+          );
+        })
+        .join("\n");
+
+      var boundsJs =
+        "m.fitBounds([" +
+        numberedItems
+          .map(function (item) {
+            return "[" + item.restaurant.lat + "," + item.restaurant.lng + "]";
+          })
+          .join(",") +
+        "],{padding:[50,50]});";
+
+      var listHtml = "";
+      sortedAreas.forEach(function (area) {
+        listHtml +=
+          '<h2 style="margin:18px 0 8px;font-size:1.1rem;color:' +
+          (AREA_COLORS[area] || "#999") +
+          ";border-bottom:2px solid " +
+          (AREA_COLORS[area] || "#999") +
+          ';padding-bottom:4px">' +
+          escapeHtml(area) +
+          "</h2>";
+        groups[area].forEach(function (r) {
+          var n = numberedItems.find(function (item) {
+            return item.restaurant === r;
+          }).num;
+          listHtml +=
+            '<div style="display:flex;gap:12px;margin-bottom:12px;padding-left:8px">';
+          listHtml += '<div style="flex:1;min-width:0">';
+          listHtml +=
+            '<div style="font-weight:700;font-size:0.95rem"><span style="display:inline-block;background:' +
+            (AREA_COLORS[r.area] || "#999") +
+            ';color:#fff;width:22px;height:22px;border-radius:50%;text-align:center;line-height:22px;font-size:11px;margin-right:6px">' +
+            n +
+            "</span>" +
+            escapeHtml(r.name) +
+            "</div>";
+          listHtml +=
+            '<div style="font-size:0.85rem;color:#555">' +
+            escapeHtml(r.address) +
+            "</div>";
+          if (r.phone)
+            listHtml +=
+              '<div style="font-size:0.85rem;color:#555">' +
+              escapeHtml(r.phone) +
+              "</div>";
+          listHtml += "</div>";
+          if (r.burger || r.description) {
+            listHtml += '<div style="flex:1;min-width:0">';
+            if (r.burger)
+              listHtml +=
+                '<div style="font-size:0.85rem;font-weight:600">' +
+                escapeHtml(r.burger) +
+                "</div>";
+            if (r.description)
+              listHtml +=
+                '<div style="font-size:0.82rem;color:#666;font-style:italic">' +
+                escapeHtml(r.description) +
+                "</div>";
+            listHtml += "</div>";
+          }
+          listHtml += "</div>";
+        });
+      });
+
+      var printHtml =
+        "<!DOCTYPE html><html><head>" +
+        '<meta charset="UTF-8">' +
+        '<meta name="viewport" content="width=device-width,initial-scale=1">' +
+        "<title>SB Burger Week 2026 — My Picks</title>" +
+        '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">' +
+        "<style>" +
+        "body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;margin:0 auto;padding:20px;color:#2b2b2b;width:800px}" +
+        "h1{font-size:1.3rem;margin-bottom:4px}" +
+        ".subtitle{color:#888;font-size:0.85rem;margin-bottom:16px}" +
+        "#printMap{height:400px;border-radius:8px;border:1px solid #ddd;margin-bottom:20px}" +
+        "#mapImage{width:100%;height:400px;border-radius:8px;border:1px solid #ddd;margin-bottom:20px;object-fit:cover;display:none}" +
+        ".print-btn{display:block;margin:0 auto 20px;padding:10px 28px;background:#e63946;color:#fff;border:none;border-radius:20px;font-size:0.95rem;font-weight:600;cursor:pointer}" +
+        ".print-btn:hover{background:#c62d3a}" +
+        "@media print{.print-btn{display:none}" +
+        "*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}" +
+        "}" +
+        "</style>" +
+        "</head><body>" +
+        "<h1>SB Burger Week 2026 — My Picks</h1>" +
+        '<p class="subtitle">' +
+        selected.length +
+        " restaurants selected | sbburgerweekmap.com</p>" +
+        '<button class="print-btn" id="printBtn">Print This Page</button>' +
+        '<div id="printMap"></div>' +
+        '<img id="mapImage" alt="Map of selected restaurants">' +
+        listHtml +
+        '<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></' +
+        "script>" +
+        '<script src="https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"></' +
+        "script>" +
+        "<script>" +
+        'var m=L.map("printMap",{zoomControl:false,attributionControl:false});' +
+        'L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",{maxZoom:20,subdomains:"abcd",crossOrigin:true}).addTo(m);' +
+        markersJs +
+        boundsJs +
+        'document.getElementById("printBtn").addEventListener("click",function(){' +
+        "var btn=this;btn.textContent='Capturing map...';btn.disabled=true;" +
+        "var mapEl=document.getElementById('printMap');" +
+        "var imgEl=document.getElementById('mapImage');" +
+        "html2canvas(mapEl,{useCORS:true,scale:2,logging:false}).then(function(canvas){" +
+        "imgEl.src=canvas.toDataURL('image/png');" +
+        "imgEl.style.display='block';" +
+        "mapEl.style.display='none';" +
+        "setTimeout(function(){window.print();" +
+        "imgEl.style.display='none';" +
+        "mapEl.style.display='block';" +
+        "btn.textContent='Print This Page';btn.disabled=false;" +
+        "},300);" +
+        "}).catch(function(){" +
+        "btn.textContent='Print This Page';btn.disabled=false;" +
+        "window.print();" +
+        "});" +
+        "});" +
+        "</" +
+        "script>" +
+        "</body></html>";
+
+      var printWindow = window.open("", "_blank");
+      printWindow.document.write(printHtml);
+      printWindow.document.close();
+    });
 
   window.addEventListener("resize", function () {
     map.invalidateSize();
