@@ -12,6 +12,10 @@ const THEME = {
   ogLine1: "Santa Barbara",
   ogLine2: "Burger Week 2026",
 
+  // OG image text (two lines for the social preview image)
+  ogLine1: "Santa Barbara",
+  ogLine2: "Burger Week 2026",
+
   // Labels (what to call the featured item)
   itemLabel: "burger",
   itemLabelPlural: "burgers",
@@ -37,4 +41,7 @@ const THEME = {
 
   // Print page
   printTitle: "SB Burger Week 2026 — My Picks",
+
+  // Cloudflare Web Analytics (null to disable)
+  cfAnalyticsToken: "4a7b8d80cde44aaeae633e477756e567",
 };

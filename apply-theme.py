@@ -53,6 +53,7 @@ def parse_config(path):
         "venmoAmount": get_int("venmoAmount"),
         "storageKey": get("storageKey"),
         "printTitle": get("printTitle"),
+        "cfAnalyticsToken": get("cfAnalyticsToken"),
     }
 
 
@@ -226,6 +227,30 @@ def update_index_html(cfg):
         r'(id="headerVenmo"[^>]*>)[^<]*(</a)',
         rf"\g<1>{emoji} {venmo_note}\g<2>",
         html,
+    )
+
+    # Cloudflare Web Analytics — inject or remove based on token
+    cf_token = cfg["cfAnalyticsToken"]
+    if cf_token:
+        cf_snippet = (
+            "<!-- Cloudflare Web Analytics -->\n"
+            "    <script\n"
+            "      defer\n"
+            '      src="https://static.cloudflareinsights.com/beacon.min.js"\n'
+            f"""      data-cf-beacon='{{"token": "{cf_token}"}}'\n"""
+            "    ></script>\n"
+            "    <!-- End Cloudflare Web Analytics -->"
+        )
+    else:
+        cf_snippet = (
+            "<!-- Cloudflare Web Analytics -->\n"
+            "    <!-- End Cloudflare Web Analytics -->"
+        )
+    html = re.sub(
+        r"<!-- Cloudflare Web Analytics -->.*?<!-- End Cloudflare Web Analytics -->",
+        cf_snippet,
+        html,
+        flags=re.DOTALL,
     )
 
     with open(path, "w", encoding="utf-8") as f:
