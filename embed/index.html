@@ -51,7 +51,7 @@
     </style>
   </head>
   <body>
-    <h1>Embed the SB Burger Week 2026 Map</h1>
+    <h1 id="embedShowcaseTitle">Embed the SB Burger Week 2026 Map</h1>
     <p>
       This is how the map will look embedded in a WordPress article or any
       webpage.
@@ -59,25 +59,41 @@
 
     <div class="embed-wrapper">
       <iframe
+        id="embedPreview"
         src="/embed/map/"
         width="100%"
         height="600"
         style="border: none; border-radius: 8px"
-        title="SB Burger Week 2026 Interactive Map"
+        title="Interactive Map"
         loading="lazy"
         allowfullscreen
       >
       </iframe>
     </div>
 
-    <pre><code>&lt;iframe
-  src="https://sbburgerweekmap.com/embed/map"
-  width="100%"
-  height="600"
-  style="border: none; border-radius: 8px;"
-  title="SB Burger Week 2026 Interactive Map"
-  loading="lazy"
-  allowfullscreen&gt;
-&lt;/iframe&gt;</code></pre>
+    <pre id="embedSnippet"><code></code></pre>
+
+    <script src="../config.js"></script>
+    <script>
+      (function () {
+        var t = THEME;
+        var mapTitle = t.eventName + " Interactive Map";
+        document.title = "Embed — " + t.eventName + " Map";
+        document.querySelector('link[rel="icon"]').href =
+          "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>" + t.emoji + "</text></svg>";
+        document.getElementById("embedShowcaseTitle").textContent = "Embed the " + t.eventName + " Map";
+        document.getElementById("embedPreview").title = mapTitle;
+        document.getElementById("embedSnippet").querySelector("code").textContent =
+          '<iframe\n' +
+          '  src="' + t.siteUrl + '/embed/map"\n' +
+          '  width="100%"\n' +
+          '  height="600"\n' +
+          '  style="border: none; border-radius: 8px;"\n' +
+          '  title="' + mapTitle + '"\n' +
+          '  loading="lazy"\n' +
+          '  allowfullscreen>\n' +
+          '</iframe>';
+      })();
+    </script>
   </body>
 </html>

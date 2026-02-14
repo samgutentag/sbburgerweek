@@ -3,6 +3,22 @@
 (function () {
   "use strict";
 
+  // ── Apply theme to header ──────────────────────────
+  var headerTitle = document.getElementById("headerTitle");
+  if (headerTitle) {
+    headerTitle.innerHTML = THEME.eventName + " <span>| " + THEME.eventDates + "</span>";
+  }
+  var headerSource = document.getElementById("headerSource");
+  if (headerSource) {
+    headerSource.href = THEME.sourceUrl;
+    headerSource.textContent = THEME.sourceLabel;
+  }
+  var headerVenmo = document.getElementById("headerVenmo");
+  if (headerVenmo) {
+    headerVenmo.textContent = THEME.emoji + " " + THEME.venmoNote;
+    headerVenmo.href = "https://venmo.com/u/" + THEME.venmoUser + "?txn=pay&amount=" + THEME.venmoAmount + "&note=" + encodeURIComponent(THEME.emoji + " " + THEME.venmoNote);
+  }
+
   // ── Map setup ──────────────────────────────────
 
   const map = L.map("map", {
@@ -36,7 +52,7 @@
   // ── Checklist state ─────────────────────────────
   var checklistMode = false;
   var checkedSet = new Set();
-  var STORAGE_KEY = "sbburgerweek-checklist";
+  var STORAGE_KEY = THEME.storageKey;
 
   function loadChecklist() {
     try {
@@ -88,7 +104,7 @@
       '<div class="popup-content">' + "<h3>" + escapeHtml(r.name) + "</h3>";
     if (r.burger)
       popupHtml +=
-        '<p class="popup-burger">🍔 ' + escapeHtml(r.burger) + "</p>";
+        '<p class="popup-burger">' + THEME.emoji + " " + escapeHtml(r.burger) + "</p>";
     if (r.description)
       popupHtml +=
         '<p class="popup-description"><em>' +
@@ -172,7 +188,7 @@
   // ── Burger emoji overlay on selected marker ──
 
   var burgerIcon = L.divIcon({
-    html: '<span class="burger-icon">🍔</span>',
+    html: '<span class="burger-icon">' + THEME.emoji + '</span>',
     className: "burger-icon-wrapper",
     iconSize: [28, 28],
     iconAnchor: [14, 14],
@@ -608,7 +624,7 @@
         "<!DOCTYPE html><html><head>" +
         '<meta charset="UTF-8">' +
         '<meta name="viewport" content="width=device-width,initial-scale=1">' +
-        "<title>SB Burger Week 2026 — My Picks</title>" +
+        "<title>" + THEME.printTitle + "</title>" +
         '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">' +
         "<style>" +
         "body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;margin:0 auto;padding:20px;color:#2b2b2b;width:800px}" +
@@ -623,10 +639,10 @@
         "}" +
         "</style>" +
         "</head><body>" +
-        "<h1>SB Burger Week 2026 — My Picks</h1>" +
+        "<h1>" + THEME.printTitle + "</h1>" +
         '<p class="subtitle">' +
         selected.length +
-        " restaurants selected | sbburgerweekmap.com</p>" +
+        " restaurants selected | " + THEME.siteUrl.replace(/^https?:\/\//, "") + "</p>" +
         '<button class="print-btn" id="printBtn">Print This Page</button>' +
         '<div id="printMap"></div>' +
         '<img id="mapImage" alt="Map of selected restaurants">' +

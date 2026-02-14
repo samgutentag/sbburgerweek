@@ -23,12 +23,13 @@ An interactive map of all participating restaurants for [Santa Barbara Burger We
 
 This is a static site — plain HTML, CSS, and JavaScript with no build step and no dependencies to install.
 
+- `config.js` — Theme configuration (event name, dates, emoji, site URL, Venmo, etc.). Edit this one file to rebrand for a different food event
 - `data.js` — All restaurant data (names, addresses, coordinates, links, burger details)
 - `mock_data.js` — Copy of `data.js` with placeholder burger names and descriptions for testing
 - `app.js` — Map rendering, markers, sidebar, filtering, search, checklist, print
 - `style.css` — All styles including mobile responsive layout
 - `index.html` — Page shell, loads everything via `<script>` tags
-- `embed/map/` — Self-contained embeddable map (own JS, CSS, shares `data.js`)
+- `embed/map/` — Self-contained embeddable map (own JS, CSS, shares `data.js` and `config.js`)
 
 The map uses [Leaflet](https://leafletjs.com/) with [MarkerCluster](https://github.com/Leaflet/Leaflet.markercluster) and [CARTO](https://carto.com/) basemap tiles, all loaded from CDNs.
 
@@ -106,9 +107,30 @@ In `app.js`, update the starting coordinates and zoom level:
 const map = L.map("map", { ... }).setView([34.42, -119.70], 13);
 ```
 
-### 4. Update the header
+### 4. Update the theme config
 
-In `index.html`, change the title, dates, and source link to match your event.
+Edit `config.js` to match your event. This single file controls the event name, dates, emoji, site URL, meta tags, Venmo link, localStorage key, and print page title:
+
+```js
+const THEME = {
+  eventName: "SB Taco Week 2026",
+  eventDates: "Mar 5–11",
+  emoji: "🌮",
+  itemLabel: "taco",
+  itemLabelPlural: "tacos",
+  siteUrl: "https://yourdomain.com",
+  description: "Interactive map of all participating restaurants...",
+  sourceLabel: "Source: Your Publication",
+  sourceUrl: "https://example.com/article",
+  venmoUser: "yourusername",
+  venmoNote: "Buy me a taco?",
+  venmoAmount: 5,
+  storageKey: "sbtacoweek-checklist",
+  printTitle: "SB Taco Week 2026 — My Picks",
+};
+```
+
+You'll also want to update `og-image.png` / `og-image.svg` with your event's branding — these are visual assets that can't be generated from config.
 
 ### 5. Deploy
 
