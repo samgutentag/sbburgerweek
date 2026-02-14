@@ -24,7 +24,7 @@ const restaurants = [
     lng: -119.691155,
     mapUrl: "https://maps.app.goo.gl/UUefNcGFbYjGUNPd7",
     appleMapsUrl: "https://maps.apple/p/U3gWeWbcVqKjsb",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -37,7 +37,7 @@ const restaurants = [
     lng: -119.697599,
     mapUrl: "https://maps.app.goo.gl/Xk6icnj39UPAacR47",
     appleMapsUrl: "https://maps.apple/p/CH80ruBx0tokCj",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -50,7 +50,7 @@ const restaurants = [
     lng: -119.704726,
     mapUrl: "https://maps.app.goo.gl/C1E679wZKXZsSLpj8",
     appleMapsUrl: "https://maps.apple/p/xvK6mAKKw55U4p",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -63,7 +63,7 @@ const restaurants = [
     lng: -119.700307,
     mapUrl: "https://maps.app.goo.gl/Gsya1VEdNZBjPmoD8",
     appleMapsUrl: "https://maps.apple/p/o6XV_nkn5Yobot",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -76,7 +76,7 @@ const restaurants = [
     lng: -119.702788,
     mapUrl: "https://maps.app.goo.gl/ypafV2iQED8v5vYeA",
     appleMapsUrl: "https://maps.apple/p/P6GFr7sFA.Xmp-",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -89,7 +89,7 @@ const restaurants = [
     lng: -119.707027,
     mapUrl: "https://maps.app.goo.gl/a7gmQtRfSGiXUdR37",
     appleMapsUrl: "https://maps.apple/p/9pZqFtJLsFJMmn",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -102,7 +102,7 @@ const restaurants = [
     lng: -119.697264,
     mapUrl: "https://maps.app.goo.gl/5z5GXb8SGmx14QGn8",
     appleMapsUrl: "https://maps.apple/p/hFLAzvWWQkJEUn",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -115,7 +115,7 @@ const restaurants = [
     lng: -119.690624,
     mapUrl: "https://maps.app.goo.gl/h4TARh9WuJcSLujF9",
     appleMapsUrl: "https://maps.apple/p/PcPGZE_I~qS5LH",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -128,7 +128,7 @@ const restaurants = [
     lng: -119.70699,
     mapUrl: "https://maps.app.goo.gl/2y4qVPcjub2o29dKA",
     appleMapsUrl: "https://maps.apple/p/mC3RDF86ZgNghN",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -141,7 +141,7 @@ const restaurants = [
     lng: -119.705252,
     mapUrl: "https://maps.app.goo.gl/Np3d4iumbLR7txnS9",
     appleMapsUrl: "https://maps.apple/p/.acg2UBX9RIsmD",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -154,7 +154,7 @@ const restaurants = [
     lng: -119.700116,
     mapUrl: "https://maps.app.goo.gl/yELnA6Nf6gKkUnq28",
     appleMapsUrl: "https://maps.apple/p/prDjK9G_-rFP.K",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -167,7 +167,7 @@ const restaurants = [
     lng: -119.707027,
     mapUrl: "https://maps.app.goo.gl/JjMZXMkxcnsDEBLm7",
     appleMapsUrl: "https://maps.apple/p/ocM85RZ2z3h26k",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -180,7 +180,7 @@ const restaurants = [
     lng: -119.688943,
     mapUrl: "https://maps.app.goo.gl/sSgP1bi7teQWbd2p9",
     appleMapsUrl: "https://maps.apple/p/dUKud0Wn3XcgJw",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -193,7 +193,7 @@ const restaurants = [
     lng: -119.695913,
     mapUrl: "https://maps.app.goo.gl/u86a8XNtQ9gM7DfW6",
     appleMapsUrl: "https://maps.apple/p/Ua9iRD~BAuQ5s.z",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -206,7 +206,7 @@ const restaurants = [
     lng: -119.707027,
     mapUrl: "https://maps.app.goo.gl/xzV7swXZ83gfgELA6",
     appleMapsUrl: "https://maps.apple/p/IAXTbR~k-gkNIa",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -219,7 +219,7 @@ const restaurants = [
     lng: -119.690533,
     mapUrl: "https://maps.app.goo.gl/V86GgAv3aB1vH7As8",
     appleMapsUrl: "https://maps.apple/p/y~H7PBSHU37cZZ",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -232,7 +232,7 @@ const restaurants = [
     lng: -119.7009,
     mapUrl: "https://maps.app.goo.gl/1h1oVTPVCz5xG1tg9",
     appleMapsUrl: "https://maps.apple/p/afaRbEdoeqivz_",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -245,7 +245,7 @@ const restaurants = [
     lng: -119.699434,
     mapUrl: "https://maps.app.goo.gl/umr83npQPfSKA8AM8",
     appleMapsUrl: "https://maps.apple/p/pDBVZsfDszCyIQ",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -258,7 +258,7 @@ const restaurants = [
     lng: -119.690444,
     mapUrl: "https://maps.app.goo.gl/CxyGVg16v1dAXkVq6",
     appleMapsUrl: "https://maps.apple/p/o2.x6VY5-8B~c4",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -271,7 +271,7 @@ const restaurants = [
     lng: -119.690101,
     mapUrl: "https://maps.app.goo.gl/ZeQpwXm2LdCZo4S88",
     appleMapsUrl: "https://maps.apple/p/FS_Cg~a~WvM-8~",
-    burger: null,
+    menuItem: null,
     description: null,
     type: "sponsor",
   },
@@ -285,7 +285,7 @@ const restaurants = [
     lng: -119.705214,
     mapUrl: "https://maps.app.goo.gl/BwkDspDsomjtTNk79",
     appleMapsUrl: "https://maps.apple/p/u2LdIBaUBhX.u.z",
-    burger: null,
+    menuItem: null,
     description: null,
   },
 
@@ -300,7 +300,7 @@ const restaurants = [
     lng: -119.722428,
     mapUrl: "https://maps.app.goo.gl/Qsq2ycSkog53L7Pq9",
     appleMapsUrl: "https://maps.apple/p/DsZrwRqcd5gMWR",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -313,7 +313,7 @@ const restaurants = [
     lng: -119.789698,
     mapUrl: "https://maps.app.goo.gl/3gGbzqPgfVrLvNJk8",
     appleMapsUrl: "https://maps.apple/p/JHLABwb8-a48tQ",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -326,7 +326,7 @@ const restaurants = [
     lng: -119.748441,
     mapUrl: "https://maps.app.goo.gl/qBiuwTnxZLJBDouK9",
     appleMapsUrl: "https://maps.apple/p/NTQ.NjBT-8oA2L",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -339,7 +339,7 @@ const restaurants = [
     lng: -119.722701,
     mapUrl: "https://maps.app.goo.gl/g2QpAoPb1cGtsjrZ8",
     appleMapsUrl: "https://maps.apple/p/~6wPW6hFmMWnNH",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -352,7 +352,7 @@ const restaurants = [
     lng: -119.738005,
     mapUrl: "https://maps.app.goo.gl/iNqeXdJEw6Q9Mucd6",
     appleMapsUrl: "https://maps.apple/p/oBfTD-.Q6N0Av_",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -365,7 +365,7 @@ const restaurants = [
     lng: -119.728472,
     mapUrl: "https://maps.app.goo.gl/raNcJPmmkn5mMp4x9",
     appleMapsUrl: "https://maps.apple/p/PsEIKM3fsXn3z5",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -378,7 +378,7 @@ const restaurants = [
     lng: -119.724707,
     mapUrl: "https://maps.app.goo.gl/vxF6Kn8zHgkJTzRZA",
     appleMapsUrl: "https://maps.apple/p/KaHQjm176IenYn",
-    burger: null,
+    menuItem: null,
     description: null,
   },
 
@@ -393,7 +393,7 @@ const restaurants = [
     lng: -119.820858,
     mapUrl: "https://maps.app.goo.gl/KDWoCpGP4Bj5tKxG8",
     appleMapsUrl: "https://maps.apple/p/qsKhePr8N5NbRr",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -406,7 +406,7 @@ const restaurants = [
     lng: -119.84804,
     mapUrl: "https://maps.app.goo.gl/5ateAZg2XUFRejKn8",
     appleMapsUrl: "https://maps.apple/p/PwbJwZa5okKqG8",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -419,7 +419,7 @@ const restaurants = [
     lng: -119.812297,
     mapUrl: "https://maps.app.goo.gl/YXrd5iwBn4oCouXA9",
     appleMapsUrl: "https://maps.apple/p/Ir9WS14tYcDv6N",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -432,7 +432,7 @@ const restaurants = [
     lng: -119.884676,
     mapUrl: "https://maps.app.goo.gl/Y5UCLYBhX1y4vxY18",
     appleMapsUrl: "https://maps.apple/p/6Zw5j8CDzQhADd",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -445,7 +445,7 @@ const restaurants = [
     lng: -119.828632,
     mapUrl: "https://maps.app.goo.gl/tQ7zzEVcJvqCFVYn6",
     appleMapsUrl: "https://maps.apple/p/S~V0TY8QH3zT30",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -458,7 +458,7 @@ const restaurants = [
     lng: -119.872319,
     mapUrl: "https://maps.app.goo.gl/7mobFJW4rD6S8gZc8",
     appleMapsUrl: "https://maps.apple/p/pY1SoTqf10FswS",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -471,7 +471,7 @@ const restaurants = [
     lng: -119.82405,
     mapUrl: "https://maps.app.goo.gl/pwHJn1FJksgvYt3A9",
     appleMapsUrl: "https://maps.apple/p/dw.tRLQFoqQ~rH",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -484,7 +484,7 @@ const restaurants = [
     lng: -119.871156,
     mapUrl: "https://maps.app.goo.gl/9aS1C1VuTfqo6L4T8",
     appleMapsUrl: "https://maps.apple/p/PsgrujLZSVcRHf",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -497,7 +497,7 @@ const restaurants = [
     lng: -119.876655,
     mapUrl: "https://maps.app.goo.gl/fATpYsiitbhoVSRm7",
     appleMapsUrl: "https://maps.apple/p/MFjhN9uKSytnZH",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -510,7 +510,7 @@ const restaurants = [
     lng: -119.802869,
     mapUrl: "https://maps.app.goo.gl/35q8XFMUXjyyAk8b6",
     appleMapsUrl: "https://maps.apple/p/0b-Z3yLt-pt29a",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -523,7 +523,7 @@ const restaurants = [
     lng: -119.823059,
     mapUrl: "https://maps.app.goo.gl/nTom9qBWAcJ9FzKz9",
     appleMapsUrl: "https://maps.apple/p/g~6tyn2jtzVFQ6",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -536,7 +536,7 @@ const restaurants = [
     lng: -119.865668,
     mapUrl: "https://maps.app.goo.gl/nAJvesRCHdofkBez6",
     appleMapsUrl: "https://maps.apple/p/UB7AB5J928n9EF",
-    burger: null,
+    menuItem: null,
     description: null,
   },
 
@@ -551,7 +551,7 @@ const restaurants = [
     lng: -119.517345,
     mapUrl: "https://maps.app.goo.gl/7gdDkJgfhikYn82W6",
     appleMapsUrl: "https://maps.apple/p/wjhX3Jh.V2_I5p",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -564,7 +564,7 @@ const restaurants = [
     lng: -119.548572,
     mapUrl: "https://maps.app.goo.gl/8ZDu63gFeurVYCeM6",
     appleMapsUrl: "https://maps.apple/p/uqiyiVKwDzDndx",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -577,7 +577,7 @@ const restaurants = [
     lng: -119.599547,
     mapUrl: "https://maps.app.goo.gl/Qqp5pJiaCNDZ3uRDA",
     appleMapsUrl: "https://maps.apple/p/HM7pAt5EhvmgQx",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -590,7 +590,7 @@ const restaurants = [
     lng: -119.51916,
     mapUrl: "https://maps.app.goo.gl/xwmjKDJvPnS1oe4w7",
     appleMapsUrl: "https://maps.apple/p/ZP.ggEK10P5_Go",
-    burger: null,
+    menuItem: null,
     description: null,
   },
   {
@@ -603,7 +603,7 @@ const restaurants = [
     lng: -119.520395,
     mapUrl: "https://maps.app.goo.gl/gpcE5McRYoq2aY4MA",
     appleMapsUrl: "https://maps.apple/p/HhNum2x75sTZXQ",
-    burger: null,
+    menuItem: null,
     description: null,
   },
 
@@ -618,7 +618,7 @@ const restaurants = [
     lng: -119.856403,
     mapUrl: "https://maps.app.goo.gl/3ywpf2asZSic4c6f8",
     appleMapsUrl: "https://maps.apple/p/P8CHoGZ8.n~99_",
-    burger: null,
+    menuItem: null,
     description: null,
   },
 
@@ -633,7 +633,7 @@ const restaurants = [
     lng: -120.078474,
     mapUrl: "https://maps.app.goo.gl/tQ9GFna3qRasLufZ7",
     appleMapsUrl: "https://maps.apple/p/NvE-BeGF4haMtX",
-    burger: null,
+    menuItem: null,
     description: null,
   },
 ];

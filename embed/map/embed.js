@@ -98,9 +98,9 @@
 
     var popupHtml =
       '<div class="popup-content">' + "<h3>" + escapeHtml(r.name) + "</h3>";
-    if (r.burger)
+    if (r.menuItem)
       popupHtml +=
-        '<p class="popup-burger">' + THEME.emoji + " " + escapeHtml(r.burger) + "</p>";
+        '<p class="popup-burger">' + THEME.emoji + " " + escapeHtml(r.menuItem) + "</p>";
     if (r.description)
       popupHtml +=
         '<p class="popup-description"><em>' +
@@ -565,12 +565,12 @@
               escapeHtml(r.phone) +
               "</div>";
           listHtml += "</div>";
-          if (r.burger || r.description) {
+          if (r.menuItem || r.description) {
             listHtml += '<div style="flex:1;min-width:0">';
-            if (r.burger)
+            if (r.menuItem)
               listHtml +=
                 '<div style="font-size:0.85rem;font-weight:600">' +
-                escapeHtml(r.burger) +
+                escapeHtml(r.menuItem) +
                 "</div>";
             if (r.description)
               listHtml +=

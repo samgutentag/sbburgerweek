@@ -36,13 +36,21 @@
         var imgUrl = t.siteUrl + "/og-image.png";
         document.title = title;
         document.querySelector('meta[name="description"]').content =
-          "Interactive map of all participating restaurants for " + t.eventName + " (" + t.eventDates + "). " + desc;
+          "Interactive map of all participating restaurants for " +
+          t.eventName +
+          " (" +
+          t.eventDates +
+          "). " +
+          desc;
         document.querySelector('meta[property="og:title"]').content = title;
-        document.querySelector('meta[property="og:description"]').content = desc;
+        document.querySelector('meta[property="og:description"]').content =
+          desc;
         document.querySelector('meta[property="og:image"]').content = imgUrl;
-        document.querySelector('meta[property="og:url"]').content = t.siteUrl + "/";
+        document.querySelector('meta[property="og:url"]').content =
+          t.siteUrl + "/";
         document.querySelector('meta[name="twitter:title"]').content = title;
-        document.querySelector('meta[name="twitter:description"]').content = desc;
+        document.querySelector('meta[name="twitter:description"]').content =
+          desc;
         document.querySelector('meta[name="twitter:image"]').content = imgUrl;
       })();
     </script>

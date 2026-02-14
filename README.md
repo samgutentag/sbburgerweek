@@ -74,7 +74,7 @@ Edit `data.js`. Each restaurant entry looks like this:
   lng: -119.7000,                        // longitude
   mapUrl: "https://maps.app.goo.gl/...", // Google Maps link to the business
   appleMapsUrl: "https://maps.apple/p/...", // Apple Maps link, or null
-  burger: "The Signature Burger",        // menu item name, or null
+  menuItem: "The Signature Burger",      // menu item name, or null
   description: "A delicious burger..."   // menu item description, or null
 }
 ```
@@ -130,7 +130,13 @@ const THEME = {
 };
 ```
 
-You'll also want to update `og-image.png` / `og-image.svg` with your event's branding — these are visual assets that can't be generated from config.
+Then run the apply script to update all files that can't read config.js at runtime (OG image, CNAME, HTML fallbacks, README):
+
+```bash
+python3 apply-theme.py
+```
+
+This requires Python 3 (pre-installed on macOS) and ImageMagick (`brew install imagemagick`) for PNG generation.
 
 ### 5. Deploy
 

@@ -1,12 +1,16 @@
 // Theme configuration — edit this file to rebrand for a different food event.
-// NOTE: og-image.png/svg must be recreated per theme. README.md should be
-// updated manually to match your event.
+// After editing, run: python3 apply-theme.py
+// This updates og-image, CNAME, HTML fallbacks, and README to match.
 
 const THEME = {
   // Event identity
   eventName: "SB Burger Week 2026",
   eventDates: "Feb 19–25",
   emoji: "🍔",
+
+  // OG image text (two lines for the social preview image)
+  ogLine1: "Santa Barbara",
+  ogLine2: "Burger Week 2026",
 
   // Labels (what to call the featured item)
   itemLabel: "burger",
