@@ -11,13 +11,24 @@
   var headerSource = document.getElementById("headerSource");
   if (headerSource) {
     headerSource.href = THEME.sourceUrl;
-    headerSource.textContent = THEME.sourceLabel;
+    // Abbreviate on mobile: "Source: The Independent" → "The Independent"
+    if (window.innerWidth <= 768) {
+      headerSource.textContent = THEME.sourceLabel.replace(/^Source:\s*/i, "");
+    } else {
+      headerSource.textContent = THEME.sourceLabel;
+    }
   }
   var headerVenmo = document.getElementById("headerVenmo");
   if (headerVenmo) {
     headerVenmo.textContent = THEME.emoji + " " + THEME.venmoNote;
     headerVenmo.href = "https://venmo.com/u/" + THEME.venmoUser + "?txn=pay&amount=" + THEME.venmoAmount + "&note=" + encodeURIComponent(THEME.emoji + " " + THEME.venmoNote);
   }
+
+  // ── Shared DOM refs + drawer state ────────────
+  var sidebar = document.getElementById("sidebar");
+  var PEEK_HEIGHT = 130;
+  var drawerStops = [];
+  var currentStop = 0;
 
   // ── Map setup ──────────────────────────────────
 
@@ -219,16 +230,51 @@
 
   map.on("popupopen", function (e) {
     showBurgerOverlay(e.popup.getLatLng());
+
+    // Find and highlight the active restaurant in the sidebar
+    var popupLatLng = e.popup.getLatLng();
+    var activeName = null;
+    markerMap.forEach(function (marker, name) {
+      var ll = marker.getLatLng();
+      if (Math.abs(ll.lat - popupLatLng.lat) < 0.0001 && Math.abs(ll.lng - popupLatLng.lng) < 0.0001) {
+        activeName = name;
+      }
+    });
+    var listEl = document.getElementById("restaurantList");
+    var items = listEl.querySelectorAll(".restaurant-item");
+    items.forEach(function (item) {
+      var nameEl = item.querySelector(".name");
+      if (nameEl && nameEl.textContent === activeName) {
+        item.classList.add("active");
+        // Scroll so active item is at the top of the visible list
+        listEl.scrollTo({ top: item.offsetTop - listEl.offsetTop, behavior: "smooth" });
+      } else {
+        item.classList.remove("active");
+      }
+    });
   });
 
   map.on("popupclose", function () {
     removeBurgerOverlay();
+    // Clear active highlight
+    var items = document.querySelectorAll(".restaurant-item.active");
+    items.forEach(function (item) { item.classList.remove("active"); });
   });
 
   // Fit bounds to show all markers
   const allCoords = restaurants.map(function (r) {
     return [r.lat, r.lng];
   });
+
+  // Returns fitBounds padding that accounts for the mobile drawer
+  function getMapPadding() {
+    if (window.innerWidth <= 768 && drawerStops.length) {
+      var drawerVisible = (sidebar.offsetHeight || 0) - (drawerStops[currentStop] || 0);
+      return { paddingTopLeft: [20, 20], paddingBottomRight: [20, drawerVisible + 20] };
+    }
+    return { padding: [30, 30] };
+  }
+
   if (allCoords.length) {
     map.fitBounds(allCoords, { padding: [30, 30] });
   }
@@ -380,9 +426,10 @@
 
       li.addEventListener("click", function () {
         var isMobile = window.innerWidth <= 768;
-        if (isMobile && sidebar.classList.contains("open")) {
-          // Offset the target so marker appears in the visible area above the drawer
-          var offsetY = Math.round(window.innerHeight * 0.25);
+        if (isMobile && currentStop > 0) {
+          // Offset the target so marker appears in visible area above the drawer
+          var drawerVisible = sidebar.offsetHeight - drawerStops[currentStop];
+          var offsetY = Math.round(drawerVisible * 0.4);
           var targetPoint = map.project([r.lat, r.lng], 17);
           targetPoint.y += offsetY;
           var offsetLatLng = map.unproject(targetPoint, 17);
@@ -418,7 +465,7 @@
       return [r.lat, r.lng];
     });
     if (coords.length) {
-      map.fitBounds(coords, { padding: [30, 30] });
+      map.fitBounds(coords, getMapPadding());
     }
   }
 
@@ -683,49 +730,167 @@
       printWindow.document.close();
     });
 
-  // ── Mobile toggle ──────────────────────────────
+  // ── Mobile three-stop snap drawer ─────────────
 
-  var mobileToggle = document.getElementById("mobileToggle");
-  var sidebar = document.getElementById("sidebar");
+  var dragHandle = document.getElementById("dragHandle");
+  var isMobileView = window.innerWidth <= 768;
 
-  // Open drawer on load for mobile, then re-fit map to visible area
-  if (window.innerWidth <= 768) {
-    sidebar.classList.add("open");
-    mobileToggle.style.display = "none";
+  function calcDrawerStops() {
+    var vh = window.innerHeight;
+    var sidebarHeight = sidebar.offsetHeight || Math.round(vh * 0.9);
+    var halfVisible = Math.round(vh * 0.5);
+    var fullVisible = sidebarHeight; // show it all (90vh)
+    drawerStops = [
+      sidebarHeight - PEEK_HEIGHT, // peek: most of drawer hidden
+      sidebarHeight - halfVisible,  // half: 50vh visible
+      0,                            // full: all visible
+    ];
+  }
+
+  function snapDrawerTo(stopIndex) {
+    currentStop = Math.max(0, Math.min(stopIndex, drawerStops.length - 1));
+    sidebar.classList.remove("dragging");
+    sidebar.style.setProperty("--drawer-offset", drawerStops[currentStop] + "px");
+
+    // Haptic-style flash on drag handle
+    sidebar.classList.add("snap-flash");
+    setTimeout(function () {
+      sidebar.classList.remove("snap-flash");
+    }, 200);
+  }
+
+  // Drag state
+  var dragStartY = 0;
+  var dragStartOffset = 0;
+  var dragStartTime = 0;
+  var isDragging = false;
+
+  function getCurrentOffset() {
+    return drawerStops[currentStop] || 0;
+  }
+
+  function onDragStart(clientY) {
+    isDragging = true;
+    dragStartY = clientY;
+    dragStartOffset = getCurrentOffset();
+    dragStartTime = Date.now();
+    sidebar.classList.add("dragging");
+  }
+
+  var RUBBER_BAND_MAX = 30;
+
+  function onDragMove(clientY, e) {
+    if (!isDragging) return;
+    var deltaY = clientY - dragStartY;
+    var rawOffset = dragStartOffset + deltaY;
+    var newOffset;
+    if (rawOffset > drawerStops[0]) {
+      // Rubber-band past peek: diminishing resistance
+      var overscroll = rawOffset - drawerStops[0];
+      newOffset = drawerStops[0] + RUBBER_BAND_MAX * (1 - Math.exp(-overscroll / 80));
+    } else {
+      newOffset = Math.max(0, rawOffset);
+    }
+    sidebar.style.setProperty("--drawer-offset", newOffset + "px");
+    if (e) e.preventDefault();
+  }
+
+  function onDragEnd() {
+    if (!isDragging) return;
+    isDragging = false;
+
+    var currentOffsetStr = sidebar.style.getPropertyValue("--drawer-offset");
+    var currentOffset = parseInt(currentOffsetStr, 10) || 0;
+
+    // If in rubber-band zone (past peek), snap back to peek
+    if (currentOffset > drawerStops[0]) {
+      snapDrawerTo(0);
+      return;
+    }
+
+    var elapsed = (Date.now() - dragStartTime) / 1000;
+    // positive velocity = dragging down (offset increasing = less visible)
+    var velocity = (currentOffset - dragStartOffset) / elapsed;
+
+    var VELOCITY_THRESHOLD = 300; // px/s
+
+    var targetStop;
+    if (Math.abs(velocity) > VELOCITY_THRESHOLD) {
+      if (velocity > 0) {
+        // Flick down → less visible (lower stop index = higher offset)
+        targetStop = Math.max(currentStop - 1, 0);
+      } else {
+        // Flick up → more visible (higher stop index = lower offset)
+        targetStop = Math.min(currentStop + 1, drawerStops.length - 1);
+      }
+    } else {
+      // Snap to nearest stop
+      var minDist = Infinity;
+      targetStop = currentStop;
+      for (var i = 0; i < drawerStops.length; i++) {
+        var dist = Math.abs(currentOffset - drawerStops[i]);
+        if (dist < minDist) {
+          minDist = dist;
+          targetStop = i;
+        }
+      }
+    }
+
+    snapDrawerTo(targetStop);
+  }
+
+  // Touch events — only drag handle initiates drawer drag
+  dragHandle.addEventListener("touchstart", function (e) {
+    onDragStart(e.touches[0].clientY);
+  }, { passive: true });
+
+  dragHandle.addEventListener("touchmove", function (e) {
+    onDragMove(e.touches[0].clientY, e);
+  }, { passive: false });
+
+  dragHandle.addEventListener("touchend", onDragEnd);
+
+  // Mouse events (for desktop testing)
+  dragHandle.addEventListener("mousedown", function (e) {
+    onDragStart(e.clientY);
+    e.preventDefault();
+  });
+
+  document.addEventListener("mousemove", function (e) {
+    onDragMove(e.clientY, e);
+  });
+
+  document.addEventListener("mouseup", onDragEnd);
+
+  // Map click on mobile: snap to peek
+  map.on("click", function () {
+    if (window.innerWidth <= 768 && currentStop > 0) {
+      snapDrawerTo(0);
+    }
+  });
+
+  // Peek on load for mobile
+  if (isMobileView) {
+    calcDrawerStops();
+    snapDrawerTo(0); // peek position
     setTimeout(function () {
       map.invalidateSize();
       if (allCoords.length) {
-        var drawerHeight = Math.round(window.innerHeight * 0.55);
         map.fitBounds(allCoords, {
           paddingTopLeft: [20, 20],
-          paddingBottomRight: [20, drawerHeight],
+          paddingBottomRight: [20, PEEK_HEIGHT],
         });
       }
     }, 350);
   }
 
-  mobileToggle.addEventListener("click", function () {
-    sidebar.classList.add("open");
-    this.style.display = "none";
-  });
-
-  // Close drawer on drag handle tap
-  document.getElementById("dragHandle").addEventListener("click", function () {
-    sidebar.classList.remove("open");
-    mobileToggle.style.display = "block";
-  });
-
-  // Close drawer when clicking map on mobile
-  map.on("click", function () {
-    if (window.innerWidth <= 768 && sidebar.classList.contains("open")) {
-      sidebar.classList.remove("open");
-      mobileToggle.style.display = "block";
-    }
-  });
-
-  // Re-render map tiles on resize / orientation change
+  // Recalculate on resize / orientation change
   window.addEventListener("resize", function () {
     map.invalidateSize();
+    if (window.innerWidth <= 768) {
+      calcDrawerStops();
+      snapDrawerTo(currentStop);
+    }
   });
 
   // ── Utility ────────────────────────────────────
