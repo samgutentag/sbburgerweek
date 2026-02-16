@@ -17,6 +17,8 @@
     aboutSource.href = THEME.sourceUrl;
     aboutSource.textContent = THEME.sourceLabel.replace(/^Source:\s*/i, "");
   }
+  var aboutEmbed = document.getElementById("aboutEmbed");
+  if (aboutEmbed) aboutEmbed.href = THEME.siteUrl + "/embed";
   var aboutVenmo = document.getElementById("aboutVenmo");
   if (aboutVenmo) {
     aboutVenmo.textContent = THEME.emoji + " " + THEME.venmoNote;

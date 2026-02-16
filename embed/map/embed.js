@@ -22,6 +22,44 @@
     embedFullMapLink.href = THEME.siteUrl + "/";
   }
 
+  // ── Apply theme to About modal ─────────────────
+  var aboutTitle = document.getElementById("aboutTitle");
+  if (aboutTitle) aboutTitle.textContent = THEME.eventName;
+  var aboutDates = document.getElementById("aboutDates");
+  if (aboutDates) aboutDates.textContent = THEME.eventDates;
+  var aboutSource = document.getElementById("aboutSource");
+  if (aboutSource) {
+    aboutSource.href = THEME.sourceUrl;
+    aboutSource.textContent = THEME.sourceLabel.replace(/^Source:\s*/i, "");
+  }
+  var aboutEmbed = document.getElementById("aboutEmbed");
+  if (aboutEmbed) aboutEmbed.href = THEME.siteUrl + "/embed";
+  var aboutVenmo = document.getElementById("aboutVenmo");
+  if (aboutVenmo) {
+    aboutVenmo.textContent = THEME.emoji + " " + THEME.venmoNote;
+    aboutVenmo.href = "https://venmo.com/u/" + THEME.venmoUser + "?txn=pay&amount=" + THEME.venmoAmount + "&note=" + encodeURIComponent(THEME.emoji + " " + THEME.venmoNote);
+  }
+
+  // ── About modal ───────────────────────────────────
+  var aboutOverlay = document.getElementById("aboutOverlay");
+  var aboutLink = document.getElementById("aboutLink");
+  var aboutClose = document.getElementById("aboutClose");
+
+  aboutLink.addEventListener("click", function (e) {
+    e.preventDefault();
+    aboutOverlay.classList.add("open");
+  });
+
+  aboutClose.addEventListener("click", function () {
+    aboutOverlay.classList.remove("open");
+  });
+
+  aboutOverlay.addEventListener("click", function (e) {
+    if (e.target === aboutOverlay) {
+      aboutOverlay.classList.remove("open");
+    }
+  });
+
   // ── Map setup ──────────────────────────────────
 
   var map = L.map("map", {
