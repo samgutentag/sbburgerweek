@@ -156,6 +156,7 @@ header a:hover {
 }
 
 .filter-toggle-btn {
+  display: none;
   padding: 4px 10px;
   border: 1px solid #ccc;
   border-radius: 14px;
@@ -175,10 +176,6 @@ header a:hover {
   background: var(--red);
   color: #fff;
   border-color: transparent;
-}
-
-.filter-panel {
-  display: none;
 }
 
 .filter-panel.open {
@@ -348,9 +345,24 @@ header a:hover {
   border-left: 3px solid var(--red);
 }
 
+.name-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
 .restaurant-item .name {
   font-size: 0.9rem;
   font-weight: 500;
+}
+
+.menu-item-subtitle {
+  font-size: 0.78rem;
+  font-style: italic;
+  color: #777;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .restaurant-item .area-badge {
@@ -573,9 +585,14 @@ header a:hover {
   /* ── Mobile filter toggle ────────────────── */
 
   .filter-toggle-btn {
+    display: block;
     padding: 8px 14px;
     min-height: 36px;
     font-size: 0.8rem;
+  }
+
+  .filter-panel {
+    display: none;
   }
 
 }
