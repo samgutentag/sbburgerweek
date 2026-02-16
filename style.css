@@ -202,48 +202,64 @@ header h1 span {
   background: #e07a5f;
 }
 
-/* ── Checklist controls ────────────────────── */
+/* ── FAB: Select & Print ─────────────────── */
 
-.checklist-controls {
+.fab-wrapper {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row-reverse;
   align-items: center;
-  gap: 5px;
-  margin-top: 8px;
+  gap: 8px;
 }
 
-.checklist-toggle {
-  padding: 4px 10px;
-  border: 1px solid #ccc;
-  border-radius: 14px;
+.fab-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
   background: #fff;
-  font-size: 0.75rem;
+  color: var(--dark);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   cursor: pointer;
-  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+  flex-shrink: 0;
+}
+
+.fab-btn:hover {
+  background: #f0f0f0;
+  transform: scale(1.05);
+}
+
+.fab-wrapper.active .fab-btn {
+  background: var(--red);
+  color: #fff;
+}
+
+.fab-toolbar {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  padding: 6px 12px;
+  border-radius: 22px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   white-space: nowrap;
 }
 
-.checklist-toggle:hover {
-  background: #f0f0f0;
-}
-
-.checklist-toggle.active {
-  background: var(--dark);
-  color: #fff;
-  border-color: transparent;
-}
-
-.checklist-actions {
-  display: none;
-  flex-wrap: wrap;
-  gap: 5px;
-}
-
-.checklist-actions.visible {
+.fab-wrapper.active .fab-toolbar {
   display: flex;
 }
 
-.checklist-action-btn {
+.fab-count {
+  font-size: 0.78rem;
+  color: #666;
+  font-weight: 500;
+  margin-right: 4px;
+}
+
+.fab-action-btn {
   padding: 4px 10px;
   border: 1px solid #ccc;
   border-radius: 14px;
@@ -254,18 +270,24 @@ header h1 span {
   white-space: nowrap;
 }
 
-.checklist-action-btn:hover {
+.fab-action-btn:hover {
   background: #f0f0f0;
 }
 
-.checklist-print-btn {
+.fab-print-btn {
   border-color: var(--red);
   color: var(--red);
 }
 
-.checklist-print-btn:hover {
+.fab-print-btn:hover {
   background: var(--red);
   color: #fff;
+}
+
+.fab-hint {
+  font-size: 0.68rem;
+  color: #999;
+  font-style: italic;
 }
 
 .checklist-checkbox {
@@ -646,16 +668,31 @@ header h1 span {
     font-size: 1rem;
   }
 
-  .checklist-toggle,
-  .checklist-action-btn {
-    font-size: 0.75rem;
-    padding: 8px 14px;
-    min-height: 36px;
-  }
-
   .checklist-checkbox {
     width: 20px;
     height: 20px;
+  }
+
+  /* ── Mobile FAB ───────────────────────────── */
+
+  .fab-wrapper {
+    flex-direction: column-reverse;
+    align-items: flex-end;
+  }
+
+  .fab-toolbar {
+    flex-direction: column;
+    padding: 8px 10px;
+    border-radius: 14px;
+    gap: 4px;
+  }
+
+  .fab-action-btn {
+    padding: 8px 14px;
+    min-height: 36px;
+    font-size: 0.8rem;
+    width: 100%;
+    text-align: center;
   }
 
   /* ── Mobile filter toggle ────────────────── */

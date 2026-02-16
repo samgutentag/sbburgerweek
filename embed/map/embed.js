@@ -372,7 +372,7 @@
           }
           saveChecklist();
           updateMarkerOpacity(r.name);
-          updateChecklistCount();
+          updateFabCount();
         });
         li.appendChild(cb);
       }
@@ -452,65 +452,86 @@
     }
   }
 
-  function updateChecklistCount() {
-    var countEl = document.getElementById("restaurantCount");
-    var filtered = restaurants.filter(function (r) {
-      var matchesArea = activeArea === "All" || r.area === activeArea;
-      var matchesSearch =
-        !searchTerm ||
-        r.name.toLowerCase().indexOf(searchTerm) !== -1 ||
-        r.address.toLowerCase().indexOf(searchTerm) !== -1 ||
-        r.area.toLowerCase().indexOf(searchTerm) !== -1 ||
-        (r.menuItem && r.menuItem.toLowerCase().indexOf(searchTerm) !== -1);
-      return matchesArea && matchesSearch;
-    });
-    var checkedVisible = filtered.filter(function (r) {
-      return checkedSet.has(r.name);
-    }).length;
-    countEl.innerHTML =
-      filtered.length +
-      " of " +
-      restaurants.length +
-      ' restaurants — <span class="checklist-summary">' +
-      checkedVisible +
-      " selected</span>";
+  // ── FAB: Select & Print floating action button ──
+
+  L.Control.SelectPrintFab = L.Control.extend({
+    options: { position: "topright" },
+    onAdd: function () {
+      var wrapper = L.DomUtil.create("div", "leaflet-control fab-wrapper");
+      L.DomEvent.disableClickPropagation(wrapper);
+      L.DomEvent.disableScrollPropagation(wrapper);
+
+      var fab = L.DomUtil.create("button", "fab-btn", wrapper);
+      fab.title = "Select & Print";
+      fab.setAttribute("aria-label", "Select & Print");
+      fab.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>';
+
+      var toolbar = L.DomUtil.create("div", "fab-toolbar", wrapper);
+
+      var countSpan = L.DomUtil.create("span", "fab-count", toolbar);
+      countSpan.id = "fabCount";
+      countSpan.textContent = "0 selected";
+
+      var allBtn = L.DomUtil.create("button", "fab-action-btn", toolbar);
+      allBtn.textContent = "All";
+
+      var noneBtn = L.DomUtil.create("button", "fab-action-btn", toolbar);
+      noneBtn.textContent = "None";
+
+      var printBtn = L.DomUtil.create("button", "fab-action-btn fab-print-btn", toolbar);
+      printBtn.textContent = "Print";
+
+      L.DomEvent.on(fab, "click", function (e) {
+        L.DomEvent.preventDefault(e);
+        checklistMode = !checklistMode;
+        wrapper.classList.toggle("active", checklistMode);
+        updateFabCount();
+        renderList();
+      });
+
+      L.DomEvent.on(allBtn, "click", function (e) {
+        L.DomEvent.preventDefault(e);
+        restaurants.forEach(function (r) { checkedSet.add(r.name); });
+        saveChecklist();
+        updateFabCount();
+        renderList();
+      });
+
+      L.DomEvent.on(noneBtn, "click", function (e) {
+        L.DomEvent.preventDefault(e);
+        checkedSet.clear();
+        saveChecklist();
+        updateFabCount();
+        renderList();
+      });
+
+      L.DomEvent.on(printBtn, "click", function (e) {
+        L.DomEvent.preventDefault(e);
+        printChecklist();
+      });
+
+      if (window.innerWidth <= 600) {
+        var hint = L.DomUtil.create("span", "fab-hint", toolbar);
+        hint.textContent = "Print works best on desktop";
+      }
+
+      return wrapper;
+    },
+  });
+  new L.Control.SelectPrintFab().addTo(map);
+
+  function updateFabCount() {
+    var countEl = document.getElementById("fabCount");
+    if (countEl) {
+      countEl.textContent = checkedSet.size + " selected";
+    }
   }
 
-  // ── Checklist toggle + bulk actions ─────────────
-
-  var checklistToggleBtn = document.getElementById("checklistToggle");
-  var checklistActionsEl = document.getElementById("checklistActions");
-
-  checklistToggleBtn.addEventListener("click", function () {
-    checklistMode = !checklistMode;
-    this.classList.toggle("active", checklistMode);
-    checklistActionsEl.classList.toggle("visible", checklistMode);
-    renderList();
-  });
-
-  document
-    .getElementById("checklistAllOn")
-    .addEventListener("click", function () {
-      restaurants.forEach(function (r) {
-        checkedSet.add(r.name);
-      });
-      saveChecklist();
-      renderList();
-    });
-
-  document
-    .getElementById("checklistAllOff")
-    .addEventListener("click", function () {
-      checkedSet.clear();
-      saveChecklist();
-      renderList();
-    });
+  updateFabCount();
 
   // ── Print selected restaurants ──────────────────
 
-  document
-    .getElementById("checklistPrint")
-    .addEventListener("click", function () {
+  function printChecklist() {
       var selected = restaurants.filter(function (r) {
         return checkedSet.has(r.name);
       });
@@ -689,7 +710,7 @@
       var printWindow = window.open("", "_blank");
       printWindow.document.write(printHtml);
       printWindow.document.close();
-    });
+  }
 
   window.addEventListener("resize", function () {
     map.invalidateSize();

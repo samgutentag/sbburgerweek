@@ -456,6 +456,8 @@
             checkedSet.delete(r.name);
           }
           saveChecklist();
+          updateFabCount();
+          map.panTo([r.lat, r.lng]);
           renderList(true);
         });
         li.appendChild(cb);
@@ -543,66 +545,95 @@
     }
   }
 
-  function updateChecklistCount() {
-    var countEl = document.getElementById("restaurantCount");
-    var filtered = restaurants.filter(function (r) {
-      var matchesArea = activeArea === "All" || r.area === activeArea;
-      var matchesSearch =
-        !searchTerm ||
-        r.name.toLowerCase().indexOf(searchTerm) !== -1 ||
-        r.address.toLowerCase().indexOf(searchTerm) !== -1 ||
-        r.area.toLowerCase().indexOf(searchTerm) !== -1 ||
-        (r.menuItem && r.menuItem.toLowerCase().indexOf(searchTerm) !== -1);
-      return matchesArea && matchesSearch;
-    });
-    var checkedVisible = filtered.filter(function (r) {
-      return checkedSet.has(r.name);
-    }).length;
-    countEl.innerHTML =
-      filtered.length +
-      " of " +
-      restaurants.length +
-      ' restaurants — <span class="checklist-summary">' +
-      checkedVisible +
-      " selected</span>";
+  // ── FAB: Select & Print floating action button ──
+
+  L.Control.SelectPrintFab = L.Control.extend({
+    options: { position: "topright" },
+    onAdd: function () {
+      var wrapper = L.DomUtil.create("div", "leaflet-control fab-wrapper");
+      L.DomEvent.disableClickPropagation(wrapper);
+      L.DomEvent.disableScrollPropagation(wrapper);
+
+      // Main FAB button
+      var fab = L.DomUtil.create("button", "fab-btn", wrapper);
+      fab.title = "Select & Print";
+      fab.setAttribute("aria-label", "Select & Print");
+      fab.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>';
+
+      // Toolbar (hidden by default)
+      var toolbar = L.DomUtil.create("div", "fab-toolbar", wrapper);
+      toolbar.id = "fabToolbar";
+
+      var countSpan = L.DomUtil.create("span", "fab-count", toolbar);
+      countSpan.id = "fabCount";
+      countSpan.textContent = "0 selected";
+
+      var allBtn = L.DomUtil.create("button", "fab-action-btn", toolbar);
+      allBtn.textContent = "All";
+
+      var noneBtn = L.DomUtil.create("button", "fab-action-btn", toolbar);
+      noneBtn.textContent = "None";
+
+      var printBtn = L.DomUtil.create("button", "fab-action-btn fab-print-btn", toolbar);
+      printBtn.textContent = "Print";
+      printBtn.id = "fabPrintBtn";
+
+      // Toggle checklist mode
+      L.DomEvent.on(fab, "click", function (e) {
+        L.DomEvent.preventDefault(e);
+        checklistMode = !checklistMode;
+        wrapper.classList.toggle("active", checklistMode);
+        updateFilterBtnState();
+        updateFabCount();
+        renderList();
+      });
+
+      // Bulk actions
+      L.DomEvent.on(allBtn, "click", function (e) {
+        L.DomEvent.preventDefault(e);
+        restaurants.forEach(function (r) {
+          checkedSet.add(r.name);
+        });
+        saveChecklist();
+        updateFabCount();
+        renderList();
+      });
+
+      L.DomEvent.on(noneBtn, "click", function (e) {
+        L.DomEvent.preventDefault(e);
+        checkedSet.clear();
+        saveChecklist();
+        updateFabCount();
+        renderList();
+      });
+
+      L.DomEvent.on(printBtn, "click", function (e) {
+        L.DomEvent.preventDefault(e);
+        printChecklist();
+      });
+
+      if (window.innerWidth <= 768) {
+        var hint = L.DomUtil.create("span", "fab-hint", toolbar);
+        hint.textContent = "Print works best on desktop";
+      }
+
+      return wrapper;
+    },
+  });
+  new L.Control.SelectPrintFab().addTo(map);
+
+  function updateFabCount() {
+    var countEl = document.getElementById("fabCount");
+    if (countEl) {
+      countEl.textContent = checkedSet.size + " selected";
+    }
   }
 
-  // ── Checklist toggle + bulk actions ─────────────
-
-  var checklistToggleBtn = document.getElementById("checklistToggle");
-  var checklistActionsEl = document.getElementById("checklistActions");
-
-  checklistToggleBtn.addEventListener("click", function () {
-    checklistMode = !checklistMode;
-    this.classList.toggle("active", checklistMode);
-    checklistActionsEl.classList.toggle("visible", checklistMode);
-    updateFilterBtnState();
-    renderList();
-  });
-
-  document
-    .getElementById("checklistAllOn")
-    .addEventListener("click", function () {
-      restaurants.forEach(function (r) {
-        checkedSet.add(r.name);
-      });
-      saveChecklist();
-      renderList();
-    });
-
-  document
-    .getElementById("checklistAllOff")
-    .addEventListener("click", function () {
-      checkedSet.clear();
-      saveChecklist();
-      renderList();
-    });
+  updateFabCount();
 
   // ── Print selected restaurants ──────────────────
 
-  document
-    .getElementById("checklistPrint")
-    .addEventListener("click", function () {
+  function printChecklist() {
       var selected = restaurants.filter(function (r) {
         return checkedSet.has(r.name);
       });
@@ -612,7 +643,6 @@
         return;
       }
 
-      // Group by area, sorted
       var areaOrder = Object.keys(AREA_COLORS);
       var groups = {};
       selected.forEach(function (r) {
@@ -620,14 +650,12 @@
         groups[r.area].push(r);
       });
 
-      // Sort restaurants within each group
       Object.keys(groups).forEach(function (area) {
         groups[area].sort(function (a, b) {
           return a.name.localeCompare(b.name);
         });
       });
 
-      // Sorted area keys
       var sortedAreas = Object.keys(groups).sort(function (a, b) {
         var ai = areaOrder.indexOf(a);
         var bi = areaOrder.indexOf(b);
@@ -636,7 +664,6 @@
         return ai - bi;
       });
 
-      // Assign sequential numbers
       var num = 1;
       var numberedItems = [];
       sortedAreas.forEach(function (area) {
@@ -645,7 +672,6 @@
         });
       });
 
-      // Build markers JS for the print map
       var markersJs = numberedItems
         .map(function (item) {
           var r = item.restaurant;
@@ -663,7 +689,6 @@
         })
         .join("\n");
 
-      // Build bounds
       var boundsJs =
         "m.fitBounds([" +
         numberedItems
@@ -673,7 +698,6 @@
           .join(",") +
         "],{padding:[50,50]});";
 
-      // Build list HTML grouped by area
       var listHtml = "";
       sortedAreas.forEach(function (area) {
         listHtml +=
@@ -690,7 +714,6 @@
           }).num;
           listHtml +=
             '<div style="display:flex;gap:12px;margin-bottom:12px;padding-left:8px">';
-          // Left column: number, name, address, phone
           listHtml += '<div style="flex:1;min-width:0">';
           listHtml +=
             '<div style="font-weight:700;font-size:0.95rem"><span style="display:inline-block;background:' +
@@ -710,7 +733,6 @@
               escapeHtml(r.phone) +
               "</div>";
           listHtml += "</div>";
-          // Right column: burger name, description
           if (r.menuItem || r.description) {
             listHtml += '<div style="flex:1;min-width:0">';
             if (r.menuItem)
@@ -790,7 +812,7 @@
       var printWindow = window.open("", "_blank");
       printWindow.document.write(printHtml);
       printWindow.document.close();
-    });
+  }
 
   // ── Mobile three-stop snap drawer ─────────────
 
