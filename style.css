@@ -626,6 +626,18 @@ header h1 span {
   font-size: 0.8rem;
 }
 
+.share-link {
+  color: var(--red);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.share-link:hover {
+  text-decoration: underline;
+}
+
 /* ── Mobile toggle button (hidden — replaced by peek drawer) */
 
 .mobile-toggle {
@@ -767,6 +779,29 @@ header h1 span {
 
   .filter-panel {
     display: none;
+  }
+
+  /* ── Mobile popup sizing ───────────────── */
+
+  .popup-content h3 {
+    font-size: 1.05rem;
+  }
+
+  .popup-content p {
+    font-size: 0.9rem;
+  }
+
+  .popup-content .popup-burger {
+    font-size: 0.9rem;
+  }
+
+  .directions-links a,
+  .share-link {
+    font-size: 0.9rem;
+  }
+
+  .link-sep {
+    font-size: 0.88rem;
   }
 
 }

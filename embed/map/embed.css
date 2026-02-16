@@ -569,6 +569,18 @@ body {
   font-size: 0.76rem;
 }
 
+.share-link {
+  color: var(--red);
+  text-decoration: none;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.share-link:hover {
+  text-decoration: underline;
+}
+
 /* ── Burger overlay ────────────────────────── */
 
 .burger-icon-wrapper {

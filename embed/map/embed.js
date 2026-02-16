@@ -167,6 +167,7 @@
           '<a href="tel:' + r.phone + '">' + escapeHtml(r.phone) + "</a>";
       popupHtml += "</div>";
     }
+    var shareUrl = THEME.siteUrl + "/#" + slugify(r.name);
     popupHtml +=
       '<div class="directions-links">' +
       '<a href="' +
@@ -176,6 +177,9 @@
       '<a href="' +
       r.mapUrl +
       '" target="_blank" rel="noopener">Google Maps</a>' +
+      "</div>" +
+      '<div class="directions-links">' +
+      '<a href="#" class="share-link" data-url="' + escapeHtml(shareUrl) + '" data-name="' + escapeHtml(r.name) + '">Share</a>' +
       "</div>" +
       "</div>";
 
@@ -265,6 +269,36 @@
 
   map.on("popupclose", function () {
     removeBurgerOverlay();
+  });
+
+  // Share link click handler (delegated)
+  document.addEventListener("click", function (e) {
+    var link = e.target.closest(".share-link");
+    if (!link) return;
+    e.preventDefault();
+    var url = link.getAttribute("data-url");
+    var name = link.getAttribute("data-name");
+    if (navigator.share) {
+      navigator.share({ title: name + " — " + THEME.eventName, url: url }).catch(function () {});
+    } else {
+      var copied = false;
+      if (navigator.clipboard) {
+        try { navigator.clipboard.writeText(url); copied = true; } catch (err) {}
+      }
+      if (!copied) {
+        var ta = document.createElement("textarea");
+        ta.value = url;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+      }
+      var orig = link.textContent;
+      link.textContent = "Copied!";
+      setTimeout(function () { link.textContent = orig; }, 1500);
+    }
   });
 
   // Fit bounds to show all markers
@@ -774,4 +808,43 @@
     div.appendChild(document.createTextNode(str));
     return div.innerHTML;
   }
+
+  function slugify(str) {
+    return str.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  }
+
+  // ── Deep linking via URL hash ──────────────────
+
+  var slugMap = {};
+  restaurants.forEach(function (r) {
+    slugMap[slugify(r.name)] = r;
+  });
+
+  map.on("popupopen", function (e) {
+    var popupLatLng = e.popup.getLatLng();
+    var matchedSlug = null;
+    markerMap.forEach(function (marker, name) {
+      var ll = marker.getLatLng();
+      if (Math.abs(ll.lat - popupLatLng.lat) < 0.0001 && Math.abs(ll.lng - popupLatLng.lng) < 0.0001) {
+        matchedSlug = slugify(name);
+      }
+    });
+    if (matchedSlug) {
+      history.replaceState(null, "", "#" + matchedSlug);
+    }
+  });
+
+  map.on("popupclose", function () {
+    history.replaceState(null, "", window.location.pathname + window.location.search);
+  });
+
+  // Redirect hash links to the main site
+  function redirectHash() {
+    var hash = window.location.hash.replace(/^#/, "");
+    if (hash) {
+      window.location.replace(THEME.siteUrl + "/#" + hash);
+    }
+  }
+
+  redirectHash();
 })();
