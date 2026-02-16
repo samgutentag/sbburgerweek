@@ -56,35 +56,14 @@ header h1 span {
   margin-left: 6px;
 }
 
-.header-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
-}
-
-header a {
+.about-link {
   color: var(--orange);
   text-decoration: none;
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   white-space: nowrap;
 }
 
-header a:hover {
-  text-decoration: underline;
-}
-
-.attribution {
-  font-size: 0.82rem;
-  color: #999;
-}
-
-.attribution a {
-  color: var(--orange);
-  text-decoration: none;
-}
-
-.attribution a:hover {
+.about-link:hover {
   text-decoration: underline;
 }
 
@@ -92,14 +71,6 @@ header a:hover {
   width: 0.9em;
   height: 0.9em;
   vertical-align: -0.1em;
-}
-
-.sidebar .attribution {
-  padding: 12px 14px 16px;
-  text-align: center;
-  border-top: 1px solid #eee;
-  background: #fafafa;
-  flex-shrink: 0;
 }
 
 /* ── Layout ─────────────────────────────────── */
@@ -156,6 +127,7 @@ header a:hover {
 }
 
 .filter-toggle-btn {
+  display: none;
   padding: 4px 10px;
   border: 1px solid #ccc;
   border-radius: 14px;
@@ -175,10 +147,6 @@ header a:hover {
   background: var(--red);
   color: #fff;
   border-color: transparent;
-}
-
-.filter-panel {
-  display: none;
 }
 
 .filter-panel.open {
@@ -348,9 +316,24 @@ header a:hover {
   border-left: 3px solid var(--red);
 }
 
+.name-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
 .restaurant-item .name {
   font-size: 0.9rem;
   font-weight: 500;
+}
+
+.menu-item-subtitle {
+  font-size: 0.78rem;
+  font-style: italic;
+  color: #777;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .restaurant-item .area-badge {
@@ -375,6 +358,119 @@ header a:hover {
   text-align: center;
   color: #999;
   font-size: 0.9rem;
+}
+
+/* ── About modal ───────────────────────────── */
+
+.about-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-overlay.open {
+  display: flex;
+}
+
+.about-modal {
+  background: #fff;
+  border-radius: 12px;
+  padding: 28px 32px;
+  max-width: 360px;
+  width: 90%;
+  position: relative;
+  text-align: center;
+}
+
+.about-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #999;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.about-close:hover {
+  color: var(--dark);
+}
+
+.about-modal h2 {
+  font-size: 1.15rem;
+  margin-bottom: 2px;
+  color: var(--dark);
+}
+
+.about-dates {
+  color: var(--orange);
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+}
+
+.about-body {
+  font-size: 0.88rem;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.about-body a {
+  color: var(--red);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.about-body a:hover {
+  text-decoration: underline;
+}
+
+.about-section {
+  text-align: left;
+  padding: 10px 0;
+  border-top: 1px solid #eee;
+}
+
+.about-section a {
+  color: var(--red);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.about-section a:hover {
+  text-decoration: underline;
+}
+
+.about-hint {
+  display: block;
+  font-size: 0.8rem;
+  color: #999;
+  margin-top: 2px;
+}
+
+.about-footer {
+  font-size: 0.82rem;
+  color: #999;
+  border-top: 1px solid #eee;
+  padding-top: 12px;
+  margin-top: 4px;
+}
+
+.about-footer a {
+  color: var(--orange);
+  text-decoration: none;
+}
+
+.about-footer a:hover {
+  text-decoration: underline;
 }
 
 /* ── Map ────────────────────────────────────── */
@@ -480,14 +576,6 @@ header a:hover {
     font-size: 0.9rem;
   }
 
-  .header-right {
-    gap: 1px;
-  }
-
-  .header-right a {
-    font-size: 0.72rem;
-  }
-
   .sidebar {
     width: 100%;
     position: fixed;
@@ -573,9 +661,14 @@ header a:hover {
   /* ── Mobile filter toggle ────────────────── */
 
   .filter-toggle-btn {
+    display: block;
     padding: 8px 14px;
     min-height: 36px;
     font-size: 0.8rem;
+  }
+
+  .filter-panel {
+    display: none;
   }
 
 }

@@ -215,17 +215,41 @@ def update_index_html(cfg):
         html,
     )
 
-    # Venmo link href and text
+    # About modal: Venmo link href and text
     encoded_note = urllib.parse.quote(f"{emoji} {venmo_note}", safe="!?")
     venmo_href = f"https://venmo.com/u/{venmo_user}?txn=pay&amount={venmo_amount}&note={encoded_note}"
     html = re.sub(
-        r'(<a\s+id="headerVenmo"\s+href=")[^"]*(")',
+        r'(<a\s+id="aboutVenmo"\s+href=")[^"]*(")',
         rf"\g<1>{venmo_href}\g<2>",
         html,
     )
     html = re.sub(
-        r'(id="headerVenmo"[^>]*>)[^<]*(</a)',
+        r'(id="aboutVenmo"[^>]*>)[^<]*(</a)',
         rf"\g<1>{emoji} {venmo_note}\g<2>",
+        html,
+    )
+
+    # About modal: source link href and text
+    html = re.sub(
+        r'(<a\s+id="aboutSource"\s+href=")[^"]*(")',
+        rf'\g<1>{cfg["sourceUrl"]}\g<2>',
+        html,
+    )
+    html = re.sub(
+        r'(id="aboutSource"[^>]*>)[^<]*(</a)',
+        rf'\g<1>{cfg["sourceLabel"]}\g<2>',
+        html,
+    )
+
+    # About modal: title and dates
+    html = re.sub(
+        r'(<h2\s+id="aboutTitle">)[^<]*(</h2>)',
+        rf"\g<1>{event}\g<2>",
+        html,
+    )
+    html = re.sub(
+        r'(<p\s+id="aboutDates"[^>]*>)[^<]*(</p>)',
+        rf"\g<1>{dates}\g<2>",
         html,
     )
 

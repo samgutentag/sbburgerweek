@@ -3,30 +3,49 @@
 (function () {
   "use strict";
 
-  // ── Apply theme to header ──────────────────────────
+  // ── Apply theme to header + about modal ────────────
   var headerTitle = document.getElementById("headerTitle");
   if (headerTitle) {
     headerTitle.innerHTML = THEME.eventName + " <span>| " + THEME.eventDates + "</span>";
   }
-  var headerSource = document.getElementById("headerSource");
-  if (headerSource) {
-    headerSource.href = THEME.sourceUrl;
-    // Abbreviate on mobile: "Source: The Independent" → "The Independent"
-    if (window.innerWidth <= 768) {
-      headerSource.textContent = THEME.sourceLabel.replace(/^Source:\s*/i, "");
-    } else {
-      headerSource.textContent = THEME.sourceLabel;
+  var aboutTitle = document.getElementById("aboutTitle");
+  if (aboutTitle) aboutTitle.textContent = THEME.eventName;
+  var aboutDates = document.getElementById("aboutDates");
+  if (aboutDates) aboutDates.textContent = THEME.eventDates;
+  var aboutSource = document.getElementById("aboutSource");
+  if (aboutSource) {
+    aboutSource.href = THEME.sourceUrl;
+    aboutSource.textContent = THEME.sourceLabel.replace(/^Source:\s*/i, "");
+  }
+  var aboutVenmo = document.getElementById("aboutVenmo");
+  if (aboutVenmo) {
+    aboutVenmo.textContent = THEME.emoji + " " + THEME.venmoNote;
+    aboutVenmo.href = "https://venmo.com/u/" + THEME.venmoUser + "?txn=pay&amount=" + THEME.venmoAmount + "&note=" + encodeURIComponent(THEME.emoji + " " + THEME.venmoNote);
+  }
+
+  // ── About modal ───────────────────────────────────
+  var aboutOverlay = document.getElementById("aboutOverlay");
+  var aboutLink = document.getElementById("aboutLink");
+  var aboutClose = document.getElementById("aboutClose");
+
+  aboutLink.addEventListener("click", function (e) {
+    e.preventDefault();
+    aboutOverlay.classList.add("open");
+  });
+
+  aboutClose.addEventListener("click", function () {
+    aboutOverlay.classList.remove("open");
+  });
+
+  aboutOverlay.addEventListener("click", function (e) {
+    if (e.target === aboutOverlay) {
+      aboutOverlay.classList.remove("open");
     }
-  }
-  var headerVenmo = document.getElementById("headerVenmo");
-  if (headerVenmo) {
-    headerVenmo.textContent = THEME.emoji + " " + THEME.venmoNote;
-    headerVenmo.href = "https://venmo.com/u/" + THEME.venmoUser + "?txn=pay&amount=" + THEME.venmoAmount + "&note=" + encodeURIComponent(THEME.emoji + " " + THEME.venmoNote);
-  }
+  });
 
   // ── Shared DOM refs + drawer state ────────────
   var sidebar = document.getElementById("sidebar");
-  var PEEK_HEIGHT = 130;
+  var PEEK_HEIGHT = 200;
   var drawerStops = [];
   var currentStop = 0;
 
@@ -375,7 +394,8 @@
         !searchTerm ||
         r.name.toLowerCase().indexOf(searchTerm) !== -1 ||
         r.address.toLowerCase().indexOf(searchTerm) !== -1 ||
-        r.area.toLowerCase().indexOf(searchTerm) !== -1;
+        r.area.toLowerCase().indexOf(searchTerm) !== -1 ||
+        (r.menuItem && r.menuItem.toLowerCase().indexOf(searchTerm) !== -1);
       return matchesArea && matchesSearch;
     });
 
@@ -436,83 +456,49 @@
             checkedSet.delete(r.name);
           }
           saveChecklist();
-          map.panTo([r.lat, r.lng]);
           renderList(true);
         });
         li.appendChild(cb);
       }
 
+      var nameCol = document.createElement("div");
+      nameCol.className = "name-col";
       var nameSpan = document.createElement("span");
       nameSpan.className = "name";
       nameSpan.textContent = r.name;
+      nameCol.appendChild(nameSpan);
+      if (r.menuItem) {
+        var subtitle = document.createElement("span");
+        subtitle.className = "menu-item-subtitle";
+        subtitle.textContent = r.menuItem;
+        nameCol.appendChild(subtitle);
+      }
 
       var badge = document.createElement("span");
       badge.className = "area-badge";
       badge.textContent = r.area;
       badge.style.backgroundColor = AREA_COLORS[r.area] || "#999";
 
-      li.appendChild(nameSpan);
+      li.appendChild(nameCol);
       li.appendChild(badge);
 
       li.addEventListener("mouseenter", function () {
         showBurgerOverlay([r.lat, r.lng]);
-        if (window.innerWidth > 768 && marker) {
-          li._hoverTimer = setTimeout(function () {
-            hoverPopupActive = true;
-            // Zoom to show nearby restaurants in the same area
-            var areaCoords = restaurants
-              .filter(function (rest) { return rest.area === r.area; })
-              .map(function (rest) { return [rest.lat, rest.lng]; });
-            if (areaCoords.length > 1) {
-              map.fitBounds(areaCoords, { padding: [50, 50], animate: true, duration: 0.5 });
-            } else {
-              map.setView([r.lat, r.lng], 15, { animate: true });
-            }
-            var parent = clusterGroup.getVisibleParent(marker);
-            if (parent === marker) {
-              marker.openPopup();
-            } else {
-              var popup = L.popup({ maxWidth: popupMaxWidth, offset: [0, -4] })
-                .setLatLng([r.lat, r.lng])
-                .setContent(marker.getPopup().getContent())
-                .openOn(map);
-              li._hoverPopup = popup;
-            }
-          }, 300);
-        }
       });
 
       li.addEventListener("mouseleave", function () {
-        if (li._hoverTimer) {
-          clearTimeout(li._hoverTimer);
-          li._hoverTimer = null;
+        if (!marker || !marker.isPopupOpen()) {
+          removeBurgerOverlay();
         }
-        hoverPopupActive = false;
-        if (!marker) return;
-        if (window.innerWidth > 768) {
-          if (li._hoverPopup) {
-            map.closePopup(li._hoverPopup);
-            li._hoverPopup = null;
-          } else {
-            marker.closePopup();
-          }
-        }
-        removeBurgerOverlay();
       });
 
       li.addEventListener("click", function () {
         var isMobile = window.innerWidth <= 768;
-        if (isMobile && currentStop > 0) {
-          // Offset the target so marker appears in visible area above the drawer
-          var drawerVisible = sidebar.offsetHeight - drawerStops[currentStop];
-          var offsetY = Math.round(drawerVisible * 0.4);
-          var targetPoint = map.project([r.lat, r.lng], 17);
-          targetPoint.y += offsetY;
-          var offsetLatLng = map.unproject(targetPoint, 17);
-          map.flyTo(offsetLatLng, 17, { duration: 0.8 });
-        } else {
-          map.flyTo([r.lat, r.lng], 17, { duration: 0.8 });
+        if (isMobile) {
+          // Snap drawer to peek so user can see the map and popup
+          snapDrawerTo(0);
         }
+        map.flyTo([r.lat, r.lng], 17, { duration: 0.8 });
 
         // After fly, open popup (with slight delay for cluster to resolve)
         setTimeout(function () {
@@ -529,8 +515,6 @@
             }
           }
         }, 900);
-
-        // Keep mobile drawer open — map offset handles visibility
       });
 
       listEl.appendChild(li);
@@ -567,7 +551,8 @@
         !searchTerm ||
         r.name.toLowerCase().indexOf(searchTerm) !== -1 ||
         r.address.toLowerCase().indexOf(searchTerm) !== -1 ||
-        r.area.toLowerCase().indexOf(searchTerm) !== -1;
+        r.area.toLowerCase().indexOf(searchTerm) !== -1 ||
+        (r.menuItem && r.menuItem.toLowerCase().indexOf(searchTerm) !== -1);
       return matchesArea && matchesSearch;
     });
     var checkedVisible = filtered.filter(function (r) {

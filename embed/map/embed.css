@@ -256,9 +256,24 @@ body {
   background: #fdf0d5;
 }
 
+.restaurant-item .name-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
 .restaurant-item .name {
   font-size: 0.82rem;
   font-weight: 500;
+}
+
+.restaurant-item .menu-item-subtitle {
+  font-size: 0.72rem;
+  font-style: italic;
+  color: #777;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .restaurant-item .area-badge {
