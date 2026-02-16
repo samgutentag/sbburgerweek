@@ -3,26 +3,45 @@
 (function () {
   "use strict";
 
-  // ── Apply theme to header ──────────────────────────
+  // ── Apply theme to header + about modal ────────────
   var headerTitle = document.getElementById("headerTitle");
   if (headerTitle) {
     headerTitle.innerHTML = THEME.eventName + " <span>| " + THEME.eventDates + "</span>";
   }
-  var headerSource = document.getElementById("headerSource");
-  if (headerSource) {
-    headerSource.href = THEME.sourceUrl;
-    // Abbreviate on mobile: "Source: The Independent" → "The Independent"
-    if (window.innerWidth <= 768) {
-      headerSource.textContent = THEME.sourceLabel.replace(/^Source:\s*/i, "");
-    } else {
-      headerSource.textContent = THEME.sourceLabel;
+  var aboutTitle = document.getElementById("aboutTitle");
+  if (aboutTitle) aboutTitle.textContent = THEME.eventName;
+  var aboutDates = document.getElementById("aboutDates");
+  if (aboutDates) aboutDates.textContent = THEME.eventDates;
+  var aboutSource = document.getElementById("aboutSource");
+  if (aboutSource) {
+    aboutSource.href = THEME.sourceUrl;
+    aboutSource.textContent = THEME.sourceLabel.replace(/^Source:\s*/i, "");
+  }
+  var aboutVenmo = document.getElementById("aboutVenmo");
+  if (aboutVenmo) {
+    aboutVenmo.textContent = THEME.emoji + " " + THEME.venmoNote;
+    aboutVenmo.href = "https://venmo.com/u/" + THEME.venmoUser + "?txn=pay&amount=" + THEME.venmoAmount + "&note=" + encodeURIComponent(THEME.emoji + " " + THEME.venmoNote);
+  }
+
+  // ── About modal ───────────────────────────────────
+  var aboutOverlay = document.getElementById("aboutOverlay");
+  var aboutLink = document.getElementById("aboutLink");
+  var aboutClose = document.getElementById("aboutClose");
+
+  aboutLink.addEventListener("click", function (e) {
+    e.preventDefault();
+    aboutOverlay.classList.add("open");
+  });
+
+  aboutClose.addEventListener("click", function () {
+    aboutOverlay.classList.remove("open");
+  });
+
+  aboutOverlay.addEventListener("click", function (e) {
+    if (e.target === aboutOverlay) {
+      aboutOverlay.classList.remove("open");
     }
-  }
-  var headerVenmo = document.getElementById("headerVenmo");
-  if (headerVenmo) {
-    headerVenmo.textContent = THEME.emoji + " " + THEME.venmoNote;
-    headerVenmo.href = "https://venmo.com/u/" + THEME.venmoUser + "?txn=pay&amount=" + THEME.venmoAmount + "&note=" + encodeURIComponent(THEME.emoji + " " + THEME.venmoNote);
-  }
+  });
 
   // ── Shared DOM refs + drawer state ────────────
   var sidebar = document.getElementById("sidebar");
