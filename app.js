@@ -112,7 +112,8 @@
       "https://maps.apple.com/?daddr=" + encodeURIComponent(r.address);
 
     var popupHtml =
-      '<div class="popup-content">' + "<h3>" + escapeHtml(r.name) + "</h3>";
+      '<div class="popup-content">' +
+      "<h3>" + escapeHtml(r.name) + "</h3>";
     if (r.menuItem)
       popupHtml +=
         '<p class="popup-burger">' + THEME.emoji + " " + escapeHtml(r.menuItem) + "</p>";
@@ -147,7 +148,8 @@
       "</div>" +
       "</div>";
 
-    marker.bindPopup(popupHtml, { maxWidth: 240, offset: [0, -4] });
+    var popupMaxWidth = window.innerWidth > 768 ? 360 : 240;
+    marker.bindPopup(popupHtml, { maxWidth: popupMaxWidth, offset: [0, -4] });
 
     // Show popup and burger overlay on hover
     marker.on("mouseover", function () {
@@ -210,6 +212,7 @@
   map.getPane("burgerOverlay").style.zIndex = 750;
 
   var activeOverlay = null;
+  var hoverPopupActive = false;
 
   function showBurgerOverlay(latlng) {
     removeBurgerOverlay();
@@ -246,8 +249,10 @@
       var nameEl = item.querySelector(".name");
       if (nameEl && nameEl.textContent === activeName) {
         item.classList.add("active");
-        // Scroll so active item is at the top of the visible list
-        listEl.scrollTo({ top: item.offsetTop - listEl.offsetTop, behavior: "smooth" });
+        // Scroll so active item is at the top of the visible list (skip in checklist mode and hover-triggered popups)
+        if (!checklistMode && !hoverPopupActive) {
+          listEl.scrollTo({ top: item.offsetTop - listEl.offsetTop, behavior: "smooth" });
+        }
       } else {
         item.classList.remove("active");
       }
@@ -304,8 +309,47 @@
     });
     e.target.classList.add("active");
     activeArea = e.target.getAttribute("data-area");
+    updateFilterBtnState();
     renderList();
   });
+
+  // ── Mobile filter toggle ─────────────────────
+  var filterToggleBtn = document.getElementById("filterToggle");
+  var filterPanel = document.getElementById("filterPanel");
+
+  filterToggleBtn.addEventListener("click", function () {
+    filterPanel.classList.toggle("open");
+  });
+
+  // ── Zoom reset control (below +/- buttons) ────
+  L.Control.ZoomReset = L.Control.extend({
+    options: { position: "topleft" },
+    onAdd: function () {
+      var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
+      var btn = L.DomUtil.create("a", "", container);
+      btn.href = "#";
+      btn.title = "Zoom to fit all";
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" style="vertical-align:middle"><path d="M0 4V1a1 1 0 011-1h3M10 0h3a1 1 0 011 1v3M14 10v3a1 1 0 01-1 1h-3M4 14H1a1 1 0 01-1-1v-3" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
+      btn.style.lineHeight = "30px";
+      btn.style.textAlign = "center";
+      btn.setAttribute("role", "button");
+      btn.setAttribute("aria-label", "Zoom to fit all");
+      L.DomEvent.disableClickPropagation(container);
+      L.DomEvent.on(btn, "click", function (e) {
+        L.DomEvent.preventDefault(e);
+        if (allCoords.length) {
+          map.fitBounds(allCoords, getMapPadding());
+        }
+      });
+      return container;
+    },
+  });
+  new L.Control.ZoomReset().addTo(map);
+
+  function updateFilterBtnState() {
+    var hasActiveFilters = activeArea !== "All" || checklistMode;
+    filterToggleBtn.classList.toggle("has-filters", hasActiveFilters);
+  }
 
   // ── Sidebar: restaurant list ───────────────────
 
@@ -317,7 +361,7 @@
     renderList();
   });
 
-  function renderList() {
+  function renderList(skipFitBounds) {
     var listEl = document.getElementById("restaurantList");
     var countEl = document.getElementById("restaurantCount");
     listEl.innerHTML = "";
@@ -385,18 +429,15 @@
         cb.type = "checkbox";
         cb.className = "checklist-checkbox";
         cb.checked = isChecked;
-        cb.addEventListener("change", function (e) {
-          e.stopPropagation();
+        cb.addEventListener("change", function () {
           if (this.checked) {
             checkedSet.add(r.name);
-            li.classList.remove("unchecked");
           } else {
             checkedSet.delete(r.name);
-            li.classList.add("unchecked");
           }
           saveChecklist();
-          updateMarkerOpacity(r.name);
-          updateChecklistCount();
+          map.panTo([r.lat, r.lng]);
+          renderList(true);
         });
         li.appendChild(cb);
       }
@@ -415,13 +456,48 @@
 
       li.addEventListener("mouseenter", function () {
         showBurgerOverlay([r.lat, r.lng]);
+        if (window.innerWidth > 768 && marker) {
+          li._hoverTimer = setTimeout(function () {
+            hoverPopupActive = true;
+            // Zoom to show nearby restaurants in the same area
+            var areaCoords = restaurants
+              .filter(function (rest) { return rest.area === r.area; })
+              .map(function (rest) { return [rest.lat, rest.lng]; });
+            if (areaCoords.length > 1) {
+              map.fitBounds(areaCoords, { padding: [50, 50], animate: true, duration: 0.5 });
+            } else {
+              map.setView([r.lat, r.lng], 15, { animate: true });
+            }
+            var parent = clusterGroup.getVisibleParent(marker);
+            if (parent === marker) {
+              marker.openPopup();
+            } else {
+              var popup = L.popup({ maxWidth: popupMaxWidth, offset: [0, -4] })
+                .setLatLng([r.lat, r.lng])
+                .setContent(marker.getPopup().getContent())
+                .openOn(map);
+              li._hoverPopup = popup;
+            }
+          }, 300);
+        }
       });
 
       li.addEventListener("mouseleave", function () {
-        // Only remove if no popup is open on this marker
-        if (!marker || !marker.isPopupOpen()) {
-          removeBurgerOverlay();
+        if (li._hoverTimer) {
+          clearTimeout(li._hoverTimer);
+          li._hoverTimer = null;
         }
+        hoverPopupActive = false;
+        if (!marker) return;
+        if (window.innerWidth > 768) {
+          if (li._hoverPopup) {
+            map.closePopup(li._hoverPopup);
+            li._hoverPopup = null;
+          } else {
+            marker.closePopup();
+          }
+        }
+        removeBurgerOverlay();
       });
 
       li.addEventListener("click", function () {
@@ -464,7 +540,7 @@
     var coords = filtered.map(function (r) {
       return [r.lat, r.lng];
     });
-    if (coords.length) {
+    if (coords.length && !skipFitBounds) {
       map.fitBounds(coords, getMapPadding());
     }
   }
@@ -494,7 +570,7 @@
         r.area.toLowerCase().indexOf(searchTerm) !== -1;
       return matchesArea && matchesSearch;
     });
-    checkedVisible = filtered.filter(function (r) {
+    var checkedVisible = filtered.filter(function (r) {
       return checkedSet.has(r.name);
     }).length;
     countEl.innerHTML =
@@ -515,6 +591,7 @@
     checklistMode = !checklistMode;
     this.classList.toggle("active", checklistMode);
     checklistActionsEl.classList.toggle("visible", checklistMode);
+    updateFilterBtnState();
     renderList();
   });
 

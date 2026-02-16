@@ -143,6 +143,48 @@ header a:hover {
   box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.15);
 }
 
+/* ── Filter toggle ────────────────────────── */
+
+.search-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.search-row .search-box {
+  flex: 1;
+}
+
+.filter-toggle-btn {
+  padding: 4px 10px;
+  border: 1px solid #ccc;
+  border-radius: 14px;
+  background: #fff;
+  font-size: 0.75rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+
+.filter-toggle-btn:hover {
+  background: #f0f0f0;
+}
+
+.filter-toggle-btn.has-filters {
+  background: var(--red);
+  color: #fff;
+  border-color: transparent;
+}
+
+.filter-panel {
+  display: none;
+}
+
+.filter-panel.open {
+  display: block;
+}
+
 .area-filters {
   display: flex;
   flex-wrap: wrap;
@@ -382,6 +424,7 @@ header a:hover {
   margin-top: 0;
 }
 
+
 .directions-links {
   display: flex;
   align-items: center;
@@ -526,6 +569,15 @@ header a:hover {
     width: 20px;
     height: 20px;
   }
+
+  /* ── Mobile filter toggle ────────────────── */
+
+  .filter-toggle-btn {
+    padding: 8px 14px;
+    min-height: 36px;
+    font-size: 0.8rem;
+  }
+
 }
 
 /* ── Cluster tooltip ────────────────────────── */
