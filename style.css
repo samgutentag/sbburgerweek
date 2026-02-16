@@ -29,7 +29,7 @@ body {
 /* ── Header ─────────────────────────────────── */
 
 header {
-  background: var(--dark);
+  background: linear-gradient(135deg, var(--dark) 0%, #3a2a1e 100%);
   color: var(--cream);
   padding: 10px 16px;
   padding-left: max(16px, env(safe-area-inset-left));
@@ -100,13 +100,35 @@ header h1 span {
   background: #fafafa;
 }
 
+.search-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  color: #999;
+  pointer-events: none;
+  transition: color 0.15s;
+}
+
+.search-wrapper:focus-within .search-icon {
+  color: var(--red);
+}
+
 .search-box {
   width: 100%;
-  padding: 8px 12px;
+  padding: 8px 12px 8px 30px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 0.9rem;
   outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .search-box:focus {
@@ -122,7 +144,7 @@ header h1 span {
   align-items: center;
 }
 
-.search-row .search-box {
+.search-row .search-wrapper {
   flex: 1;
 }
 
@@ -317,13 +339,33 @@ header h1 span {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   list-style: none;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+}
+
+.restaurant-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.restaurant-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.restaurant-list::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+.restaurant-list::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
 }
 
 .restaurant-item {
   padding: 10px 14px;
   border-bottom: 1px solid #eee;
+  border-left: 3px solid transparent;
   cursor: pointer;
-  transition: background 0.12s;
+  transition: background 0.15s, border-color 0.2s;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -331,11 +373,12 @@ header h1 span {
 
 .restaurant-item:hover {
   background: #fdf0d5;
+  border-left-color: var(--orange);
 }
 
 .restaurant-item.active {
   background: #fdf0d5;
-  border-left: 3px solid var(--red);
+  border-left-color: var(--red);
 }
 
 .name-col {
@@ -385,17 +428,20 @@ header h1 span {
 /* ── About modal ───────────────────────────── */
 
 .about-overlay {
-  display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0);
   z-index: 2000;
+  display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: none;
+  transition: background 0.25s ease;
 }
 
 .about-overlay.open {
-  display: flex;
+  background: rgba(0, 0, 0, 0.5);
+  pointer-events: auto;
 }
 
 .about-modal {
@@ -406,6 +452,14 @@ header h1 span {
   width: 90%;
   position: relative;
   text-align: center;
+  opacity: 0;
+  transform: scale(0.92) translateY(10px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.about-overlay.open .about-modal {
+  opacity: 1;
+  transform: scale(1) translateY(0);
 }
 
 .about-close {
@@ -518,6 +572,13 @@ header h1 span {
 /* Popup styling */
 .leaflet-popup-content-wrapper {
   border-radius: 8px;
+  overflow: hidden;
+}
+
+.popup-accent {
+  height: 3px;
+  margin: -15px -20px 10px;
+  border-radius: 0;
 }
 
 .popup-content h3 {
@@ -664,7 +725,7 @@ header h1 span {
   }
 
   .search-box {
-    padding: 12px 14px;
+    padding: 12px 14px 12px 34px;
     font-size: 1rem;
   }
 

@@ -134,6 +134,7 @@
 
     var popupHtml =
       '<div class="popup-content">' +
+      '<div class="popup-accent" style="background:' + color + '"></div>' +
       "<h3>" + escapeHtml(r.name) + "</h3>";
     if (r.menuItem)
       popupHtml +=
