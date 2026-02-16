@@ -25,7 +25,7 @@ body {
 /* ── Top bar ───────────────────────────────── */
 
 .embed-bar {
-  background: var(--dark);
+  background: linear-gradient(135deg, var(--dark) 0%, #3a2a1e 100%);
   color: var(--cream);
   padding: 8px 12px;
   display: flex;
@@ -73,17 +73,20 @@ body {
 /* ── About modal ──────────────────────────────── */
 
 .about-overlay {
-  display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0);
   z-index: 2000;
+  display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: none;
+  transition: background 0.25s ease;
 }
 
 .about-overlay.open {
-  display: flex;
+  background: rgba(0, 0, 0, 0.5);
+  pointer-events: auto;
 }
 
 .about-modal {
@@ -94,6 +97,14 @@ body {
   width: 90%;
   position: relative;
   text-align: center;
+  opacity: 0;
+  transform: scale(0.92) translateY(10px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.about-overlay.open .about-modal {
+  opacity: 1;
+  transform: scale(1) translateY(0);
 }
 
 .about-close {
@@ -214,13 +225,34 @@ body {
   background: #fafafa;
 }
 
+.search-wrapper {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  color: #999;
+  pointer-events: none;
+  transition: color 0.15s;
+}
+
+.search-wrapper:focus-within .search-icon {
+  color: var(--red);
+}
+
 .search-box {
   width: 100%;
-  padding: 6px 10px;
+  padding: 6px 10px 6px 26px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 0.82rem;
   outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .search-box:focus {
@@ -392,13 +424,33 @@ body {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   list-style: none;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+}
+
+.restaurant-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.restaurant-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.restaurant-list::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+.restaurant-list::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
 }
 
 .restaurant-item {
   padding: 7px 10px;
   border-bottom: 1px solid #eee;
+  border-left: 3px solid transparent;
   cursor: pointer;
-  transition: background 0.12s;
+  transition: background 0.15s, border-color 0.2s;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -406,6 +458,7 @@ body {
 
 .restaurant-item:hover {
   background: #fdf0d5;
+  border-left-color: var(--orange);
 }
 
 .restaurant-item .name-col {
@@ -463,6 +516,13 @@ body {
 
 .leaflet-popup-content-wrapper {
   border-radius: 8px;
+  overflow: hidden;
+}
+
+.popup-accent {
+  height: 3px;
+  margin: -15px -20px 10px;
+  border-radius: 0;
 }
 
 .popup-content h3 {
@@ -568,4 +628,54 @@ body {
 .marker-cluster-large div {
   background-color: rgba(107, 66, 38, 0.7);
   color: #fff;
+}
+
+/* ── Marker drop shadow ───────────────────── */
+
+.leaflet-overlay-pane svg path {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+/* ── Cluster tooltip header ───────────────── */
+
+.cluster-tooltip-header {
+  font-weight: 600;
+  font-size: 0.68rem;
+  color: #888;
+  padding: 4px 6px 2px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 2px;
+}
+
+/* ── Loading overlay ──────────────────────── */
+
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease;
+}
+
+.loading-overlay.loaded {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #eee;
+  border-top-color: var(--red);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

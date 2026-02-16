@@ -30,6 +30,9 @@
     <link rel="stylesheet" href="embed.css" />
   </head>
   <body>
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="loading-spinner"></div>
+    </div>
     <div class="embed-bar">
       <span class="embed-title" id="embedTitle"
         >SB Burger Week 2026 <span class="embed-dates">| Feb 19–25</span></span
@@ -79,12 +82,15 @@
     <div class="app">
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-controls">
-          <input
-            type="search"
-            class="search-box"
-            id="searchBox"
-            placeholder="Search restaurants…"
-          />
+          <div class="search-wrapper">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input
+              type="search"
+              class="search-box"
+              id="searchBox"
+              placeholder="Search restaurants…"
+            />
+          </div>
           <div class="area-filters" id="areaFilters"></div>
         </div>
         <div class="restaurant-count" id="restaurantCount"></div>

@@ -76,6 +76,9 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="loading-spinner"></div>
+    </div>
     <header>
       <h1 id="headerTitle">SB Burger Week 2026 <span>| Feb 19–25</span></h1>
       <a class="about-link" id="aboutLink" href="#about">About</a>
@@ -88,12 +91,15 @@
         </div>
         <div class="sidebar-controls">
           <div class="search-row">
-            <input
-              type="search"
-              class="search-box"
-              id="searchBox"
-              placeholder="Search restaurants…"
-            />
+            <div class="search-wrapper">
+              <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input
+                type="search"
+                class="search-box"
+                id="searchBox"
+                placeholder="Search restaurants…"
+              />
+            </div>
             <button class="filter-toggle-btn" id="filterToggle">Filter</button>
           </div>
           <div class="filter-panel" id="filterPanel">

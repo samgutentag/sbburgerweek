@@ -58,7 +58,7 @@
     attributionControl: true,
   }).setView([34.42, -119.7], 13);
 
-  L.tileLayer(
+  var tileLayer = L.tileLayer(
     "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
     {
       maxZoom: 20,
@@ -71,10 +71,11 @@
   // ── Marker cluster group ───────────────────────
 
   const clusterGroup = L.markerClusterGroup({
-    maxClusterRadius: 20,
+    maxClusterRadius: 30,
     spiderfyOnMaxZoom: true,
     showCoverageOnHover: false,
     zoomToBoundsOnClick: true,
+    spiderfyDistanceMultiplier: 1.5,
   });
 
   // ── Build markers ──────────────────────────────
@@ -134,6 +135,7 @@
 
     var popupHtml =
       '<div class="popup-content">' +
+      '<div class="popup-accent" style="background:' + color + '"></div>' +
       "<h3>" + escapeHtml(r.name) + "</h3>";
     if (r.menuItem)
       popupHtml +=
@@ -200,6 +202,7 @@
       .sort();
     var html =
       '<div class="cluster-tooltip">' +
+      '<div class="cluster-tooltip-header">' + names.length + ' restaurants</div>' +
       names
         .map(function (n) {
           return "<div>" + n + "</div>";
@@ -534,6 +537,15 @@
   }
 
   renderList();
+
+  // ── Loading overlay dismiss ───────────────────
+  tileLayer.once("load", function () {
+    var overlay = document.getElementById("loadingOverlay");
+    if (overlay) {
+      overlay.classList.add("loaded");
+      setTimeout(function () { overlay.remove(); }, 400);
+    }
+  });
 
   // ── Checklist helpers ───────────────────────────
 
