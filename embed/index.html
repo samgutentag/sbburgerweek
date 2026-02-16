@@ -48,6 +48,33 @@
         margin-top: 24px;
         line-height: 1.5;
       }
+      .mobile-notice {
+        display: none;
+        background: #fff3cd;
+        border: 1px solid #ffc107;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 24px;
+        font-size: 0.9rem;
+        color: #664d03;
+        text-align: center;
+      }
+      .mobile-notice a {
+        color: #e63946;
+        font-weight: 600;
+        text-decoration: none;
+      }
+      .mobile-notice a:hover {
+        text-decoration: underline;
+      }
+      @media (max-width: 600px) {
+        .embed-wrapper {
+          display: none;
+        }
+        .mobile-notice {
+          display: block;
+        }
+      }
     </style>
   </head>
   <body>
@@ -56,6 +83,12 @@
       This is how the map will look embedded in a WordPress article or any
       webpage.
     </p>
+
+    <div class="mobile-notice" id="mobileNotice">
+      This embed preview works best on desktop.
+      <br />
+      <a id="mobileFullMapLink" href="https://sbburgerweekmap.com/">Open the full map instead &rarr;</a>
+    </div>
 
     <div class="embed-wrapper">
       <iframe
@@ -83,6 +116,8 @@
           "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>" + t.emoji + "</text></svg>";
         document.getElementById("embedShowcaseTitle").textContent = "Embed the " + t.eventName + " Map";
         document.getElementById("embedPreview").title = mapTitle;
+        var mobileLink = document.getElementById("mobileFullMapLink");
+        if (mobileLink) mobileLink.href = t.siteUrl + "/";
         document.getElementById("embedSnippet").querySelector("code").textContent =
           '<iframe\n' +
           '  src="' + t.siteUrl + '/embed/map"\n' +

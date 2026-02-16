@@ -3,6 +3,12 @@
 (function () {
   "use strict";
 
+  // ── Redirect mobile users to full map ─────────────
+  if (window.innerWidth <= 600) {
+    window.location.replace(THEME.siteUrl + "/embed/");
+    return;
+  }
+
   // ── Apply theme to page ──────────────────────────
   document.title = THEME.eventName + " Map";
   document.querySelector('link[rel="icon"]').href =
@@ -132,7 +138,8 @@
       "</div>" +
       "</div>";
 
-    marker.bindPopup(popupHtml, { maxWidth: 240, offset: [0, -4] });
+    var popupMaxWidth = window.innerWidth > 600 ? 360 : 240;
+    marker.bindPopup(popupHtml, { maxWidth: popupMaxWidth, offset: [0, -4] });
 
     marker.on("mouseover", function () {
       showBurgerOverlay([r.lat, r.lng]);
@@ -226,6 +233,31 @@
     map.fitBounds(allCoords, { padding: [30, 30] });
   }
 
+  // ── Zoom reset control ──────────────────────────
+  L.Control.ZoomReset = L.Control.extend({
+    options: { position: "topleft" },
+    onAdd: function () {
+      var container = L.DomUtil.create("div", "leaflet-bar leaflet-control");
+      var btn = L.DomUtil.create("a", "", container);
+      btn.href = "#";
+      btn.title = "Zoom to fit all";
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" style="vertical-align:middle"><path d="M0 4V1a1 1 0 011-1h3M10 0h3a1 1 0 011 1v3M14 10v3a1 1 0 01-1 1h-3M4 14H1a1 1 0 01-1-1v-3" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
+      btn.style.lineHeight = "30px";
+      btn.style.textAlign = "center";
+      btn.setAttribute("role", "button");
+      btn.setAttribute("aria-label", "Zoom to fit all");
+      L.DomEvent.disableClickPropagation(container);
+      L.DomEvent.on(btn, "click", function (e) {
+        L.DomEvent.preventDefault(e);
+        if (allCoords.length) {
+          map.fitBounds(allCoords, { padding: [30, 30] });
+        }
+      });
+      return container;
+    },
+  });
+  new L.Control.ZoomReset().addTo(map);
+
   // ── Sidebar: area filter buttons ───────────────
 
   var areas = ["All"];
@@ -277,7 +309,8 @@
         !searchTerm ||
         r.name.toLowerCase().indexOf(searchTerm) !== -1 ||
         r.address.toLowerCase().indexOf(searchTerm) !== -1 ||
-        r.area.toLowerCase().indexOf(searchTerm) !== -1;
+        r.area.toLowerCase().indexOf(searchTerm) !== -1 ||
+        (r.menuItem && r.menuItem.toLowerCase().indexOf(searchTerm) !== -1);
       return matchesArea && matchesSearch;
     });
 
@@ -344,16 +377,27 @@
         li.appendChild(cb);
       }
 
+      var nameCol = document.createElement("div");
+      nameCol.className = "name-col";
+
       var nameSpan = document.createElement("span");
       nameSpan.className = "name";
       nameSpan.textContent = r.name;
+      nameCol.appendChild(nameSpan);
+
+      if (r.menuItem) {
+        var subtitle = document.createElement("span");
+        subtitle.className = "menu-item-subtitle";
+        subtitle.textContent = r.menuItem;
+        nameCol.appendChild(subtitle);
+      }
 
       var badge = document.createElement("span");
       badge.className = "area-badge";
       badge.textContent = r.area;
       badge.style.backgroundColor = AREA_COLORS[r.area] || "#999";
 
-      li.appendChild(nameSpan);
+      li.appendChild(nameCol);
       li.appendChild(badge);
 
       li.addEventListener("mouseenter", function () {
@@ -416,7 +460,8 @@
         !searchTerm ||
         r.name.toLowerCase().indexOf(searchTerm) !== -1 ||
         r.address.toLowerCase().indexOf(searchTerm) !== -1 ||
-        r.area.toLowerCase().indexOf(searchTerm) !== -1;
+        r.area.toLowerCase().indexOf(searchTerm) !== -1 ||
+        (r.menuItem && r.menuItem.toLowerCase().indexOf(searchTerm) !== -1);
       return matchesArea && matchesSearch;
     });
     var checkedVisible = filtered.filter(function (r) {
