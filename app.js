@@ -911,15 +911,17 @@
     var velocity = (currentOffset - dragStartOffset) / elapsed;
 
     var VELOCITY_THRESHOLD = 300; // px/s
+    var FAST_VELOCITY_THRESHOLD = 800; // px/s — skip to end stop
 
     var targetStop;
     if (Math.abs(velocity) > VELOCITY_THRESHOLD) {
+      var skipToEnd = Math.abs(velocity) > FAST_VELOCITY_THRESHOLD;
       if (velocity > 0) {
         // Flick down → less visible (lower stop index = higher offset)
-        targetStop = Math.max(currentStop - 1, 0);
+        targetStop = skipToEnd ? 0 : Math.max(currentStop - 1, 0);
       } else {
         // Flick up → more visible (higher stop index = lower offset)
-        targetStop = Math.min(currentStop + 1, drawerStops.length - 1);
+        targetStop = skipToEnd ? drawerStops.length - 1 : Math.min(currentStop + 1, drawerStops.length - 1);
       }
     } else {
       // Snap to nearest stop
