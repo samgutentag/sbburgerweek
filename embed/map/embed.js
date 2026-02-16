@@ -153,35 +153,32 @@
         '<p class="popup-description"><em>' +
         escapeHtml(r.description) +
         "</em></p>";
-    popupHtml += "<p>" + escapeHtml(r.address) + "</p>";
-    if (r.website || r.phone) {
-      popupHtml += '<div class="directions-links">';
-      if (r.website)
-        popupHtml +=
-          '<a href="' +
-          r.website +
-          '" target="_blank" rel="noopener">Website</a>';
-      if (r.website && r.phone) popupHtml += '<span class="link-sep">|</span>';
-      if (r.phone)
-        popupHtml +=
-          '<a href="tel:' + r.phone + '">' + escapeHtml(r.phone) + "</a>";
-      popupHtml += "</div>";
-    }
+    popupHtml += '<p class="popup-address">' + escapeHtml(r.address) + "</p>";
     var shareUrl = THEME.siteUrl + "/#" + slugify(r.name);
+    popupHtml += '<div class="popup-actions">' +
+      '<a href="' + appleMapsUrl + '" target="_blank" rel="noopener" class="popup-btn" title="Apple Maps">' +
+      '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>' +
+      '<span>Apple</span></a>' +
+      '<a href="' + r.mapUrl + '" target="_blank" rel="noopener" class="popup-btn" title="Google Maps">' +
+      '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>' +
+      '<span>Google</span></a>' +
+      '</div>';
+    popupHtml += '<div class="popup-actions">';
+    if (r.website)
+      popupHtml +=
+        '<a href="' + r.website + '" target="_blank" rel="noopener" class="popup-btn" title="Website">' +
+        '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>' +
+        '<span>Web</span></a>';
+    if (r.phone)
+      popupHtml +=
+        '<a href="tel:' + r.phone + '" class="popup-btn" title="' + escapeHtml(r.phone) + '">' +
+        '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>' +
+        '<span>Call</span></a>';
     popupHtml +=
-      '<div class="directions-links">' +
-      '<a href="' +
-      appleMapsUrl +
-      '" target="_blank" rel="noopener">Apple Maps</a>' +
-      '<span class="link-sep">|</span>' +
-      '<a href="' +
-      r.mapUrl +
-      '" target="_blank" rel="noopener">Google Maps</a>' +
-      "</div>" +
-      '<div class="directions-links">' +
-      '<a href="#" class="share-link" data-url="' + escapeHtml(shareUrl) + '" data-name="' + escapeHtml(r.name) + '">Share</a>' +
-      "</div>" +
-      "</div>";
+      '<a href="#" class="popup-btn share-link" data-url="' + escapeHtml(shareUrl) + '" data-name="' + escapeHtml(r.name) + '" title="Share link">' +
+      '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>' +
+      '<span>Share</span></a>';
+    popupHtml += "</div></div>";
 
     var popupMaxWidth = window.innerWidth > 600 ? 360 : 240;
     marker.bindPopup(popupHtml, { maxWidth: popupMaxWidth, offset: [0, -4] });

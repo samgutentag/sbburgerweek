@@ -601,41 +601,43 @@ header h1 span {
 
 .popup-content .popup-description {
   margin-top: 0;
+  text-align: justify;
 }
 
 
-.directions-links {
+.popup-actions {
   display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.popup-btn {
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-}
-
-.directions-links a {
+  justify-content: center;
+  gap: 4px;
+  flex: 1 1 0;
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 14px;
   color: var(--red);
   text-decoration: none;
-  font-size: 0.82rem;
-  font-weight: 500;
-}
-
-.directions-links a:hover {
-  text-decoration: underline;
-}
-
-.link-sep {
-  color: #ccc;
-  font-size: 0.8rem;
-}
-
-.share-link {
-  color: var(--red);
-  text-decoration: none;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 500;
   cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  white-space: nowrap;
+  line-height: 1;
 }
 
-.share-link:hover {
-  text-decoration: underline;
+.popup-btn:hover {
+  background: #fdf0d5;
+  border-color: var(--red);
+}
+
+.popup-btn svg {
+  flex-shrink: 0;
 }
 
 /* ── Mobile toggle button (hidden — replaced by peek drawer) */
@@ -795,13 +797,14 @@ header h1 span {
     font-size: 0.9rem;
   }
 
-  .directions-links a,
-  .share-link {
-    font-size: 0.9rem;
+  .popup-content .popup-address {
+    display: none;
   }
 
-  .link-sep {
-    font-size: 0.88rem;
+  .popup-btn {
+    padding: 8px 10px;
+    min-height: 36px;
+    font-size: 0.82rem;
   }
 
 }
