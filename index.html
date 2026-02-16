@@ -98,32 +98,39 @@
 
     <div class="app">
       <aside class="sidebar" id="sidebar">
-        <div class="drag-handle" id="dragHandle"></div>
+        <div class="drag-handle-zone" id="dragHandle">
+          <div class="drag-handle"></div>
+        </div>
         <div class="sidebar-controls">
-          <input
-            type="text"
-            class="search-box"
-            id="searchBox"
-            placeholder="Search restaurants…"
-          />
-          <div class="area-filters" id="areaFilters"></div>
-          <div class="checklist-controls" id="checklistControls">
-            <button class="checklist-toggle" id="checklistToggle">
-              Pick Favorites
-            </button>
-            <div class="checklist-actions" id="checklistActions">
-              <button class="checklist-action-btn" id="checklistAllOn">
-                All
+          <div class="search-row">
+            <input
+              type="text"
+              class="search-box"
+              id="searchBox"
+              placeholder="Search restaurants…"
+            />
+            <button class="filter-toggle-btn" id="filterToggle">Filter</button>
+          </div>
+          <div class="filter-panel" id="filterPanel">
+            <div class="area-filters" id="areaFilters"></div>
+            <div class="checklist-controls" id="checklistControls">
+              <button class="checklist-toggle" id="checklistToggle">
+                Select &amp; Print
               </button>
-              <button class="checklist-action-btn" id="checklistAllOff">
-                None
-              </button>
-              <button
-                class="checklist-action-btn checklist-print-btn"
-                id="checklistPrint"
-              >
-                Print Selected
-              </button>
+              <div class="checklist-actions" id="checklistActions">
+                <button class="checklist-action-btn" id="checklistAllOn">
+                  All
+                </button>
+                <button class="checklist-action-btn" id="checklistAllOff">
+                  None
+                </button>
+                <button
+                  class="checklist-action-btn checklist-print-btn"
+                  id="checklistPrint"
+                >
+                  Print Selected
+                </button>
+              </div>
             </div>
           </div>
         </div>
