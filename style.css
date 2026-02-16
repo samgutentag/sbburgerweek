@@ -604,6 +604,15 @@ header h1 span {
   text-align: justify;
 }
 
+.popup-coming-soon {
+  color: #999;
+  font-style: italic;
+}
+
+.coming-soon {
+  color: #bbb;
+}
+
 
 .popup-actions {
   display: flex;

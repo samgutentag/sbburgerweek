@@ -153,6 +153,8 @@
         '<p class="popup-description"><em>' +
         escapeHtml(r.description) +
         "</em></p>";
+    if (!r.menuItem && !r.description)
+      popupHtml += '<p class="popup-coming-soon">Details coming soon!</p>';
     popupHtml += '<p class="popup-address">' + escapeHtml(r.address) + "</p>";
     var shareUrl = THEME.siteUrl + "/#" + slugify(r.name);
     popupHtml += '<div class="popup-actions">' +
@@ -463,6 +465,11 @@
         subtitle.className = "menu-item-subtitle";
         subtitle.textContent = r.menuItem;
         nameCol.appendChild(subtitle);
+      } else {
+        var coming = document.createElement("span");
+        coming.className = "menu-item-subtitle coming-soon";
+        coming.textContent = "Details coming soon!";
+        nameCol.appendChild(coming);
       }
 
       var badge = document.createElement("span");

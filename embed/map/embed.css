@@ -547,6 +547,15 @@ body {
   margin-top: 0;
 }
 
+.popup-coming-soon {
+  color: #999;
+  font-style: italic;
+}
+
+.coming-soon {
+  color: #bbb;
+}
+
 .popup-actions {
   display: flex;
   flex-wrap: wrap;
