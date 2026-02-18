@@ -217,7 +217,7 @@ def update_index_html(cfg):
 
     # About modal: Venmo link href and text
     encoded_note = urllib.parse.quote(f"{emoji} {venmo_note}", safe="!?")
-    venmo_href = f"https://venmo.com/u/{venmo_user}?txn=pay&amount={venmo_amount}&note={encoded_note}"
+    venmo_href = f"venmo://paycharge?txn=pay&amp;recipients={venmo_user}&amp;note={encoded_note}&amp;amount={venmo_amount}"
     html = re.sub(
         r'(<a\s+id="aboutVenmo"\s+href=")[^"]*(")',
         rf"\g<1>{venmo_href}\g<2>",
@@ -235,9 +235,10 @@ def update_index_html(cfg):
         rf'\g<1>{cfg["sourceUrl"]}\g<2>',
         html,
     )
+    source_text = cfg["sourceLabel"].replace("Source: ", "", 1) if cfg["sourceLabel"].startswith("Source: ") else cfg["sourceLabel"]
     html = re.sub(
         r'(id="aboutSource"[^>]*>)[^<]*(</a)',
-        rf'\g<1>{cfg["sourceLabel"]}\g<2>',
+        r"\g<1>" + "\U0001F4F0 " + source_text + r"\g<2>",
         html,
     )
 

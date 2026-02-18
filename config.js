@@ -12,10 +12,6 @@ const THEME = {
   ogLine1: "Santa Barbara",
   ogLine2: "Burger Week 2026",
 
-  // OG image text (two lines for the social preview image)
-  ogLine1: "Santa Barbara",
-  ogLine2: "Burger Week 2026",
-
   // Labels (what to call the featured item)
   itemLabel: "burger",
   itemLabelPlural: "burgers",
@@ -31,7 +27,7 @@ const THEME = {
   sourceLabel: "Source: The Independent",
   sourceUrl: "https://www.independent.com/2026/02/05/burger-week-2026/",
 
-  // Venmo tip jar
+  // Venmo tip jar (set venmoUser to null to hide the link)
   venmoUser: "samgutentag",
   venmoNote: "Buy me a burger?",
   venmoAmount: 5,

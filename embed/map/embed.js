@@ -30,14 +30,25 @@
   var aboutSource = document.getElementById("aboutSource");
   if (aboutSource) {
     aboutSource.href = THEME.sourceUrl;
-    aboutSource.textContent = THEME.sourceLabel.replace(/^Source:\s*/i, "");
+    aboutSource.textContent =
+      "\uD83D\uDCF0 " + THEME.sourceLabel.replace(/^Source:\s*/i, "");
   }
   var aboutEmbed = document.getElementById("aboutEmbed");
+  if (aboutEmbed)
+    aboutEmbed.textContent =
+      "\uD83C\uDF10 Add this map to your site";
   if (aboutEmbed) aboutEmbed.href = THEME.siteUrl + "/embed";
   var aboutVenmo = document.getElementById("aboutVenmo");
   if (aboutVenmo) {
+    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     aboutVenmo.textContent = THEME.emoji + " " + THEME.venmoNote;
-    aboutVenmo.href = "https://venmo.com/u/" + THEME.venmoUser + "?txn=pay&amount=" + THEME.venmoAmount + "&note=" + encodeURIComponent(THEME.emoji + " " + THEME.venmoNote);
+    if (isMobile) {
+      aboutVenmo.href = "venmo://paycharge?txn=pay&recipients=" + THEME.venmoUser + "&note=" + encodeURIComponent(THEME.emoji + " " + THEME.venmoNote) + "&amount=" + THEME.venmoAmount;
+    } else {
+      aboutVenmo.href = "https://account.venmo.com/pay?recipients=%2C" + THEME.venmoUser + "&amount=" + Number(THEME.venmoAmount).toFixed(2) + "&note=" + encodeURIComponent(THEME.emoji + " " + THEME.venmoNote) + "&txn=pay";
+      aboutVenmo.target = "_blank";
+      aboutVenmo.rel = "noopener noreferrer";
+    }
   }
 
   // ── About modal ───────────────────────────────────
@@ -145,15 +156,19 @@
       '<div class="popup-content">' +
       '<div class="popup-accent" style="background:' + color + '"></div>' +
       "<h3>" + escapeHtml(r.name) + "</h3>";
-    if (r.menuItem)
-      popupHtml +=
-        '<p class="popup-burger">' + THEME.emoji + " " + escapeHtml(r.menuItem) + "</p>";
-    if (r.description)
-      popupHtml +=
-        '<p class="popup-description"><em>' +
-        escapeHtml(r.description) +
-        "</em></p>";
-    if (!r.menuItem && !r.description)
+    if (r.menuItems.length > 0)
+      r.menuItems.forEach(function(item) {
+        popupHtml +=
+          '<p class="popup-burger">' + THEME.emoji + " " + escapeHtml(item.name) + "</p>";
+        if (item.description)
+          popupHtml +=
+            '<p class="popup-description"><em>' +
+            escapeHtml(item.description) +
+            "</em></p>";
+        else
+          popupHtml += '<p class="popup-coming-soon">More details coming soon!</p>';
+      });
+    else
       popupHtml += '<p class="popup-coming-soon">Details coming soon!</p>';
     popupHtml += '<p class="popup-address">' + escapeHtml(r.address) + "</p>";
     var shareUrl = THEME.siteUrl + "/#" + slugify(r.name);
@@ -385,7 +400,7 @@
         r.name.toLowerCase().indexOf(searchTerm) !== -1 ||
         r.address.toLowerCase().indexOf(searchTerm) !== -1 ||
         r.area.toLowerCase().indexOf(searchTerm) !== -1 ||
-        (r.menuItem && r.menuItem.toLowerCase().indexOf(searchTerm) !== -1);
+        (r.menuItems.some(function(item) { return item.name.toLowerCase().indexOf(searchTerm) !== -1; }));
       return matchesArea && matchesSearch;
     });
 
@@ -460,11 +475,13 @@
       nameSpan.textContent = r.name;
       nameCol.appendChild(nameSpan);
 
-      if (r.menuItem) {
-        var subtitle = document.createElement("span");
-        subtitle.className = "menu-item-subtitle";
-        subtitle.textContent = r.menuItem;
-        nameCol.appendChild(subtitle);
+      if (r.menuItems.length > 0) {
+        r.menuItems.forEach(function(item) {
+          var subtitle = document.createElement("span");
+          subtitle.className = "menu-item-subtitle";
+          subtitle.textContent = item.name;
+          nameCol.appendChild(subtitle);
+        });
       } else {
         var coming = document.createElement("span");
         coming.className = "menu-item-subtitle coming-soon";
@@ -720,23 +737,41 @@
               escapeHtml(r.phone) +
               "</div>";
           listHtml += "</div>";
-          if (r.menuItem || r.description) {
+          if (r.menuItems.length > 0) {
             listHtml += '<div style="flex:1;min-width:0">';
-            if (r.menuItem)
+            r.menuItems.forEach(function(item) {
               listHtml +=
                 '<div style="font-size:0.85rem;font-weight:600">' +
-                escapeHtml(r.menuItem) +
+                THEME.emoji + " " + escapeHtml(item.name) +
                 "</div>";
-            if (r.description)
-              listHtml +=
-                '<div style="font-size:0.82rem;color:#666;font-style:italic">' +
-                escapeHtml(r.description) +
-                "</div>";
+              if (item.description)
+                listHtml +=
+                  '<div style="font-size:0.82rem;color:#666;font-style:italic">' +
+                  escapeHtml(item.description) +
+                  "</div>";
+              else
+                listHtml +=
+                  '<div style="font-size:0.82rem;color:#999;font-style:italic">' +
+                  "More details coming soon!" +
+                  "</div>";
+            });
             listHtml += "</div>";
           }
           listHtml += "</div>";
         });
       });
+
+      var venmoQrHtml = "";
+      if (THEME.venmoUser) {
+        var venmoDeeplink = "venmo://paycharge?txn=pay&recipients=" + THEME.venmoUser + "&note=" + encodeURIComponent(THEME.emoji + " " + THEME.venmoNote) + "&amount=" + THEME.venmoAmount;
+        var qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=" + encodeURIComponent(venmoDeeplink);
+        venmoQrHtml =
+          '<div style="float:right;text-align:center;margin-left:12px">' +
+          '<img src="' + qrUrl + '" alt="Venmo QR Code" style="width:60px;height:60px;opacity:0.7">' +
+          '<div style="font-size:0.55rem;color:#aaa;margin-top:2px">Enjoyed the map?</div>' +
+          '<div style="font-size:0.55rem;color:#aaa">' + THEME.emoji + ' Buy me a burger!</div>' +
+          "</div>";
+      }
 
       var printHtml =
         "<!DOCTYPE html><html><head>" +
@@ -757,6 +792,7 @@
         "}" +
         "</style>" +
         "</head><body>" +
+        venmoQrHtml +
         "<h1>" + THEME.printTitle + "</h1>" +
         '<p class="subtitle">' +
         selected.length +

@@ -12,15 +12,17 @@ An interactive map of all participating restaurants for [Santa Barbara Burger We
 - **Search & filter** — Find restaurants by name, menu item, or area. Area filter zooms the map to fit
 - **Deep linking** — Share a direct link to any restaurant (e.g. `sbburgerweekmap.com/#arnoldis`). URL hash updates as you browse
 - **Share button** — Each popup has a Share button that opens the native share sheet (iOS/Android) or copies the link to clipboard
-- **Restaurant popups** — Burger name, description, and icon buttons for Apple Maps, Google Maps, Website, Call, and Share
+- **Multi-item menus** — Restaurants with multiple specials show each item with its own name and description
+- **Restaurant popups** — Menu item names, descriptions, and icon buttons for Apple Maps, Google Maps, Website, Call, and Share
 - **Sidebar interaction** — Hover a restaurant in the list to spot it on the map. Click to fly to it
 - **Cluster tooltips** — Hover over marker clusters to see a list of restaurant names
 - **Pick Favorites** — Toggle checklist mode to select/deselect restaurants with All/None bulk actions. Selections persist via localStorage
-- **Print Selected** — Generate a printable page with a numbered map and grouped restaurant list
+- **Print Selected** — Generate a printable page with a numbered map, grouped restaurant list, and Venmo QR code
 - **Mobile-friendly** — Bottom drawer with three-stop snap (peek, half, full), drag handle, and touch-friendly tap targets
 - **Embeddable map** — Self-contained iframe-friendly version with sidebar, search, filters, and favorites
 - **Loading spinner** — Smooth loading overlay that fades out when map tiles are ready
-- **About modal** — Info modal with event details, source link, embed link, and Venmo tip jar
+- **About modal** — Info modal with event details, source link, Venmo tip jar, embed link, and GitHub link
+- **Venmo deep linking** — Venmo link uses `venmo://` deeplink on mobile (opens the app directly) and `account.venmo.com` web link on desktop. Print page includes a QR code generated on the fly via [QR Server API](https://goqr.me/api/)
 - **Source monitoring** — GitHub Actions workflow checks the source article daily and opens an issue if content changes
 - **Placeholder support** — Restaurants without menu details show "Details coming soon!" in popups and sidebar
 
@@ -34,7 +36,8 @@ This is a static site — plain HTML, CSS, and JavaScript with no build step and
 | `app.js` | Map, markers, sidebar, filtering, search, deep linking, share, checklist, print |
 | `style.css` | All styles including mobile responsive layout |
 | `config.js` | Theme config (event name, dates, emoji, URLs, Venmo, analytics token) |
-| `data.js` | Restaurant data array and area colors |
+| `data.js` | Restaurant data array (skeleton with empty `menuItems`) and area colors |
+| `data-2026.js` | Production restaurant data with full `menuItems` for 2026 |
 | `mock_data.js` | Copy of `data.js` with placeholder names/descriptions for testing |
 | `apply-theme.py` | Reads `config.js`, updates OG image, CNAME, HTML fallbacks, README |
 | `embed/map/` | Self-contained embeddable map (own JS/CSS, shares `data.js` and `config.js`) |
@@ -82,10 +85,14 @@ Edit `data.js`. Each restaurant entry looks like this:
   lng: -119.7000,                        // longitude
   mapUrl: "https://maps.app.goo.gl/...", // Google Maps link
   appleMapsUrl: "https://maps.apple/p/...", // Apple Maps link, or null
-  menuItem: "The Signature Burger",      // menu item name, or null
-  description: "A delicious burger..."   // description, or null
+  menuItems: [                           // array of menu items, or [] if unknown
+    { name: "The Signature Burger", description: "A delicious burger..." },
+    { name: "Veggie Option", description: null }, // description null = "coming soon"
+  ],
 }
 ```
+
+Restaurants with multiple specials get multiple entries in the `menuItems` array. Each item's name and description display individually in popups, sidebar, and print view. Use an empty array `[]` for restaurants with no menu info yet — they'll show "Details coming soon!".
 
 **Tips for coordinates and map links:**
 
@@ -130,7 +137,7 @@ const THEME = {
   description: "Interactive map of all participating restaurants...",
   sourceLabel: "Source: Your Publication",
   sourceUrl: "https://example.com/article",
-  venmoUser: "yourusername",
+  venmoUser: "yourusername",       // set to null to hide the Venmo link
   venmoNote: "Buy me a taco?",
   venmoAmount: 5,
   storageKey: "sbtacoweek-checklist",
@@ -138,6 +145,8 @@ const THEME = {
   cfAnalyticsToken: null,
 };
 ```
+
+The Venmo fields power the tip jar link in the About modal and a QR code on the print page. Set `venmoUser` to `null` to hide both. On mobile, the link opens the Venmo app directly via `venmo://` deeplink. On desktop, it opens the Venmo website. The print page QR code is generated dynamically — no static image needed.
 
 Then run the apply script to update OG image, CNAME, HTML fallbacks, and README:
 

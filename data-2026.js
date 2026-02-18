@@ -24,7 +24,10 @@ const restaurants = [
     lng: -119.691155,
     mapUrl: "https://maps.app.goo.gl/UUefNcGFbYjGUNPd7",
     appleMapsUrl: "https://maps.apple/p/U3gWeWbcVqKjsb",
-    menuItems: [],
+    menuItems: [
+      { name: "Bocce Burrata Parm Pesto Chicken Burger", description: "A chicken parm sando with basil pesto and burrata on thick, house-baked ciabatta." },
+      { name: "Bocce Burrata Pesto Caprese Burger", description: "A vegetarian caprese on thick, house-baked ciabatta with heirloom yellow and red tomatoes, pesto, and sharp parmesan." },
+    ],
   },
   {
     name: "Downtown Eats",
@@ -36,7 +39,9 @@ const restaurants = [
     lng: -119.697599,
     mapUrl: "https://maps.app.goo.gl/Xk6icnj39UPAacR47",
     appleMapsUrl: "https://maps.apple/p/CH80ruBx0tokCj",
-    menuItems: [],
+    menuItems: [
+      { name: "Guac Smash", description: "Two smashed beef patties seared to perfection, resting on a lattice of bacon strips. Topped with avocado slices, grilled onions, cheese, tomato, and semi-grilled jalape\u00f1o slices on brioche-adjacent potato buns." },
+    ],
   },
   {
     name: "Dom's Taverna",
@@ -48,7 +53,9 @@ const restaurants = [
     lng: -119.704726,
     mapUrl: "https://maps.app.goo.gl/C1E679wZKXZsSLpj8",
     appleMapsUrl: "https://maps.apple/p/xvK6mAKKw55U4p",
-    menuItems: [],
+    menuItems: [
+      { name: "Basque Tavern Burger", description: "A halal lamb patty imported from New Zealand, topped with Picon blue cheese from northern Spain, saffron aioli, and balsamic onion jam. The lamb is light and fresh, the saffron aioli brings brightness, and the balsamic onion jam marries perfectly with the rich blue cheese. Lunch and dine-in only, no modifications." },
+    ],
   },
   {
     name: "Eureka!",
@@ -60,7 +67,9 @@ const restaurants = [
     lng: -119.700307,
     mapUrl: "https://maps.app.goo.gl/Gsya1VEdNZBjPmoD8",
     appleMapsUrl: "https://maps.apple/p/o6XV_nkn5Yobot",
-    menuItems: [],
+    menuItems: [
+      { name: "American Burger with Signature Fries", description: "A grilled patty topped with grilled red onion, lettuce, tomato, pickles, American Swiss cheese, and house-made special sauce on a tall bun. Comes with their signature fries. Everything made in-house. Dine-in only." },
+    ],
   },
   {
     name: "Finch and Fork",
@@ -72,7 +81,9 @@ const restaurants = [
     lng: -119.702788,
     mapUrl: "https://maps.app.goo.gl/ypafV2iQED8v5vYeA",
     appleMapsUrl: "https://maps.apple/p/P6GFr7sFA.Xmp-",
-    menuItems: [],
+    menuItems: [
+      { name: "The Broken Yolk Smashburger", description: "Two smashed beef patties with ooey-gooey cheddar, a bold fried egg pur\u00e9e (a deeply seasoned sauce ensuring rich flavor in every bite), bacon-onion jam with caramelized onion, house-brined bread-and-butter pickles, crisp lettuce, and juicy tomato on a tender Hawaiian bun. Dine-in only." },
+    ],
   },
   {
     name: "Fresco At The Market",
@@ -84,7 +95,9 @@ const restaurants = [
     lng: -119.707027,
     mapUrl: "https://maps.app.goo.gl/a7gmQtRfSGiXUdR37",
     appleMapsUrl: "https://maps.apple/p/9pZqFtJLsFJMmn",
-    menuItems: [],
+    menuItems: [
+      { name: "Turkey Burger", description: "A house-made turkey patty, juicy and well-seasoned, crowned with melted cheese, creamy avocado, crisp lettuce, tomato, and red onion on a slightly sweet and buttery brioche bun. Special house sauce pulls everything together with a tangy richness, with pickles on the side." },
+    ],
   },
   {
     name: "Gala",
@@ -96,7 +109,9 @@ const restaurants = [
     lng: -119.697264,
     mapUrl: "https://maps.app.goo.gl/5z5GXb8SGmx14QGn8",
     appleMapsUrl: "https://maps.apple/p/hFLAzvWWQkJEUn",
-    menuItems: [],
+    menuItems: [
+      { name: "Tomato Chili Jam Burger", description: "Angus beef topped with provolone cheese, a house-made tomato chili jam (an inspired blend of tomatoey richness and a pinch of tang), pickles, butter lettuce, and raita sauce on a brioche bun. Dine-in only." },
+    ],
   },
   {
     name: "Goat Tree",
@@ -108,7 +123,9 @@ const restaurants = [
     lng: -119.690624,
     mapUrl: "https://maps.app.goo.gl/h4TARh9WuJcSLujF9",
     appleMapsUrl: "https://maps.apple/p/PcPGZE_I~qS5LH",
-    menuItems: [],
+    menuItems: [
+      { name: "HC Smashburger", description: "A five-ounce grass-fed smashed patty with three melted cheeses \u2014 sharp cheddar, mild American, and bold Havarti \u2014 caramelized sweet Vidalia onions, house-made roasted garlic aioli, and bread and butter pickles on a toasted brioche bun. Dine-in only, available 7 a.m.\u20133 p.m." },
+    ],
   },
   {
     name: "Little Bird Kitchen",
@@ -120,7 +137,9 @@ const restaurants = [
     lng: -119.70699,
     mapUrl: "https://maps.app.goo.gl/2y4qVPcjub2o29dKA",
     appleMapsUrl: "https://maps.apple/p/mC3RDF86ZgNghN",
-    menuItems: [],
+    menuItems: [
+      { name: "LBK Burger", description: "A four-ounce premium beef patty cooked to order on a flat-top grill, topped with New School American cheese, shredded lettuce, tomato, red onion, Guss's Dill Pickles, and signature LBK Sauce on a Martin's potato bun." },
+    ],
   },
   {
     name: "Pascucci",
@@ -132,7 +151,9 @@ const restaurants = [
     lng: -119.705252,
     mapUrl: "https://maps.app.goo.gl/Np3d4iumbLR7txnS9",
     appleMapsUrl: "https://maps.apple/p/.acg2UBX9RIsmD",
-    menuItems: [],
+    menuItems: [
+      { name: "Half-Pound Cheeseburger", description: "A generous half-pound beef patty with tomato, pickles, and onion, choice of cheddar or gorgonzola, finished with teriyaki or BBQ sauce. A straightforward, unfussy burger from Pascucci's final season before closing at the end of March." },
+    ],
   },
   {
     name: "Poke House",
@@ -144,7 +165,9 @@ const restaurants = [
     lng: -119.700116,
     mapUrl: "https://maps.app.goo.gl/yELnA6Nf6gKkUnq28",
     appleMapsUrl: "https://maps.apple/p/prDjK9G_-rFP.K",
-    menuItems: [],
+    menuItems: [
+      { name: "Spicy Tuna Slider", description: "A creative sushi-burger mashup: compacted sushi rice buns seasoned with furikake and wrapped in nori, filled with a generous scoop of house-made spicy tuna, mixed greens, crisp cucumbers, cherry tomatoes, jalape\u00f1o, crispy onions, and sriracha aioli. Available 11 a.m.\u20138 p.m." },
+    ],
   },
   {
     name: "Que Smoke Shack",
@@ -156,7 +179,9 @@ const restaurants = [
     lng: -119.707027,
     mapUrl: "https://maps.app.goo.gl/JjMZXMkxcnsDEBLm7",
     appleMapsUrl: "https://maps.apple/p/ocM85RZ2z3h26k",
-    menuItems: [],
+    menuItems: [
+      { name: "Signature Smokehouse", description: "A quarter-pound brisket/short rib patty topped with hickory-smoked brisket, crispy onion rings, cheddar cheese, and house-made Kansas City BBQ sauce on a pillow-soft toasted potato bun." },
+    ],
   },
   {
     name: "SB Biergarten",
@@ -168,7 +193,9 @@ const restaurants = [
     lng: -119.688943,
     mapUrl: "https://maps.app.goo.gl/sSgP1bi7teQWbd2p9",
     appleMapsUrl: "https://maps.apple/p/dUKud0Wn3XcgJw",
-    menuItems: [],
+    menuItems: [
+      { name: "Pesto Mozzarella Burger", description: "A caprese-inspired twist: two smashed patties topped with fresh mozzarella cheese, tomato, arugula, a drizzle of balsamic vinaigrette, and a dollop of pesto. Comes with fries included." },
+    ],
   },
   {
     name: "The Brewhouse",
@@ -180,7 +207,9 @@ const restaurants = [
     lng: -119.695913,
     mapUrl: "https://maps.app.goo.gl/u86a8XNtQ9gM7DfW6",
     appleMapsUrl: "https://maps.apple/p/Ua9iRD~BAuQ5s.z",
-    menuItems: [],
+    menuItems: [
+      { name: "Pub Burger", description: "A quarter-pound grilled patty topped with crispy onion, dill pickles, special sauce, and signature pub cheese \u2014 a blend of American cheese, Helles lager, cream, and house-made habanero paste for a rich, slightly spicy kick." },
+    ],
   },
   {
     name: "Seoulmate Kitchen",
@@ -192,7 +221,9 @@ const restaurants = [
     lng: -119.707027,
     mapUrl: "https://maps.app.goo.gl/xzV7swXZ83gfgELA6",
     appleMapsUrl: "https://maps.apple/p/IAXTbR~k-gkNIa",
-    menuItems: [],
+    menuItems: [
+      { name: "K Bulgogi Burger", description: "Tender bulgogi beef paired with a soft fried egg, gochujang mayo, melted mozzarella cheese, kimchi, and cabbage slaw on a fluffy brioche bun. Boldly flavorful with savory-tangy aromas." },
+    ],
   },
   {
     name: "Shalhoob's Funk Zone Patio",
@@ -204,7 +235,9 @@ const restaurants = [
     lng: -119.690533,
     mapUrl: "https://maps.app.goo.gl/V86GgAv3aB1vH7As8",
     appleMapsUrl: "https://maps.apple/p/y~H7PBSHU37cZZ",
-    menuItems: [],
+    menuItems: [
+      { name: "Funk Zone Burger", description: "One-third pound of high-quality beef chuck with hickory-smoked thick-cut bacon, pickles, shredded lettuce, American and Tillamook cheeses, and a show-stopping house-made aioli spread on a buttered brioche bun." },
+    ],
   },
   {
     name: "The Blue Owl",
@@ -216,7 +249,9 @@ const restaurants = [
     lng: -119.7009,
     mapUrl: "https://maps.app.goo.gl/1h1oVTPVCz5xG1tg9",
     appleMapsUrl: "https://maps.apple/p/afaRbEdoeqivz_",
-    menuItems: [],
+    menuItems: [
+      { name: "Thai Basil Cheeseburger", description: "Green curry infused directly into the beef patty, topped with basil mayo, caramelized onions, saut\u00e9ed bell peppers, a fried egg, and melted American cheese on a toasted brioche bun. Choice of chips or side salad." },
+    ],
   },
   {
     name: "The Win-dow",
@@ -228,7 +263,9 @@ const restaurants = [
     lng: -119.699434,
     mapUrl: "https://maps.app.goo.gl/umr83npQPfSKA8AM8",
     appleMapsUrl: "https://maps.apple/p/pDBVZsfDszCyIQ",
-    menuItems: [],
+    menuItems: [
+      { name: "Double Cheeseburger with Fountain Drink", description: "A satisfyingly tender and cheesy double smashburger from the L.A.-based concept that quickly became an Americana staple downtown. The $10 Burger Week special includes a fountain drink." },
+    ],
   },
   {
     name: "Third Window Brewing (Santa Barbara)",
@@ -240,7 +277,9 @@ const restaurants = [
     lng: -119.690444,
     mapUrl: "https://maps.app.goo.gl/CxyGVg16v1dAXkVq6",
     appleMapsUrl: "https://maps.apple/p/o2.x6VY5-8B~c4",
-    menuItems: [],
+    menuItems: [
+      { name: "Smoked FP Ranch Wagyu Cheeseburger", description: "A six-ounce hand-shaped FP Ranch Wagyu patty smoked over white oak for 90 minutes, then seared on the flat top with a whole round of grilled onion and horseradish crema. The slow smoking retains moisture while adding a savory depth reminiscent of Texas brisket. Served with house-made pickles." },
+    ],
   },
   {
     name: "Validation Ale",
@@ -252,7 +291,9 @@ const restaurants = [
     lng: -119.690101,
     mapUrl: "https://maps.app.goo.gl/ZeQpwXm2LdCZo4S88",
     appleMapsUrl: "https://maps.apple/p/FS_Cg~a~WvM-8~",
-    menuItems: [],
+    menuItems: [
+      { name: "Annex Burger", description: "A perfectly seasoned ground-beef patty with melted cheddar cheese, luxurious caramelized onions, creamy Validation sauce, fresh lettuce, and tomato on a toasted French bun. Typically only at their uptown location, available at the Funk Zone just for Burger Week. Dine-in only." },
+    ],
     type: "sponsor",
   },
   {
@@ -279,7 +320,9 @@ const restaurants = [
     lng: -119.722428,
     mapUrl: "https://maps.app.goo.gl/Qsq2ycSkog53L7Pq9",
     appleMapsUrl: "https://maps.apple/p/DsZrwRqcd5gMWR",
-    menuItems: [],
+    menuItems: [
+      { name: "Pretzel Burger", description: "A beef patty battered in beer cheese, topped with crispy bacon, arugula, and tangy house-made mustard on a toasted pretzel bun that adds the perfect amount of salt." },
+    ],
   },
   {
     name: "Dave's Dogs Grill",
@@ -291,7 +334,9 @@ const restaurants = [
     lng: -119.789698,
     mapUrl: "https://maps.app.goo.gl/3gGbzqPgfVrLvNJk8",
     appleMapsUrl: "https://maps.apple/p/JHLABwb8-a48tQ",
-    menuItems: [],
+    menuItems: [
+      { name: "Backyard Smashburger", description: 'A smashed beef patty (or vegetarian option) smothered in American cheese, dill pickle slaw, and house "dirty" sauce on a brioche bun. The crunchy slaw adds extra texture and flavor.' },
+    ],
   },
   {
     name: "Islands Fine Burgers & Drinks",
@@ -303,7 +348,9 @@ const restaurants = [
     lng: -119.748441,
     mapUrl: "https://maps.app.goo.gl/qBiuwTnxZLJBDouK9",
     appleMapsUrl: "https://maps.apple/p/NTQ.NjBT-8oA2L",
-    menuItems: [],
+    menuItems: [
+      { name: "Big Wave with Cheese and Fresh-Cut Fries", description: "A classic that's withstood the test of time: topped with Tillamook cheddar cheese, lettuce, tomato, onion, pickles, and mustard. Choice of white or wheat bun, with turkey or veggie patty options at no extra charge. Comes with fresh-cut fries." },
+    ],
   },
   {
     name: "Mesa Burger",
@@ -315,7 +362,11 @@ const restaurants = [
     lng: -119.722701,
     mapUrl: "https://maps.app.goo.gl/g2QpAoPb1cGtsjrZ8",
     appleMapsUrl: "https://maps.apple/p/~6wPW6hFmMWnNH",
-    menuItems: [],
+    menuItems: [
+      { name: "Surf & Turf", description: "Beef, shrimp, pepper jack, jalape\u00f1o bacon, fried jalape\u00f1os, arugula, and garlic aioli on brioche." },
+      { name: "Birria Smashburger", description: "Two smash patties, mozzarella, house birria, red onion, cilantro, and tomatillo salsa." },
+      { name: "Veggie Burger", description: "A veggie patty and portobello on a vegan wheat bun with arugula, pickled red onion, and house-made hummus." },
+    ],
   },
   {
     name: "Sama San Roque",
@@ -327,7 +378,9 @@ const restaurants = [
     lng: -119.738005,
     mapUrl: "https://maps.app.goo.gl/iNqeXdJEw6Q9Mucd6",
     appleMapsUrl: "https://maps.apple/p/oBfTD-.Q6N0Av_",
-    menuItems: [],
+    menuItems: [
+      { name: "The Parmesan Papi", description: "A juicy four-ounce patty with crispy edges and medium-rare center, layered with Tillamook Jack cheese, a lacy parmesan crisp, blistered roasted tomato, and Calabrian chili aioli on a soft Martin's potato bun. Dine-in only." },
+    ],
   },
   {
     name: "The Patio Cafe",
@@ -339,7 +392,10 @@ const restaurants = [
     lng: -119.728472,
     mapUrl: "https://maps.app.goo.gl/raNcJPmmkn5mMp4x9",
     appleMapsUrl: "https://maps.apple/p/PsEIKM3fsXn3z5",
-    menuItems: [],
+    menuItems: [
+      { name: "BBQ Turkey Burger", description: "A freshly ground, homemade turkey patty with American Swiss, BBQ sauce, grilled onions, and a homemade secret sauce on a soft bun. Open daily until 2 p.m." },
+      { name: "Chilaquiles Cheeseburger", description: "A well-seasoned beef patty topped with house-made salsa-soaked tortilla chips, sour cream, cheddar, lettuce, and tomato. Open daily until 2 p.m." },
+    ],
   },
   {
     name: "Yellow Belly Tap",
@@ -351,7 +407,9 @@ const restaurants = [
     lng: -119.724707,
     mapUrl: "https://maps.app.goo.gl/vxF6Kn8zHgkJTzRZA",
     appleMapsUrl: "https://maps.apple/p/KaHQjm176IenYn",
-    menuItems: [],
+    menuItems: [
+      { name: "Fold In the Cheeseburger", description: "A quarter-pound juicy patty with American cheese, bacon, homemade pickles, and a piquant proprietary mix of Thousand Island and mustard on a toasty brioche bun. Meaty, juicy, sweet, sour, salty, cheesy, piggy, and crunchy in each bite. Going to be a weekly Wednesday special after Burger Week." },
+    ],
   },
 
   // --- Goleta ---
@@ -365,7 +423,9 @@ const restaurants = [
     lng: -119.820858,
     mapUrl: "https://maps.app.goo.gl/KDWoCpGP4Bj5tKxG8",
     appleMapsUrl: "https://maps.apple/p/qsKhePr8N5NbRr",
-    menuItems: [],
+    menuItems: [
+      { name: "The Sal-ape\u00f1o Burger", description: "A Wagyu patty on a brioche bun topped with cheddar, lettuce, tomato, chipotle aioli, jalape\u00f1o, onion strings, and a fried egg. Immediately crunchy and subtly spicy, with the creaminess of the runny yolk. Dine-in only." },
+    ],
   },
   {
     name: "Cristino's Bakery",
@@ -377,7 +437,9 @@ const restaurants = [
     lng: -119.84804,
     mapUrl: "https://maps.app.goo.gl/5ateAZg2XUFRejKn8",
     appleMapsUrl: "https://maps.apple/p/PwbJwZa5okKqG8",
-    menuItems: [],
+    menuItems: [
+      { name: "Classic Bacon Cheeseburger", description: "A juicy beef patty with crispy bacon, crunchy lettuce, cheddar cheese, house sauce, pickles, tomato, and onions on a star-of-the-show homemade brioche bun. Takeout only \u2014 best enjoyed piping hot." },
+    ],
   },
   {
     name: "Crushcakes and Cafe",
@@ -401,7 +463,10 @@ const restaurants = [
     lng: -119.884676,
     mapUrl: "https://maps.app.goo.gl/Y5UCLYBhX1y4vxY18",
     appleMapsUrl: "https://maps.apple/p/6Zw5j8CDzQhADd",
-    menuItems: [],
+    menuItems: [
+      { name: "Chimichurri Burger", description: "Chimichurri sauce, fried mozzarella, a one-third pound beef patty, grilled bacon, lettuce, tomatoes, pickles, jalape\u00f1o chilis, and house sauce on a toasted brioche bun." },
+      { name: "Carnitas Burger", description: "Half-torta, half-burger with homemade carnitas, white onion, spicy avocado pico de gallo, and chipotle cilantro sauce." },
+    ],
   },
   {
     name: "Jonesy's Fried Chicken",
@@ -413,7 +478,9 @@ const restaurants = [
     lng: -119.828632,
     mapUrl: "https://maps.app.goo.gl/tQ7zzEVcJvqCFVYn6",
     appleMapsUrl: "https://maps.apple/p/S~V0TY8QH3zT30",
-    menuItems: [],
+    menuItems: [
+      { name: "JFC Original", description: "A juicy Mary's air-chilled chicken breast dredged in a secret recipe flour mix and fried to golden, crispy perfection on a white French bun, topped with house-made JFC sauce, dill pickles, and crispy shredded iceberg lettuce. Southern-fried flair with a focus on letting the chicken shine." },
+    ],
   },
   {
     name: "Kyle's Kitchen (Hollister)",
@@ -425,7 +492,9 @@ const restaurants = [
     lng: -119.872319,
     mapUrl: "https://maps.app.goo.gl/7mobFJW4rD6S8gZc8",
     appleMapsUrl: "https://maps.apple/p/pY1SoTqf10FswS",
-    menuItems: [],
+    menuItems: [
+      { name: "The Cheesy Pig", description: "A cheeseburger with extra crispy bacon, lettuce, tomato, and generously slathered garlic aioli on a fresh-baked, pliant, slightly sweet homemade brioche bun. A classic done right." },
+    ],
   },
   {
     name: "Kyle's Kitchen (Calle Real)",
@@ -437,7 +506,9 @@ const restaurants = [
     lng: -119.82405,
     mapUrl: "https://maps.app.goo.gl/pwHJn1FJksgvYt3A9",
     appleMapsUrl: "https://maps.apple/p/dw.tRLQFoqQ~rH",
-    menuItems: [],
+    menuItems: [
+      { name: "The Cheesy Pig", description: "A cheeseburger with extra crispy bacon, lettuce, tomato, and generously slathered garlic aioli on a fresh-baked, pliant, slightly sweet homemade brioche bun. A classic done right." },
+    ],
   },
   {
     name: "Rinkside Cafe",
@@ -449,7 +520,9 @@ const restaurants = [
     lng: -119.871156,
     mapUrl: "https://maps.app.goo.gl/9aS1C1VuTfqo6L4T8",
     appleMapsUrl: "https://maps.apple/p/PsgrujLZSVcRHf",
-    menuItems: [],
+    menuItems: [
+      { name: "The Smashed OG", description: "A smashed all-beef patty with crispy bacon, guajillo aioli, melted mozzarella cheese, sizzled bell pepper, onion, jalape\u00f1o, and a Korean red pepper\u2013based fire sauce on a sesame-seed brioche bun. Crunchy pickles on the side." },
+    ],
   },
   {
     name: "Santa Barbara Fish Market",
@@ -461,7 +534,10 @@ const restaurants = [
     lng: -119.876655,
     mapUrl: "https://maps.app.goo.gl/fATpYsiitbhoVSRm7",
     appleMapsUrl: "https://maps.apple/p/MFjhN9uKSytnZH",
-    menuItems: [],
+    menuItems: [
+      { name: "West Coast Salmon Burger", description: null },
+      { name: "Ellwood Smashburger", description: null },
+    ],
   },
   {
     name: "Shalhoob's (Magnolia)",
@@ -473,7 +549,9 @@ const restaurants = [
     lng: -119.802869,
     mapUrl: "https://maps.app.goo.gl/35q8XFMUXjyyAk8b6",
     appleMapsUrl: "https://maps.apple/p/0b-Z3yLt-pt29a",
-    menuItems: [],
+    menuItems: [
+      { name: "Funk Zone Burger", description: "One-third pound of high-quality beef chuck with hickory-smoked thick-cut bacon, pickles, shredded lettuce, American and Tillamook cheeses, and a show-stopping house-made aioli spread on a buttered brioche bun." },
+    ],
   },
   {
     name: "The Nugget (Goleta)",
@@ -485,7 +563,9 @@ const restaurants = [
     lng: -119.823059,
     mapUrl: "https://maps.app.goo.gl/nTom9qBWAcJ9FzKz9",
     appleMapsUrl: "https://maps.apple/p/g~6tyn2jtzVFQ6",
-    menuItems: [],
+    menuItems: [
+      { name: "Bob's Burger", description: "A tender patty topped with bacon, crispy onions, grape jam, and Skippy peanut butter on a brioche bun with pickles on the side. The peanut butter complements the salty beef and the jelly adds a note of sweetness." },
+    ],
   },
   {
     name: "White Caps Beach Club",
@@ -497,7 +577,9 @@ const restaurants = [
     lng: -119.865668,
     mapUrl: "https://maps.app.goo.gl/nAJvesRCHdofkBez6",
     appleMapsUrl: "https://maps.apple/p/UB7AB5J928n9EF",
-    menuItems: [],
+    menuItems: [
+      { name: "The White Caps Burger", description: "A juicy, flavorful half-pound patty with shredded lettuce, tomato, purple onion, melted cheese, Thousand Island sauce, crispy bacon, and pickles on a perfectly laminated fresh brioche bun. Dine-in only weekdays 8 a.m.\u20131 p.m.; also available from the Funk Zone food truck Sat.\u2013Sun." },
+    ],
   },
 
   // --- Carpinteria ---
@@ -511,7 +593,10 @@ const restaurants = [
     lng: -119.517345,
     mapUrl: "https://maps.app.goo.gl/7gdDkJgfhikYn82W6",
     appleMapsUrl: "https://maps.apple/p/wjhX3Jh.V2_I5p",
-    menuItems: [],
+    menuItems: [
+      { name: "Single Dang", description: "A three-ounce grass-fed Santa Carota patty with grilled onions, New School American cheese, secret sauce, homemade pickles, shrettuce, and tomato on a golden-crisp Martin's potato bun." },
+      { name: "Single Hot Dang", description: "Adds charred poblano, saut\u00e9ed jalape\u00f1o, and herby spicy mayo to the Single Dang." },
+    ],
   },
   {
     name: "Padaro Beach Grill",
@@ -523,7 +608,9 @@ const restaurants = [
     lng: -119.548572,
     mapUrl: "https://maps.app.goo.gl/8ZDu63gFeurVYCeM6",
     appleMapsUrl: "https://maps.apple/p/uqiyiVKwDzDndx",
-    menuItems: [],
+    menuItems: [
+      { name: "Viva Padaro!", description: "A seasoned patty with shredded cheese blend and cabbage, loaded with homemade peppery chili con carne, crispy tortilla strips, a sour-cream spread with pickled jalape\u00f1os, and a side of red salsa. Hearty and messy." },
+    ],
   },
   {
     name: "The Nugget (Summerland)",
@@ -535,7 +622,9 @@ const restaurants = [
     lng: -119.599547,
     mapUrl: "https://maps.app.goo.gl/Qqp5pJiaCNDZ3uRDA",
     appleMapsUrl: "https://maps.apple/p/HM7pAt5EhvmgQx",
-    menuItems: [],
+    menuItems: [
+      { name: "Bob's Burger", description: "A tender patty topped with bacon, crispy onions, grape jam, and Skippy peanut butter on a brioche bun with pickles on the side. The peanut butter complements the salty beef and the jelly adds a note of sweetness." },
+    ],
   },
   {
     name: "The Nugget (Carpinteria)",
@@ -547,7 +636,9 @@ const restaurants = [
     lng: -119.51916,
     mapUrl: "https://maps.app.goo.gl/xwmjKDJvPnS1oe4w7",
     appleMapsUrl: "https://maps.apple/p/ZP.ggEK10P5_Go",
-    menuItems: [],
+    menuItems: [
+      { name: "Bob's Burger", description: "A tender patty topped with bacon, crispy onions, grape jam, and Skippy peanut butter on a brioche bun with pickles on the side. The peanut butter complements the salty beef and the jelly adds a note of sweetness." },
+    ],
   },
   {
     name: "Third Window Brewing (Carpinteria)",
@@ -559,7 +650,9 @@ const restaurants = [
     lng: -119.520395,
     mapUrl: "https://maps.app.goo.gl/gpcE5McRYoq2aY4MA",
     appleMapsUrl: "https://maps.apple/p/HhNum2x75sTZXQ",
-    menuItems: [],
+    menuItems: [
+      { name: "Smoked FP Ranch Wagyu Cheeseburger", description: "A six-ounce hand-shaped FP Ranch Wagyu patty smoked over white oak for 90 minutes, then seared on the flat top with a whole round of grilled onion and horseradish crema. The slow smoking retains moisture while adding a savory depth reminiscent of Texas brisket. Served with house-made pickles." },
+    ],
   },
 
   // --- Isla Vista ---
@@ -573,7 +666,9 @@ const restaurants = [
     lng: -119.856403,
     mapUrl: "https://maps.app.goo.gl/3ywpf2asZSic4c6f8",
     appleMapsUrl: "https://maps.apple/p/P8CHoGZ8.n~99_",
-    menuItems: [],
+    menuItems: [
+      { name: "Gaucho Burger", description: "Stacked with two seared beef patties, cheddar cheese, crispy bacon, sliced avocado, curly fries, and house-made chipotle sauce blended with fresh oranges on a fresh bun. A late-night I.V. staple for over 22 years." },
+    ],
   },
 
   // --- Santa Ynez ---
@@ -587,6 +682,8 @@ const restaurants = [
     lng: -120.078474,
     mapUrl: "https://maps.app.goo.gl/tQ9GFna3qRasLufZ7",
     appleMapsUrl: "https://maps.apple/p/NvE-BeGF4haMtX",
-    menuItems: [],
+    menuItems: [
+      { name: "The Victor Smashburger with Fries", description: "A Wagyu-based smashburger with balsamic grilled onions, tender juicy char, and molten cheddar on a pillowy bun. Accompanied by house-made duck-fat fries dusted with rosemary and sage. Available Wed.\u2013Sun., 5\u20139 p.m." },
+    ],
   },
 ];
