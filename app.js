@@ -276,6 +276,13 @@
   map.on("popupopen", function (e) {
     showBurgerOverlay(e.popup.getLatLng());
 
+    // Track popup view
+    var popupEl = e.popup.getElement();
+    var h3 = popupEl && popupEl.querySelector("h3");
+    if (h3 && typeof window.track === "function") {
+      window.track("view", h3.textContent);
+    }
+
     // Find and highlight the active restaurant in the sidebar
     var popupLatLng = e.popup.getLatLng();
     var activeName = null;
@@ -308,6 +315,23 @@
     items.forEach(function (item) { item.classList.remove("active"); });
   });
 
+  // Popup link click handler (delegated) — track directions, website, phone
+  document.addEventListener("click", function (e) {
+    var btn = e.target.closest(".popup-btn");
+    if (!btn || btn.classList.contains("share-link")) return;
+    if (typeof window.track !== "function") return;
+    var popup = btn.closest(".popup-content");
+    var h3 = popup && popup.querySelector("h3");
+    var name = h3 ? h3.textContent : "";
+    var title = btn.getAttribute("title") || "";
+    var action;
+    if (title === "Apple Maps") action = "directions-apple";
+    else if (title === "Google Maps") action = "directions-google";
+    else if (title === "Website") action = "website";
+    else if (btn.href && btn.href.indexOf("tel:") === 0) action = "phone";
+    if (action && name) window.track(action, name);
+  });
+
   // Share link click handler (delegated)
   document.addEventListener("click", function (e) {
     var link = e.target.closest(".share-link");
@@ -315,6 +339,7 @@
     e.preventDefault();
     var url = link.getAttribute("data-url");
     var name = link.getAttribute("data-name");
+    if (typeof window.track === "function") window.track("share", name);
     if (navigator.share) {
       navigator.share({ title: name + " — " + THEME.eventName, url: url }).catch(function () {});
     } else {

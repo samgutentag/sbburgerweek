@@ -43,6 +43,9 @@ const THEME = {
   // Format: "YYYY-MM-DD" in local time, activates at 12:01 AM. Set null to always load full data.
   dataLiveDate: "2026-02-19",
 
+  // Event tracking — Cloudflare Worker URL (null to disable)
+  trackUrl: "https://sbburgerweek-track.developer-95b.workers.dev",
+
   // Cloudflare Web Analytics (null to disable)
   cfAnalyticsToken: "4a7b8d80cde44aaeae633e477756e567",
 };

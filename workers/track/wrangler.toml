@@ -1,0 +1,7 @@
+name = "sbburgerweek-track"
+main = "index.js"
+compatibility_date = "2024-01-01"
+
+[[analytics_engine_datasets]]
+binding = "TRACKER"
+dataset = "sbburgerweek"
