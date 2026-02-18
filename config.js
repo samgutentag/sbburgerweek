@@ -38,6 +38,11 @@ const THEME = {
   // Print page
   printTitle: "SB Burger Week 2026 — My Picks",
 
+  // Data launch date — before this date, data.js (skeleton) is loaded.
+  // On or after this date, data-<year>.js (full menu details) is loaded.
+  // Format: "YYYY-MM-DD" in local time, activates at 12:01 AM. Set null to always load full data.
+  dataLiveDate: "2026-02-19",
+
   // Cloudflare Web Analytics (null to disable)
   cfAnalyticsToken: "4a7b8d80cde44aaeae633e477756e567",
 };

@@ -210,9 +210,30 @@
     <!-- MarkerCluster JS -->
     <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
-    <script src="data-2026.js"></script>
-    <!-- Uncomment this and comment out the first line to load some mock data-->
-    <!-- <script src="mock_data.js"></script> -->
+    <!-- Load data: ?year=YYYY forces a specific year, otherwise date-gated -->
+    <script>
+      var __dataYearOverride =
+        new URLSearchParams(window.location.search).get("year");
+      (function () {
+        var src;
+        if (__dataYearOverride && /^\d{4}$/.test(__dataYearOverride)) {
+          src = "data-" + __dataYearOverride + ".js";
+        } else {
+          var live = THEME.dataLiveDate;
+          if (!live || new Date() >= new Date(live + "T00:01:00")) {
+            src = "data-" + new Date().getFullYear() + ".js";
+          } else {
+            src = "data.js";
+          }
+        }
+        var err = __dataYearOverride
+          ? ' onerror="window.location.replace(window.location.pathname)"'
+          : "";
+        document.write(
+          "<script src=\"" + src + "\"" + err + "></" + "script>"
+        );
+      })();
+    </script>
     <script src="app.js"></script>
 
     <!-- Cloudflare Web Analytics -->
