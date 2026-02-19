@@ -20,7 +20,7 @@ export default {
 
       try {
         const sql = detail
-          ? `SELECT blob2 AS name, blob1 AS action, COUNT(*) AS count
+          ? `SELECT blob2 AS name, blob1 AS action, SUM(1) AS count
              FROM sbburgerweek
              WHERE timestamp >= toDateTime('2026-02-19 08:00:00')
                AND blob1 != 'test'
