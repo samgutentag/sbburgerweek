@@ -178,6 +178,11 @@
         '<a href="' + r.website + '" target="_blank" rel="noopener" class="popup-btn" title="Website">' +
         '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>' +
         '<span>Web</span></a>';
+    if (r.instagram)
+      popupHtml +=
+        '<a href="https://instagram.com/' + encodeURIComponent(r.instagram) + '" target="_blank" rel="noopener" class="popup-btn" title="Instagram">' +
+        '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>' +
+        '<span>IG</span></a>';
     if (r.phone)
       popupHtml +=
         '<a href="tel:' + r.phone + '" class="popup-btn" title="' + escapeHtml(r.phone) + '">' +
@@ -328,6 +333,7 @@
     if (title === "Apple Maps") action = "directions-apple";
     else if (title === "Google Maps") action = "directions-google";
     else if (title === "Website") action = "website";
+    else if (title === "Instagram") action = "instagram";
     else if (btn.href && btn.href.indexOf("tel:") === 0) action = "phone";
     if (action && name) window.track(action, name);
   });
