@@ -53,4 +53,8 @@ const THEME = {
 
   // Cloudflare Web Analytics (null to disable)
   cfAnalyticsToken: "4a7b8d80cde44aaeae633e477756e567",
+
+  // Contact email domain — generates sb{itemLabel}week{year}@{domain}
+  // Set null to hide the contact link
+  contactDomain: "samgutentag.com",
 };
