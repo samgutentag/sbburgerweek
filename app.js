@@ -810,7 +810,7 @@
       var btn = L.DomUtil.create("button", "random-picker-btn leaflet-control");
       btn.title = "Pick a random restaurant";
       btn.setAttribute("aria-label", "Pick a random restaurant");
-      btn.innerHTML = "\uD83C\uDFB2";
+      btn.innerHTML = THEME.emoji;
       L.DomEvent.disableClickPropagation(btn);
       L.DomEvent.on(btn, "click", function (e) {
         L.DomEvent.preventDefault(e);
