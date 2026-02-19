@@ -510,7 +510,10 @@
 
   // ── Sort toggle ────────────────────────────────
   var sortToggleBtn = document.getElementById("sortToggle");
-  if (sortToggleBtn) {
+  if (sortToggleBtn && !THEME.showTrending) {
+    sortToggleBtn.style.display = "none";
+  }
+  if (sortToggleBtn && THEME.showTrending) {
     sortToggleBtn.addEventListener("click", function () {
       sortByTrending = !sortByTrending;
       this.textContent = sortByTrending ? "\uD83D\uDD25 Hot" : "A\u2013Z";
@@ -623,7 +626,7 @@
       var nameSpan = document.createElement("span");
       nameSpan.className = "name";
       nameSpan.textContent = r.name;
-      var fires = getTrendingScore(r.name) > 0 ? getTrendingFires(trendingRanks[r.name] || 999) : 0;
+      var fires = THEME.showTrending && getTrendingScore(r.name) > 0 ? getTrendingFires(trendingRanks[r.name] || 999) : 0;
       if (fires > 0) {
         var trendBadge = document.createElement("span");
         trendBadge.className = "trending-badge";
