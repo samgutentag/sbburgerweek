@@ -34,6 +34,9 @@
   function render(data) {
     var totalViews = 0;
     var totalDirections = 0;
+    var totalWebsite = 0;
+    var totalPhone = 0;
+    var totalInstagram = 0;
     var totalShares = 0;
 
     var rows = [];
@@ -44,13 +47,17 @@
       var dirGoogle = d["directions-google"] || 0;
       var website = d.website || 0;
       var phone = d.phone || 0;
+      var instagram = d.instagram || 0;
       var shares = d.share || 0;
       var directions = dirApple + dirGoogle;
-      var intents = directions + website + phone + shares;
+      var intents = directions + website + phone + instagram + shares;
       var score = views + intents * 3;
 
       totalViews += views;
       totalDirections += directions;
+      totalWebsite += website;
+      totalPhone += phone;
+      totalInstagram += instagram;
       totalShares += shares;
 
       rows.push({
@@ -58,6 +65,8 @@
         views: views,
         directions: directions,
         website: website,
+        phone: phone,
+        instagram: instagram,
         shares: shares,
         score: score,
       });
@@ -72,6 +81,12 @@
       totalViews.toLocaleString();
     document.getElementById("totalDirections").textContent =
       totalDirections.toLocaleString();
+    document.getElementById("totalWebsite").textContent =
+      totalWebsite.toLocaleString();
+    document.getElementById("totalPhone").textContent =
+      totalPhone.toLocaleString();
+    document.getElementById("totalInstagram").textContent =
+      totalInstagram.toLocaleString();
     document.getElementById("totalShares").textContent =
       totalShares.toLocaleString();
 
@@ -112,6 +127,12 @@
         "</td>" +
         '<td class="col-num">' +
         row.website.toLocaleString() +
+        "</td>" +
+        '<td class="col-num">' +
+        row.phone.toLocaleString() +
+        "</td>" +
+        '<td class="col-num">' +
+        row.instagram.toLocaleString() +
         "</td>" +
         '<td class="col-num">' +
         row.shares.toLocaleString() +
