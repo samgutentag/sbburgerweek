@@ -22,7 +22,7 @@ export default {
         const sql = detail
           ? `SELECT blob2 AS name, blob1 AS action, SUM(1) AS count
              FROM sbburgerweek
-             WHERE timestamp >= toDateTime('2026-02-19 08:00:00')
+             WHERE timestamp >= toDateTime('2026-02-19 09:00:00')
                AND blob1 != 'test'
              GROUP BY blob2, blob1
              ORDER BY count DESC
@@ -31,7 +31,7 @@ export default {
              SUM(IF(blob1 = 'view', 1, 0)) AS views,
              SUM(IF(blob1 != 'view' AND blob1 != 'test', 1, 0)) AS intents
              FROM sbburgerweek
-             WHERE timestamp >= toDateTime('2026-02-19 08:00:00')
+             WHERE timestamp >= toDateTime('2026-02-19 09:00:00')
              GROUP BY blob2
              ORDER BY intents DESC
              LIMIT 500`;
