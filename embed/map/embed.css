@@ -419,6 +419,15 @@ body {
   font-weight: 600;
 }
 
+/* ── Trending badge ───────────────────────── */
+
+.trending-badge {
+  font-style: normal;
+  font-size: 0.65rem;
+  margin-left: 3px;
+  letter-spacing: -1px;
+}
+
 .restaurant-list {
   flex: 1;
   overflow-y: auto;

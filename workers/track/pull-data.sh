@@ -2,8 +2,8 @@
 # Pull all tracking data from Cloudflare Analytics Engine
 # Usage: ./pull-data.sh [output_file]
 
-CF_ACCOUNT_ID="YOUR_ACCOUNT_ID"
-CF_API_TOKEN="YOUR_API_TOKEN"
+CF_ACCOUNT_ID="95bdaad9a0525e9a9af474a004504732"
+CF_API_TOKEN="cKFw6kVo-UJYpqK5xUBAotIu93qDmcZxtSgoBhcx"
 DATASET="sbburgerweek"
 OUTPUT="${1:-tracking_data.json}"
 
