@@ -186,6 +186,12 @@ body {
   color: var(--dark);
   text-align: center;
 }
+.about-link-desc {
+  font-size: 0.55rem;
+  color: #888;
+  text-align: center;
+  line-height: 1.2;
+}
 
 .about-footer {
   font-size: 0.75rem;
