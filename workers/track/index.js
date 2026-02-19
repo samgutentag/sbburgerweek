@@ -15,15 +15,26 @@ export default {
 
     // GET — return aggregated trending counts
     if (request.method === "GET") {
+      const url = new URL(request.url);
+      const detail = url.searchParams.get("detail") === "true";
+
       try {
-        const sql = `SELECT blob2 AS name,
-          SUM(IF(blob1 = 'view', 1, 0)) AS views,
-          SUM(IF(blob1 != 'view' AND blob1 != 'test', 1, 0)) AS intents
-          FROM sbburgerweek
-          WHERE timestamp >= toDateTime('2026-02-19 08:00:00')
-          GROUP BY blob2
-          ORDER BY intents DESC
-          LIMIT 500`;
+        const sql = detail
+          ? `SELECT blob2 AS name, blob1 AS action, COUNT(*) AS count
+             FROM sbburgerweek
+             WHERE timestamp >= toDateTime('2026-02-19 08:00:00')
+               AND blob1 != 'test'
+             GROUP BY blob2, blob1
+             ORDER BY count DESC
+             LIMIT 2000`
+          : `SELECT blob2 AS name,
+             SUM(IF(blob1 = 'view', 1, 0)) AS views,
+             SUM(IF(blob1 != 'view' AND blob1 != 'test', 1, 0)) AS intents
+             FROM sbburgerweek
+             WHERE timestamp >= toDateTime('2026-02-19 08:00:00')
+             GROUP BY blob2
+             ORDER BY intents DESC
+             LIMIT 500`;
 
         const resp = await fetch(
           `https://api.cloudflare.com/client/v4/accounts/${env.ACCOUNT_ID}/analytics_engine/sql`,
@@ -45,15 +56,27 @@ export default {
 
         const data = await resp.json();
         const result = {};
-        if (data.data) {
-          data.data.forEach(function (row) {
-            if (row.name) {
-              result[row.name] = {
-                views: Number(row.views) || 0,
-                intents: Number(row.intents) || 0,
-              };
-            }
-          });
+
+        if (detail) {
+          if (data.data) {
+            data.data.forEach(function (row) {
+              if (row.name) {
+                if (!result[row.name]) result[row.name] = {};
+                result[row.name][row.action] = Number(row.count) || 0;
+              }
+            });
+          }
+        } else {
+          if (data.data) {
+            data.data.forEach(function (row) {
+              if (row.name) {
+                result[row.name] = {
+                  views: Number(row.views) || 0,
+                  intents: Number(row.intents) || 0,
+                };
+              }
+            });
+          }
         }
 
         return new Response(JSON.stringify(result), {
