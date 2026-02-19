@@ -43,6 +43,11 @@ const THEME = {
   // Format: "YYYY-MM-DD" in local time, activates at 12:01 AM. Set null to always load full data.
   dataLiveDate: "2026-02-18",
 
+  // Trending metrics — show fire emoji badges and sort-by-popularity toggle
+  // Data still collects in the background; this only controls the UI display.
+  // Set true once you're happy with the data after a day or two.
+  showTrending: false,
+
   // Event tracking — Cloudflare Worker URL (null to disable)
   trackUrl: "https://sbburgerweek-track.developer-95b.workers.dev",
 

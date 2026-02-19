@@ -556,7 +556,7 @@
       var nameSpan = document.createElement("span");
       nameSpan.className = "name";
       nameSpan.textContent = r.name;
-      var fires = getTrendingScore(r.name) > 0 ? getTrendingFires(trendingRanks[r.name] || 999) : 0;
+      var fires = THEME.showTrending && getTrendingScore(r.name) > 0 ? getTrendingFires(trendingRanks[r.name] || 999) : 0;
       if (fires > 0) {
         var trendBadge = document.createElement("span");
         trendBadge.className = "trending-badge";
