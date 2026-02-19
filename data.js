@@ -334,7 +334,7 @@ const restaurants = [
     address: "315 Meigs Rd., Santa Barbara, CA",
     website: "https://www.mesaburger.com",
     phone: "805-963-7492",
-    instagram: "mesaburger",
+    instagram: null,
     area: "Other SB",
     lat: 34.400806,
     lng: -119.722701,
