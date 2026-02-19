@@ -178,14 +178,14 @@
       '<span>Apple</span></a>' +
       '<a href="' + r.mapUrl + '" target="_blank" rel="noopener" class="popup-btn" title="Google Maps">' +
       '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>' +
-      '<span>Google</span></a>' +
-      '</div>';
-    popupHtml += '<div class="popup-actions">';
+      '<span>Google</span></a>';
     if (r.website)
       popupHtml +=
         '<a href="' + r.website + '" target="_blank" rel="noopener" class="popup-btn" title="Website">' +
         '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>' +
         '<span>Web</span></a>';
+    popupHtml += '</div>';
+    popupHtml += '<div class="popup-actions">';
     if (r.instagram)
       popupHtml +=
         '<a href="https://instagram.com/' + encodeURIComponent(r.instagram) + '" target="_blank" rel="noopener" class="popup-btn" title="Instagram">' +
