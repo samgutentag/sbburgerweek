@@ -12,6 +12,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -54,6 +55,8 @@ def parse_config(path):
         "storageKey": get("storageKey"),
         "printTitle": get("printTitle"),
         "cfAnalyticsToken": get("cfAnalyticsToken"),
+        "contactDomain": get("contactDomain"),
+        "dataLiveDate": get("dataLiveDate"),
     }
 
 
@@ -254,6 +257,17 @@ def update_index_html(cfg):
         html,
     )
 
+    # About modal: contact link href
+    contact_domain = cfg["contactDomain"]
+    if contact_domain:
+        year = (cfg["dataLiveDate"] or "")[:4] or time.strftime("%Y")
+        contact_email = f"sb{cfg['itemLabel']}week{year}@{contact_domain}"
+        html = re.sub(
+            r'(<a\s+id="aboutContact"[^>]*href=")[^"]*(")',
+            rf'\g<1>mailto:{contact_email}\g<2>',
+            html,
+        )
+
     # Cloudflare Web Analytics — inject or remove based on token
     cf_token = cfg["cfAnalyticsToken"]
     if cf_token:
@@ -352,6 +366,17 @@ def update_embed_map_index(cfg):
         rf"\g<1>{site_url}/\g<2>",
         html,
     )
+
+    # About modal: contact link href
+    contact_domain = cfg["contactDomain"]
+    if contact_domain:
+        year = (cfg["dataLiveDate"] or "")[:4] or time.strftime("%Y")
+        contact_email = f"sb{cfg['itemLabel']}week{year}@{contact_domain}"
+        html = re.sub(
+            r'(<a\s+id="aboutContact"[^>]*href=")[^"]*(")',
+            rf'\g<1>mailto:{contact_email}\g<2>',
+            html,
+        )
 
     with open(path, "w", encoding="utf-8") as f:
         f.write(html)
