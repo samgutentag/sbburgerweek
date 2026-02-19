@@ -30,18 +30,14 @@
   var aboutSource = document.getElementById("aboutSource");
   if (aboutSource) {
     aboutSource.href = THEME.sourceUrl;
-    aboutSource.textContent =
-      "\uD83D\uDCF0 " + THEME.sourceLabel.replace(/^Source:\s*/i, "");
   }
   var aboutEmbed = document.getElementById("aboutEmbed");
-  if (aboutEmbed)
-    aboutEmbed.textContent =
-      "\uD83C\uDF10 Add this map to your site";
   if (aboutEmbed) aboutEmbed.href = THEME.siteUrl + "/embed";
+  var aboutStats = document.getElementById("aboutStats");
+  if (aboutStats) aboutStats.href = THEME.siteUrl + "/stats";
   var aboutVenmo = document.getElementById("aboutVenmo");
   if (aboutVenmo) {
     var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    aboutVenmo.textContent = THEME.emoji + " " + THEME.venmoNote;
     if (isMobile) {
       aboutVenmo.href = "venmo://paycharge?txn=pay&recipients=" + THEME.venmoUser + "&note=" + encodeURIComponent(THEME.emoji + " " + THEME.venmoNote) + "&amount=" + THEME.venmoAmount;
     } else {
@@ -49,6 +45,14 @@
       aboutVenmo.target = "_blank";
       aboutVenmo.rel = "noopener noreferrer";
     }
+  }
+  var aboutContact = document.getElementById("aboutContact");
+  if (aboutContact && THEME.contactDomain) {
+    var year = (THEME.dataLiveDate || "").slice(0, 4) || new Date().getFullYear();
+    var contactEmail = "sb" + THEME.itemLabel + "week" + year + "@" + THEME.contactDomain;
+    aboutContact.href = "mailto:" + contactEmail;
+  } else if (aboutContact) {
+    aboutContact.style.display = "none";
   }
 
   // ── About modal ───────────────────────────────────
