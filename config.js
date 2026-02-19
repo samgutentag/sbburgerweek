@@ -41,7 +41,7 @@ const THEME = {
   // Data launch date — before this date, data.js (skeleton) is loaded.
   // On or after this date, data-<year>.js (full menu details) is loaded.
   // Format: "YYYY-MM-DD" in local time, activates at 12:01 AM. Set null to always load full data.
-  dataLiveDate: "2026-02-19",
+  dataLiveDate: "2026-02-18",
 
   // Event tracking — Cloudflare Worker URL (null to disable)
   trackUrl: "https://sbburgerweek-track.developer-95b.workers.dev",

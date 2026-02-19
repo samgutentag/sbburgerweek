@@ -19,14 +19,23 @@ const restaurants = [
     address: "600 Olive St., Santa Barbara, CA",
     website: "https://www.arnoldis.com/",
     phone: "805-962-5394",
+    instagram: "arnoldiscafesb",
     area: "Downtown SB",
     lat: 34.423278,
     lng: -119.691155,
     mapUrl: "https://maps.app.goo.gl/UUefNcGFbYjGUNPd7",
     appleMapsUrl: "https://maps.apple/p/U3gWeWbcVqKjsb",
     menuItems: [
-      { name: "Bocce Burrata Parm Pesto Chicken Burger", description: "A chicken parm sando with basil pesto and burrata on thick, house-baked ciabatta." },
-      { name: "Bocce Burrata Pesto Caprese Burger", description: "A vegetarian caprese on thick, house-baked ciabatta with heirloom yellow and red tomatoes, pesto, and sharp parmesan." },
+      {
+        name: "Bocce Burrata Parm Pesto Chicken Burger",
+        description:
+          "A chicken parm sando with basil pesto and burrata on thick, house-baked ciabatta.",
+      },
+      {
+        name: "Bocce Burrata Pesto Caprese Burger",
+        description:
+          "A vegetarian caprese on thick, house-baked ciabatta with heirloom yellow and red tomatoes, pesto, and sharp parmesan.",
+      },
     ],
   },
   {
@@ -34,13 +43,18 @@ const restaurants = [
     address: "634 State St., Santa Barbara, CA",
     website: "https://www.yelp.com/biz/downtown-eats-santa-barbara",
     phone: "805-453-9796",
+    instagram: "downtowneats_sb",
     area: "Downtown SB",
     lat: 34.418771,
     lng: -119.697599,
     mapUrl: "https://maps.app.goo.gl/Xk6icnj39UPAacR47",
     appleMapsUrl: "https://maps.apple/p/CH80ruBx0tokCj",
     menuItems: [
-      { name: "Guac Smash", description: "Two smashed beef patties seared to perfection, resting on a lattice of bacon strips. Topped with avocado slices, grilled onions, cheese, tomato, and semi-grilled jalape\u00f1o slices on brioche-adjacent potato buns." },
+      {
+        name: "Guac Smash",
+        description:
+          "Two smashed beef patties seared to perfection, resting on a lattice of bacon strips. Topped with avocado slices, grilled onions, cheese, tomato, and semi-grilled jalape\u00f1o slices on brioche-adjacent potato buns.",
+      },
     ],
   },
   {
@@ -48,13 +62,18 @@ const restaurants = [
     address: "30 E. Victoria St., Santa Barbara, CA",
     website: "https://www.domstaverna.com/",
     phone: "805-724-4338",
+    instagram: "domstaverna",
     area: "Downtown SB",
     lat: 34.424864,
     lng: -119.704726,
     mapUrl: "https://maps.app.goo.gl/C1E679wZKXZsSLpj8",
     appleMapsUrl: "https://maps.apple/p/xvK6mAKKw55U4p",
     menuItems: [
-      { name: "Basque Tavern Burger", description: "A halal lamb patty imported from New Zealand, topped with Picon blue cheese from northern Spain, saffron aioli, and balsamic onion jam. The lamb is light and fresh, the saffron aioli brings brightness, and the balsamic onion jam marries perfectly with the rich blue cheese. Lunch and dine-in only, no modifications." },
+      {
+        name: "Basque Tavern Burger",
+        description:
+          "A halal lamb patty imported from New Zealand, topped with Picon blue cheese from northern Spain, saffron aioli, and balsamic onion jam. The lamb is light and fresh, the saffron aioli brings brightness, and the balsamic onion jam marries perfectly with the rich blue cheese. Lunch and dine-in only, no modifications.",
+      },
     ],
   },
   {
@@ -62,13 +81,18 @@ const restaurants = [
     address: "601 Paseo Nuevo, Santa Barbara, CA",
     website: "https://eurekarestaurantgroup.com/locations/santa-barbara",
     phone: "805-618-3388",
+    instagram: "eurekasantabarbara",
     area: "Downtown SB",
     lat: 34.418597,
     lng: -119.700307,
     mapUrl: "https://maps.app.goo.gl/Gsya1VEdNZBjPmoD8",
     appleMapsUrl: "https://maps.apple/p/o6XV_nkn5Yobot",
     menuItems: [
-      { name: "American Burger with Signature Fries", description: "A grilled patty topped with grilled red onion, lettuce, tomato, pickles, American Swiss cheese, and house-made special sauce on a tall bun. Comes with their signature fries. Everything made in-house. Dine-in only." },
+      {
+        name: "American Burger with Signature Fries",
+        description:
+          "A grilled patty topped with grilled red onion, lettuce, tomato, pickles, American Swiss cheese, and house-made special sauce on a tall bun. Comes with their signature fries. Everything made in-house. Dine-in only.",
+      },
     ],
   },
   {
@@ -76,13 +100,18 @@ const restaurants = [
     address: "31 W. Carrillo St., Santa Barbara, CA",
     website: "https://www.finchandforkrestaurant.com/",
     phone: "805-879-9100",
+    instagram: "finchandfork",
     area: "Downtown SB",
     lat: 34.420427,
     lng: -119.702788,
     mapUrl: "https://maps.app.goo.gl/ypafV2iQED8v5vYeA",
     appleMapsUrl: "https://maps.apple/p/P6GFr7sFA.Xmp-",
     menuItems: [
-      { name: "The Broken Yolk Smashburger", description: "Two smashed beef patties with ooey-gooey cheddar, a bold fried egg pur\u00e9e (a deeply seasoned sauce ensuring rich flavor in every bite), bacon-onion jam with caramelized onion, house-brined bread-and-butter pickles, crisp lettuce, and juicy tomato on a tender Hawaiian bun. Dine-in only." },
+      {
+        name: "The Broken Yolk Smashburger",
+        description:
+          "Two smashed beef patties with ooey-gooey cheddar, a bold fried egg pur\u00e9e (a deeply seasoned sauce ensuring rich flavor in every bite), bacon-onion jam with caramelized onion, house-brined bread-and-butter pickles, crisp lettuce, and juicy tomato on a tender Hawaiian bun. Dine-in only.",
+      },
     ],
   },
   {
@@ -90,13 +119,18 @@ const restaurants = [
     address: "38 W. Victoria St. Ste. 102, Santa Barbara, CA",
     website: "https://www.fresco-sb.com/",
     phone: "805-770-7994",
+    instagram: "fresco_sb",
     area: "Downtown SB",
     lat: 34.423601,
     lng: -119.707027,
     mapUrl: "https://maps.app.goo.gl/a7gmQtRfSGiXUdR37",
     appleMapsUrl: "https://maps.apple/p/9pZqFtJLsFJMmn",
     menuItems: [
-      { name: "Turkey Burger", description: "A house-made turkey patty, juicy and well-seasoned, crowned with melted cheese, creamy avocado, crisp lettuce, tomato, and red onion on a slightly sweet and buttery brioche bun. Special house sauce pulls everything together with a tangy richness, with pickles on the side." },
+      {
+        name: "Turkey Burger",
+        description:
+          "A house-made turkey patty, juicy and well-seasoned, crowned with melted cheese, creamy avocado, crisp lettuce, tomato, and red onion on a slightly sweet and buttery brioche bun. Special house sauce pulls everything together with a tangy richness, with pickles on the side.",
+      },
     ],
   },
   {
@@ -104,13 +138,18 @@ const restaurants = [
     address: "705 Anacapa St., Santa Barbara, CA",
     website: "https://www.galasb.com/",
     phone: "805-869-2813",
+    instagram: "galarestaurantsb",
     area: "Downtown SB",
     lat: 34.41977,
     lng: -119.697264,
     mapUrl: "https://maps.app.goo.gl/5z5GXb8SGmx14QGn8",
     appleMapsUrl: "https://maps.apple/p/hFLAzvWWQkJEUn",
     menuItems: [
-      { name: "Tomato Chili Jam Burger", description: "Angus beef topped with provolone cheese, a house-made tomato chili jam (an inspired blend of tomatoey richness and a pinch of tang), pickles, butter lettuce, and raita sauce on a brioche bun. Dine-in only." },
+      {
+        name: "Tomato Chili Jam Burger",
+        description:
+          "Angus beef topped with provolone cheese, a house-made tomato chili jam (an inspired blend of tomatoey richness and a pinch of tang), pickles, butter lettuce, and raita sauce on a brioche bun. Dine-in only.",
+      },
     ],
   },
   {
@@ -118,13 +157,18 @@ const restaurants = [
     address: "36 State St., Santa Barbara, CA",
     website: "https://www.hotelcalifornian.com/goat-tree.htm",
     phone: "805-882-0137",
+    instagram: "hotelcalifornian",
     area: "Downtown SB",
     lat: 34.413505,
     lng: -119.690624,
     mapUrl: "https://maps.app.goo.gl/h4TARh9WuJcSLujF9",
     appleMapsUrl: "https://maps.apple/p/PcPGZE_I~qS5LH",
     menuItems: [
-      { name: "HC Smashburger", description: "A five-ounce grass-fed smashed patty with three melted cheeses \u2014 sharp cheddar, mild American, and bold Havarti \u2014 caramelized sweet Vidalia onions, house-made roasted garlic aioli, and bread and butter pickles on a toasted brioche bun. Dine-in only, available 7 a.m.\u20133 p.m." },
+      {
+        name: "HC Smashburger",
+        description:
+          "A five-ounce grass-fed smashed patty with three melted cheeses \u2014 sharp cheddar, mild American, and bold Havarti \u2014 caramelized sweet Vidalia onions, house-made roasted garlic aioli, and bread and butter pickles on a toasted brioche bun. Dine-in only, available 7 a.m.\u20133 p.m.",
+      },
     ],
   },
   {
@@ -132,13 +176,18 @@ const restaurants = [
     address: "38 W. Victoria St., Santa Barbara, CA",
     website: "https://www.littlebirdsb.com",
     phone: "805-303-7865",
+    instagram: "littlebird_sb",
     area: "Downtown SB",
     lat: 34.423532,
     lng: -119.70699,
     mapUrl: "https://maps.app.goo.gl/2y4qVPcjub2o29dKA",
     appleMapsUrl: "https://maps.apple/p/mC3RDF86ZgNghN",
     menuItems: [
-      { name: "LBK Burger", description: "A four-ounce premium beef patty cooked to order on a flat-top grill, topped with New School American cheese, shredded lettuce, tomato, red onion, Guss's Dill Pickles, and signature LBK Sauce on a Martin's potato bun." },
+      {
+        name: "LBK Burger",
+        description:
+          "A four-ounce premium beef patty cooked to order on a flat-top grill, topped with New School American cheese, shredded lettuce, tomato, red onion, Guss's Dill Pickles, and signature LBK Sauce on a Martin's potato bun.",
+      },
     ],
   },
   {
@@ -146,13 +195,18 @@ const restaurants = [
     address: "1230-A State St., Santa Barbara, CA",
     website: "https://www.pascuccirestaurant-sb.com",
     phone: "805-963-8123",
+    instagram: "pascuccirestaurantsb",
     area: "Downtown SB",
     lat: 34.424304,
     lng: -119.705252,
     mapUrl: "https://maps.app.goo.gl/Np3d4iumbLR7txnS9",
     appleMapsUrl: "https://maps.apple/p/.acg2UBX9RIsmD",
     menuItems: [
-      { name: "Half-Pound Cheeseburger", description: "A generous half-pound beef patty with tomato, pickles, and onion, choice of cheddar or gorgonzola, finished with teriyaki or BBQ sauce. A straightforward, unfussy burger from Pascucci's final season before closing at the end of March." },
+      {
+        name: "Half-Pound Cheeseburger",
+        description:
+          "A generous half-pound beef patty with tomato, pickles, and onion, choice of cheddar or gorgonzola, finished with teriyaki or BBQ sauce. A straightforward, unfussy burger from Pascucci's final season before closing at the end of March.",
+      },
     ],
   },
   {
@@ -160,13 +214,18 @@ const restaurants = [
     address: "811 State St. Ste. D, Santa Barbara, CA",
     website: "https://www.poke.house/",
     phone: "805-869-2722",
+    instagram: "poke.house",
     area: "Downtown SB",
     lat: 34.419647,
     lng: -119.700116,
     mapUrl: "https://maps.app.goo.gl/yELnA6Nf6gKkUnq28",
     appleMapsUrl: "https://maps.apple/p/prDjK9G_-rFP.K",
     menuItems: [
-      { name: "Spicy Tuna Slider", description: "A creative sushi-burger mashup: compacted sushi rice buns seasoned with furikake and wrapped in nori, filled with a generous scoop of house-made spicy tuna, mixed greens, crisp cucumbers, cherry tomatoes, jalape\u00f1o, crispy onions, and sriracha aioli. Available 11 a.m.\u20138 p.m." },
+      {
+        name: "Spicy Tuna Slider",
+        description:
+          "A creative sushi-burger mashup: compacted sushi rice buns seasoned with furikake and wrapped in nori, filled with a generous scoop of house-made spicy tuna, mixed greens, crisp cucumbers, cherry tomatoes, jalape\u00f1o, crispy onions, and sriracha aioli. Available 11 a.m.\u20138 p.m.",
+      },
     ],
   },
   {
@@ -174,13 +233,18 @@ const restaurants = [
     address: "38 W. Victoria St., Santa Barbara, CA",
     website: "https://www.quesmokeshack.com",
     phone: "805-869-2193",
+    instagram: "quesmokeshack",
     area: "Downtown SB",
     lat: 34.423601,
     lng: -119.707027,
     mapUrl: "https://maps.app.goo.gl/JjMZXMkxcnsDEBLm7",
     appleMapsUrl: "https://maps.apple/p/ocM85RZ2z3h26k",
     menuItems: [
-      { name: "Signature Smokehouse", description: "A quarter-pound brisket/short rib patty topped with hickory-smoked brisket, crispy onion rings, cheddar cheese, and house-made Kansas City BBQ sauce on a pillow-soft toasted potato bun." },
+      {
+        name: "Signature Smokehouse",
+        description:
+          "A quarter-pound brisket/short rib patty topped with hickory-smoked brisket, crispy onion rings, cheddar cheese, and house-made Kansas City BBQ sauce on a pillow-soft toasted potato bun.",
+      },
     ],
   },
   {
@@ -188,13 +252,18 @@ const restaurants = [
     address: "11 Anacapa St., Santa Barbara, CA",
     website: "https://www.beersantabarbara.com",
     phone: "805-856-6694",
+    instagram: "sbbiergarten",
     area: "Downtown SB",
     lat: 34.413321,
     lng: -119.688943,
     mapUrl: "https://maps.app.goo.gl/sSgP1bi7teQWbd2p9",
     appleMapsUrl: "https://maps.apple/p/dUKud0Wn3XcgJw",
     menuItems: [
-      { name: "Pesto Mozzarella Burger", description: "A caprese-inspired twist: two smashed patties topped with fresh mozzarella cheese, tomato, arugula, a drizzle of balsamic vinaigrette, and a dollop of pesto. Comes with fries included." },
+      {
+        name: "Pesto Mozzarella Burger",
+        description:
+          "A caprese-inspired twist: two smashed patties topped with fresh mozzarella cheese, tomato, arugula, a drizzle of balsamic vinaigrette, and a dollop of pesto. Comes with fries included.",
+      },
     ],
   },
   {
@@ -202,13 +271,18 @@ const restaurants = [
     address: "229 W Montecito St., Santa Barbara, CA",
     website: "https://www.sbbrewhouse.com",
     phone: "805-884-4664",
+    instagram: "sbbrewhouse",
     area: "Downtown SB",
     lat: 34.411938,
     lng: -119.695913,
     mapUrl: "https://maps.app.goo.gl/u86a8XNtQ9gM7DfW6",
     appleMapsUrl: "https://maps.apple/p/Ua9iRD~BAuQ5s.z",
     menuItems: [
-      { name: "Pub Burger", description: "A quarter-pound grilled patty topped with crispy onion, dill pickles, special sauce, and signature pub cheese \u2014 a blend of American cheese, Helles lager, cream, and house-made habanero paste for a rich, slightly spicy kick." },
+      {
+        name: "Pub Burger",
+        description:
+          "A quarter-pound grilled patty topped with crispy onion, dill pickles, special sauce, and signature pub cheese \u2014 a blend of American cheese, Helles lager, cream, and house-made habanero paste for a rich, slightly spicy kick.",
+      },
     ],
   },
   {
@@ -216,13 +290,18 @@ const restaurants = [
     address: "38 W. Victoria St. Ste. 115, Santa Barbara, CA",
     website: "https://www.seoulmatekitchen.com",
     phone: "805-869-2566",
+    instagram: "seoulmate_kitchen",
     area: "Downtown SB",
     lat: 34.423601,
     lng: -119.707027,
     mapUrl: "https://maps.app.goo.gl/xzV7swXZ83gfgELA6",
     appleMapsUrl: "https://maps.apple/p/IAXTbR~k-gkNIa",
     menuItems: [
-      { name: "K Bulgogi Burger", description: "Tender bulgogi beef paired with a soft fried egg, gochujang mayo, melted mozzarella cheese, kimchi, and cabbage slaw on a fluffy brioche bun. Boldly flavorful with savory-tangy aromas." },
+      {
+        name: "K Bulgogi Burger",
+        description:
+          "Tender bulgogi beef paired with a soft fried egg, gochujang mayo, melted mozzarella cheese, kimchi, and cabbage slaw on a fluffy brioche bun. Boldly flavorful with savory-tangy aromas.",
+      },
     ],
   },
   {
@@ -230,13 +309,18 @@ const restaurants = [
     address: "220 Gray Ave., Santa Barbara, CA",
     website: "https://www.shalhoob.com",
     phone: "805-963-7733",
+    instagram: "shalhoobmeatco",
     area: "Downtown SB",
     lat: 34.416328,
     lng: -119.690533,
     mapUrl: "https://maps.app.goo.gl/V86GgAv3aB1vH7As8",
     appleMapsUrl: "https://maps.apple/p/y~H7PBSHU37cZZ",
     menuItems: [
-      { name: "Funk Zone Burger", description: "One-third pound of high-quality beef chuck with hickory-smoked thick-cut bacon, pickles, shredded lettuce, American and Tillamook cheeses, and a show-stopping house-made aioli spread on a buttered brioche bun." },
+      {
+        name: "Funk Zone Burger",
+        description:
+          "One-third pound of high-quality beef chuck with hickory-smoked thick-cut bacon, pickles, shredded lettuce, American and Tillamook cheeses, and a show-stopping house-made aioli spread on a buttered brioche bun.",
+      },
     ],
   },
   {
@@ -244,13 +328,18 @@ const restaurants = [
     address: "5 W. Canon Perdido, Santa Barbara, CA",
     website: "https://www.theblueowlsb.com",
     phone: "805-705-0991",
+    instagram: "blueowlsb",
     area: "Downtown SB",
     lat: 34.420052,
     lng: -119.7009,
     mapUrl: "https://maps.app.goo.gl/1h1oVTPVCz5xG1tg9",
     appleMapsUrl: "https://maps.apple/p/afaRbEdoeqivz_",
     menuItems: [
-      { name: "Thai Basil Cheeseburger", description: "Green curry infused directly into the beef patty, topped with basil mayo, caramelized onions, saut\u00e9ed bell peppers, a fried egg, and melted American cheese on a toasted brioche bun. Choice of chips or side salad." },
+      {
+        name: "Thai Basil Cheeseburger",
+        description:
+          "Green curry infused directly into the beef patty, topped with basil mayo, caramelized onions, saut\u00e9ed bell peppers, a fried egg, and melted American cheese on a toasted brioche bun. Choice of chips or side salad.",
+      },
     ],
   },
   {
@@ -258,13 +347,18 @@ const restaurants = [
     address: "701 Chapala St., Santa Barbara, CA",
     website: "https://www.thewin-dow.la/santa-barbara",
     phone: "805-880-2775",
+    instagram: "thewindow.la",
     area: "Downtown SB",
     lat: 34.417568,
     lng: -119.699434,
     mapUrl: "https://maps.app.goo.gl/umr83npQPfSKA8AM8",
     appleMapsUrl: "https://maps.apple/p/pDBVZsfDszCyIQ",
     menuItems: [
-      { name: "Double Cheeseburger with Fountain Drink", description: "A satisfyingly tender and cheesy double smashburger from the L.A.-based concept that quickly became an Americana staple downtown. The $10 Burger Week special includes a fountain drink." },
+      {
+        name: "Double Cheeseburger with Fountain Drink",
+        description:
+          "A satisfyingly tender and cheesy double smashburger from the L.A.-based concept that quickly became an Americana staple downtown. The $10 Burger Week special includes a fountain drink.",
+      },
     ],
   },
   {
@@ -272,13 +366,18 @@ const restaurants = [
     address: "406 E. Haley St. Ste #3, Santa Barbara, CA",
     website: "https://www.thirdwindowbrewing.com",
     phone: "805-979-5090",
+    instagram: "thirdwindowbrewing",
     area: "Downtown SB",
     lat: 34.420992,
     lng: -119.690444,
     mapUrl: "https://maps.app.goo.gl/CxyGVg16v1dAXkVq6",
     appleMapsUrl: "https://maps.apple/p/o2.x6VY5-8B~c4",
     menuItems: [
-      { name: "Smoked FP Ranch Wagyu Cheeseburger", description: "A six-ounce hand-shaped FP Ranch Wagyu patty smoked over white oak for 90 minutes, then seared on the flat top with a whole round of grilled onion and horseradish crema. The slow smoking retains moisture while adding a savory depth reminiscent of Texas brisket. Served with house-made pickles." },
+      {
+        name: "Smoked FP Ranch Wagyu Cheeseburger",
+        description:
+          "A six-ounce hand-shaped FP Ranch Wagyu patty smoked over white oak for 90 minutes, then seared on the flat top with a whole round of grilled onion and horseradish crema. The slow smoking retains moisture while adding a savory depth reminiscent of Texas brisket. Served with house-made pickles.",
+      },
     ],
   },
   {
@@ -286,13 +385,18 @@ const restaurants = [
     address: "102 E. Yanonali St., Santa Barbara, CA",
     website: "https://www.validationale.com",
     phone: "805-500-3111",
+    instagram: "validationsb",
     area: "Downtown SB",
     lat: 34.415026,
     lng: -119.690101,
     mapUrl: "https://maps.app.goo.gl/ZeQpwXm2LdCZo4S88",
     appleMapsUrl: "https://maps.apple/p/FS_Cg~a~WvM-8~",
     menuItems: [
-      { name: "Annex Burger", description: "A perfectly seasoned ground-beef patty with melted cheddar cheese, luxurious caramelized onions, creamy Validation sauce, fresh lettuce, and tomato on a toasted French bun. Typically only at their uptown location, available at the Funk Zone just for Burger Week. Dine-in only." },
+      {
+        name: "Annex Burger",
+        description:
+          "A perfectly seasoned ground-beef patty with melted cheddar cheese, luxurious caramelized onions, creamy Validation sauce, fresh lettuce, and tomato on a toasted French bun. Typically only at their uptown location, available at the Funk Zone just for Burger Week. Dine-in only.",
+      },
     ],
     type: "sponsor",
   },
@@ -301,6 +405,7 @@ const restaurants = [
     address: "1315 Anacapa St., Santa Barbara, CA",
     website: "https://www.crushcakes.com",
     phone: "805-963-9353",
+    instagram: "crushcakescafe",
     area: "Downtown SB",
     lat: 34.425637,
     lng: -119.705214,
@@ -315,13 +420,18 @@ const restaurants = [
     address: "1905 Cliff Dr., Santa Barbara, CA",
     website: "https://www.sbcornertap.com",
     phone: "805-690-2739",
+    instagram: "cornertapsb",
     area: "Other SB",
     lat: 34.401264,
     lng: -119.722428,
     mapUrl: "https://maps.app.goo.gl/Qsq2ycSkog53L7Pq9",
     appleMapsUrl: "https://maps.apple/p/DsZrwRqcd5gMWR",
     menuItems: [
-      { name: "Pretzel Burger", description: "A beef patty battered in beer cheese, topped with crispy bacon, arugula, and tangy house-made mustard on a toasted pretzel bun that adds the perfect amount of salt." },
+      {
+        name: "Pretzel Burger",
+        description:
+          "A beef patty battered in beer cheese, topped with crispy bacon, arugula, and tangy house-made mustard on a toasted pretzel bun that adds the perfect amount of salt.",
+      },
     ],
   },
   {
@@ -329,13 +439,18 @@ const restaurants = [
     address: "149 S Turnpike Rd., Santa Barbara, CA",
     website: "https://www.davesdogs805.com/home",
     phone: "805-770-7772",
+    instagram: "davesdogs805",
     area: "Other SB",
     lat: 34.43777,
     lng: -119.789698,
     mapUrl: "https://maps.app.goo.gl/3gGbzqPgfVrLvNJk8",
     appleMapsUrl: "https://maps.apple/p/JHLABwb8-a48tQ",
     menuItems: [
-      { name: "Backyard Smashburger", description: 'A smashed beef patty (or vegetarian option) smothered in American cheese, dill pickle slaw, and house "dirty" sauce on a brioche bun. The crunchy slaw adds extra texture and flavor.' },
+      {
+        name: "Backyard Smashburger",
+        description:
+          'A smashed beef patty (or vegetarian option) smothered in American cheese, dill pickle slaw, and house "dirty" sauce on a brioche bun. The crunchy slaw adds extra texture and flavor.',
+      },
     ],
   },
   {
@@ -343,13 +458,18 @@ const restaurants = [
     address: "3825 State St. Space E-149, Santa Barbara, CA",
     website: "https://www.islandsrestaurants.com",
     phone: "805-946-0044",
+    instagram: "islandsburgers",
     area: "Other SB",
     lat: 34.438006,
     lng: -119.748441,
     mapUrl: "https://maps.app.goo.gl/qBiuwTnxZLJBDouK9",
     appleMapsUrl: "https://maps.apple/p/NTQ.NjBT-8oA2L",
     menuItems: [
-      { name: "Big Wave with Cheese and Fresh-Cut Fries", description: "A classic that's withstood the test of time: topped with Tillamook cheddar cheese, lettuce, tomato, onion, pickles, and mustard. Choice of white or wheat bun, with turkey or veggie patty options at no extra charge. Comes with fresh-cut fries." },
+      {
+        name: "Big Wave with Cheese and Fresh-Cut Fries",
+        description:
+          "A classic that's withstood the test of time: topped with Tillamook cheddar cheese, lettuce, tomato, onion, pickles, and mustard. Choice of white or wheat bun, with turkey or veggie patty options at no extra charge. Comes with fresh-cut fries.",
+      },
     ],
   },
   {
@@ -357,15 +477,28 @@ const restaurants = [
     address: "315 Meigs Rd., Santa Barbara, CA",
     website: "https://www.mesaburger.com",
     phone: "805-963-7492",
+    instagram: "mesaburger",
     area: "Other SB",
     lat: 34.400806,
     lng: -119.722701,
     mapUrl: "https://maps.app.goo.gl/g2QpAoPb1cGtsjrZ8",
     appleMapsUrl: "https://maps.apple/p/~6wPW6hFmMWnNH",
     menuItems: [
-      { name: "Surf & Turf", description: "Beef, shrimp, pepper jack, jalape\u00f1o bacon, fried jalape\u00f1os, arugula, and garlic aioli on brioche." },
-      { name: "Birria Smashburger", description: "Two smash patties, mozzarella, house birria, red onion, cilantro, and tomatillo salsa." },
-      { name: "Veggie Burger", description: "A veggie patty and portobello on a vegan wheat bun with arugula, pickled red onion, and house-made hummus." },
+      {
+        name: "Surf & Turf",
+        description:
+          "Beef, shrimp, pepper jack, jalape\u00f1o bacon, fried jalape\u00f1os, arugula, and garlic aioli on brioche.",
+      },
+      {
+        name: "Birria Smashburger",
+        description:
+          "Two smash patties, mozzarella, house birria, red onion, cilantro, and tomatillo salsa.",
+      },
+      {
+        name: "Veggie Burger",
+        description:
+          "A veggie patty and portobello on a vegan wheat bun with arugula, pickled red onion, and house-made hummus.",
+      },
     ],
   },
   {
@@ -373,13 +506,18 @@ const restaurants = [
     address: "3435 State St., Santa Barbara, CA",
     website: "https://www.samasanroque.com",
     phone: "805-450-8288",
+    instagram: "samasanroque",
     area: "Other SB",
     lat: 34.439916,
     lng: -119.738005,
     mapUrl: "https://maps.app.goo.gl/iNqeXdJEw6Q9Mucd6",
     appleMapsUrl: "https://maps.apple/p/oBfTD-.Q6N0Av_",
     menuItems: [
-      { name: "The Parmesan Papi", description: "A juicy four-ounce patty with crispy edges and medium-rare center, layered with Tillamook Jack cheese, a lacy parmesan crisp, blistered roasted tomato, and Calabrian chili aioli on a soft Martin's potato bun. Dine-in only." },
+      {
+        name: "The Parmesan Papi",
+        description:
+          "A juicy four-ounce patty with crispy edges and medium-rare center, layered with Tillamook Jack cheese, a lacy parmesan crisp, blistered roasted tomato, and Calabrian chili aioli on a soft Martin's potato bun. Dine-in only.",
+      },
     ],
   },
   {
@@ -387,14 +525,23 @@ const restaurants = [
     address: "3007 De La Vina St., Santa Barbara, CA",
     website: "https://www.thepatiocafesb.com",
     phone: "805-687-3663",
+    instagram: "the.patiocafesb",
     area: "Other SB",
     lat: 34.438691,
     lng: -119.728472,
     mapUrl: "https://maps.app.goo.gl/raNcJPmmkn5mMp4x9",
     appleMapsUrl: "https://maps.apple/p/PsEIKM3fsXn3z5",
     menuItems: [
-      { name: "BBQ Turkey Burger", description: "A freshly ground, homemade turkey patty with American Swiss, BBQ sauce, grilled onions, and a homemade secret sauce on a soft bun. Open daily until 2 p.m." },
-      { name: "Chilaquiles Cheeseburger", description: "A well-seasoned beef patty topped with house-made salsa-soaked tortilla chips, sour cream, cheddar, lettuce, and tomato. Open daily until 2 p.m." },
+      {
+        name: "BBQ Turkey Burger",
+        description:
+          "A freshly ground, homemade turkey patty with American Swiss, BBQ sauce, grilled onions, and a homemade secret sauce on a soft bun. Open daily until 2 p.m.",
+      },
+      {
+        name: "Chilaquiles Cheeseburger",
+        description:
+          "A well-seasoned beef patty topped with house-made salsa-soaked tortilla chips, sour cream, cheddar, lettuce, and tomato. Open daily until 2 p.m.",
+      },
     ],
   },
   {
@@ -402,13 +549,18 @@ const restaurants = [
     address: "2611 De La Vina St., Santa Barbara, CA",
     website: "https://www.yellowbellytap.com",
     phone: "805-770-5694",
+    instagram: "yellowbellytap",
     area: "Other SB",
     lat: 34.434846,
     lng: -119.724707,
     mapUrl: "https://maps.app.goo.gl/vxF6Kn8zHgkJTzRZA",
     appleMapsUrl: "https://maps.apple/p/KaHQjm176IenYn",
     menuItems: [
-      { name: "Fold In the Cheeseburger", description: "A quarter-pound juicy patty with American cheese, bacon, homemade pickles, and a piquant proprietary mix of Thousand Island and mustard on a toasty brioche bun. Meaty, juicy, sweet, sour, salty, cheesy, piggy, and crunchy in each bite. Going to be a weekly Wednesday special after Burger Week." },
+      {
+        name: "Fold In the Cheeseburger",
+        description:
+          "A quarter-pound juicy patty with American cheese, bacon, homemade pickles, and a piquant proprietary mix of Thousand Island and mustard on a toasty brioche bun. Meaty, juicy, sweet, sour, salty, cheesy, piggy, and crunchy in each bite. Going to be a weekly Wednesday special after Burger Week.",
+      },
     ],
   },
 
@@ -418,13 +570,18 @@ const restaurants = [
     address: "5650 Calle Real, Goleta, CA",
     website: "https://www.cayarestaurant.com",
     phone: "805-964-1288",
+    instagram: "cayarestaurant",
     area: "Goleta",
     lat: 34.441588,
     lng: -119.820858,
     mapUrl: "https://maps.app.goo.gl/KDWoCpGP4Bj5tKxG8",
     appleMapsUrl: "https://maps.apple/p/qsKhePr8N5NbRr",
     menuItems: [
-      { name: "The Sal-ape\u00f1o Burger", description: "A Wagyu patty on a brioche bun topped with cheddar, lettuce, tomato, chipotle aioli, jalape\u00f1o, onion strings, and a fried egg. Immediately crunchy and subtly spicy, with the creaminess of the runny yolk. Dine-in only." },
+      {
+        name: "The Sal-ape\u00f1o Burger",
+        description:
+          "A Wagyu patty on a brioche bun topped with cheddar, lettuce, tomato, chipotle aioli, jalape\u00f1o, onion strings, and a fried egg. Immediately crunchy and subtly spicy, with the creaminess of the runny yolk. Dine-in only.",
+      },
     ],
   },
   {
@@ -432,13 +589,18 @@ const restaurants = [
     address: "170 Aero Camino, Goleta, CA",
     website: "https://www.cristinosbakery.com",
     phone: "805-455-6900",
+    instagram: "cristinosbakery",
     area: "Goleta",
     lat: 34.432364,
     lng: -119.84804,
     mapUrl: "https://maps.app.goo.gl/5ateAZg2XUFRejKn8",
     appleMapsUrl: "https://maps.apple/p/PwbJwZa5okKqG8",
     menuItems: [
-      { name: "Classic Bacon Cheeseburger", description: "A juicy beef patty with crispy bacon, crunchy lettuce, cheddar cheese, house sauce, pickles, tomato, and onions on a star-of-the-show homemade brioche bun. Takeout only \u2014 best enjoyed piping hot." },
+      {
+        name: "Classic Bacon Cheeseburger",
+        description:
+          "A juicy beef patty with crispy bacon, crunchy lettuce, cheddar cheese, house sauce, pickles, tomato, and onions on a star-of-the-show homemade brioche bun. Takeout only \u2014 best enjoyed piping hot.",
+      },
     ],
   },
   {
@@ -446,6 +608,7 @@ const restaurants = [
     address: "5392 Hollister Ave., Goleta, CA",
     website: "https://www.crushcakes.com",
     phone: "805-845-2780",
+    instagram: "crushcakescafe",
     area: "Goleta",
     lat: 34.435346,
     lng: -119.812297,
@@ -458,14 +621,23 @@ const restaurants = [
     address: "7398 Calle Real #C, Goleta, CA",
     website: "https://www.homeplategoleta.com",
     phone: "805-845-3323",
+    instagram: "homeplate805",
     area: "Goleta",
     lat: 34.43355,
     lng: -119.884676,
     mapUrl: "https://maps.app.goo.gl/Y5UCLYBhX1y4vxY18",
     appleMapsUrl: "https://maps.apple/p/6Zw5j8CDzQhADd",
     menuItems: [
-      { name: "Chimichurri Burger", description: "Chimichurri sauce, fried mozzarella, a one-third pound beef patty, grilled bacon, lettuce, tomatoes, pickles, jalape\u00f1o chilis, and house sauce on a toasted brioche bun." },
-      { name: "Carnitas Burger", description: "Half-torta, half-burger with homemade carnitas, white onion, spicy avocado pico de gallo, and chipotle cilantro sauce." },
+      {
+        name: "Chimichurri Burger",
+        description:
+          "Chimichurri sauce, fried mozzarella, a one-third pound beef patty, grilled bacon, lettuce, tomatoes, pickles, jalape\u00f1o chilis, and house sauce on a toasted brioche bun.",
+      },
+      {
+        name: "Carnitas Burger",
+        description:
+          "Half-torta, half-burger with homemade carnitas, white onion, spicy avocado pico de gallo, and chipotle cilantro sauce.",
+      },
     ],
   },
   {
@@ -473,13 +645,18 @@ const restaurants = [
     address: "282 Orange Ave., Goleta, CA",
     website: "https://www.jonesysfriedchicken.com",
     phone: "805-770-2428",
+    instagram: "jonesysfriedchicken",
     area: "Goleta",
     lat: 34.434138,
     lng: -119.828632,
     mapUrl: "https://maps.app.goo.gl/tQ7zzEVcJvqCFVYn6",
     appleMapsUrl: "https://maps.apple/p/S~V0TY8QH3zT30",
     menuItems: [
-      { name: "JFC Original", description: "A juicy Mary's air-chilled chicken breast dredged in a secret recipe flour mix and fried to golden, crispy perfection on a white French bun, topped with house-made JFC sauce, dill pickles, and crispy shredded iceberg lettuce. Southern-fried flair with a focus on letting the chicken shine." },
+      {
+        name: "JFC Original",
+        description:
+          "A juicy Mary's air-chilled chicken breast dredged in a secret recipe flour mix and fried to golden, crispy perfection on a white French bun, topped with house-made JFC sauce, dill pickles, and crispy shredded iceberg lettuce. Southern-fried flair with a focus on letting the chicken shine.",
+      },
     ],
   },
   {
@@ -487,13 +664,18 @@ const restaurants = [
     address: "7000 Hollister Ave., Goleta, CA",
     website: "https://www.kyleskitchen.com",
     phone: "805-845-3436",
+    instagram: "kyleskitchensb",
     area: "Goleta",
     lat: 34.430453,
     lng: -119.872319,
     mapUrl: "https://maps.app.goo.gl/7mobFJW4rD6S8gZc8",
     appleMapsUrl: "https://maps.apple/p/pY1SoTqf10FswS",
     menuItems: [
-      { name: "The Cheesy Pig", description: "A cheeseburger with extra crispy bacon, lettuce, tomato, and generously slathered garlic aioli on a fresh-baked, pliant, slightly sweet homemade brioche bun. A classic done right." },
+      {
+        name: "The Cheesy Pig",
+        description:
+          "A cheeseburger with extra crispy bacon, lettuce, tomato, and generously slathered garlic aioli on a fresh-baked, pliant, slightly sweet homemade brioche bun. A classic done right.",
+      },
     ],
   },
   {
@@ -501,13 +683,18 @@ const restaurants = [
     address: "5723 Calle Real, Goleta, CA",
     website: "https://www.kyleskitchen.com",
     phone: "805-845-2260",
+    instagram: "kyleskitchensb",
     area: "Goleta",
     lat: 34.44078,
     lng: -119.82405,
     mapUrl: "https://maps.app.goo.gl/pwHJn1FJksgvYt3A9",
     appleMapsUrl: "https://maps.apple/p/dw.tRLQFoqQ~rH",
     menuItems: [
-      { name: "The Cheesy Pig", description: "A cheeseburger with extra crispy bacon, lettuce, tomato, and generously slathered garlic aioli on a fresh-baked, pliant, slightly sweet homemade brioche bun. A classic done right." },
+      {
+        name: "The Cheesy Pig",
+        description:
+          "A cheeseburger with extra crispy bacon, lettuce, tomato, and generously slathered garlic aioli on a fresh-baked, pliant, slightly sweet homemade brioche bun. A classic done right.",
+      },
     ],
   },
   {
@@ -515,13 +702,18 @@ const restaurants = [
     address: "6985 Santa Felicia Dr., Goleta, CA",
     website: "https://www.iceinparadise.org/rinkside-cafe",
     phone: "805-335-4521",
+    instagram: "rinksidecafe",
     area: "Goleta",
     lat: 34.425835,
     lng: -119.871156,
     mapUrl: "https://maps.app.goo.gl/9aS1C1VuTfqo6L4T8",
     appleMapsUrl: "https://maps.apple/p/PsgrujLZSVcRHf",
     menuItems: [
-      { name: "The Smashed OG", description: "A smashed all-beef patty with crispy bacon, guajillo aioli, melted mozzarella cheese, sizzled bell pepper, onion, jalape\u00f1o, and a Korean red pepper\u2013based fire sauce on a sesame-seed brioche bun. Crunchy pickles on the side." },
+      {
+        name: "The Smashed OG",
+        description:
+          "A smashed all-beef patty with crispy bacon, guajillo aioli, melted mozzarella cheese, sizzled bell pepper, onion, jalape\u00f1o, and a Korean red pepper\u2013based fire sauce on a sesame-seed brioche bun. Crunchy pickles on the side.",
+      },
     ],
   },
   {
@@ -529,6 +721,7 @@ const restaurants = [
     address: "7127 Hollister Ave. Ste. 18, Goleta, CA",
     website: "https://www.sbfish.com",
     phone: "805-966-1000",
+    instagram: "sbfishmarket",
     area: "Goleta",
     lat: 34.428633,
     lng: -119.876655,
@@ -544,13 +737,18 @@ const restaurants = [
     address: "5112 Hollister Ave., Goleta, CA",
     website: "https://www.shalhoob.com",
     phone: "805-880-0733",
+    instagram: "shalhoobmeatco",
     area: "Goleta",
     lat: 34.435304,
     lng: -119.802869,
     mapUrl: "https://maps.app.goo.gl/35q8XFMUXjyyAk8b6",
     appleMapsUrl: "https://maps.apple/p/0b-Z3yLt-pt29a",
     menuItems: [
-      { name: "Funk Zone Burger", description: "One-third pound of high-quality beef chuck with hickory-smoked thick-cut bacon, pickles, shredded lettuce, American and Tillamook cheeses, and a show-stopping house-made aioli spread on a buttered brioche bun." },
+      {
+        name: "Funk Zone Burger",
+        description:
+          "One-third pound of high-quality beef chuck with hickory-smoked thick-cut bacon, pickles, shredded lettuce, American and Tillamook cheeses, and a show-stopping house-made aioli spread on a buttered brioche bun.",
+      },
     ],
   },
   {
@@ -558,13 +756,18 @@ const restaurants = [
     address: "5687 Calle Real, Goleta, CA",
     website: "https://www.nuggetbarandgrill.com",
     phone: "805-964-5200",
+    instagram: "thenuggetofgoleta",
     area: "Goleta",
     lat: 34.440838,
     lng: -119.823059,
     mapUrl: "https://maps.app.goo.gl/nTom9qBWAcJ9FzKz9",
     appleMapsUrl: "https://maps.apple/p/g~6tyn2jtzVFQ6",
     menuItems: [
-      { name: "Bob's Burger", description: "A tender patty topped with bacon, crispy onions, grape jam, and Skippy peanut butter on a brioche bun with pickles on the side. The peanut butter complements the salty beef and the jelly adds a note of sweetness." },
+      {
+        name: "Bob's Burger",
+        description:
+          "A tender patty topped with bacon, crispy onions, grape jam, and Skippy peanut butter on a brioche bun with pickles on the side. The peanut butter complements the salty beef and the jelly adds a note of sweetness.",
+      },
     ],
   },
   {
@@ -572,13 +775,18 @@ const restaurants = [
     address: "6775 Hollister Ave., Goleta, CA",
     website: "https://www.whitecapsbeachclub.com",
     phone: "805-705-6412",
+    instagram: "whitecapsbeachclub",
     area: "Goleta",
     lat: 34.429618,
     lng: -119.865668,
     mapUrl: "https://maps.app.goo.gl/nAJvesRCHdofkBez6",
     appleMapsUrl: "https://maps.apple/p/UB7AB5J928n9EF",
     menuItems: [
-      { name: "The White Caps Burger", description: "A juicy, flavorful half-pound patty with shredded lettuce, tomato, purple onion, melted cheese, Thousand Island sauce, crispy bacon, and pickles on a perfectly laminated fresh brioche bun. Dine-in only weekdays 8 a.m.\u20131 p.m.; also available from the Funk Zone food truck Sat.\u2013Sun." },
+      {
+        name: "The White Caps Burger",
+        description:
+          "A juicy, flavorful half-pound patty with shredded lettuce, tomato, purple onion, melted cheese, Thousand Island sauce, crispy bacon, and pickles on a perfectly laminated fresh brioche bun. Dine-in only weekdays 8 a.m.\u20131 p.m.; also available from the Funk Zone food truck Sat.\u2013Sun.",
+      },
     ],
   },
 
@@ -588,14 +796,23 @@ const restaurants = [
     address: "5080 A Carpinteria Ave., Carpinteria, CA",
     website: "https://www.dangburger.com",
     phone: "",
+    instagram: "dang.burger",
     area: "Carpinteria",
     lat: 34.398305,
     lng: -119.517345,
     mapUrl: "https://maps.app.goo.gl/7gdDkJgfhikYn82W6",
     appleMapsUrl: "https://maps.apple/p/wjhX3Jh.V2_I5p",
     menuItems: [
-      { name: "Single Dang", description: "A three-ounce grass-fed Santa Carota patty with grilled onions, New School American cheese, secret sauce, homemade pickles, shrettuce, and tomato on a golden-crisp Martin's potato bun." },
-      { name: "Single Hot Dang", description: "Adds charred poblano, saut\u00e9ed jalape\u00f1o, and herby spicy mayo to the Single Dang." },
+      {
+        name: "Single Dang",
+        description:
+          "A three-ounce grass-fed Santa Carota patty with grilled onions, New School American cheese, secret sauce, homemade pickles, shrettuce, and tomato on a golden-crisp Martin's potato bun.",
+      },
+      {
+        name: "Single Hot Dang",
+        description:
+          "Adds charred poblano, saut\u00e9ed jalape\u00f1o, and herby spicy mayo to the Single Dang.",
+      },
     ],
   },
   {
@@ -603,13 +820,18 @@ const restaurants = [
     address: "3765 Santa Claus Lane, Carpinteria, CA",
     website: "https://www.padarobeachgrill.com",
     phone: "805-566-9800",
+    instagram: "padarobeachgrill",
     area: "Carpinteria",
     lat: 34.406855,
     lng: -119.548572,
     mapUrl: "https://maps.app.goo.gl/8ZDu63gFeurVYCeM6",
     appleMapsUrl: "https://maps.apple/p/uqiyiVKwDzDndx",
     menuItems: [
-      { name: "Viva Padaro!", description: "A seasoned patty with shredded cheese blend and cabbage, loaded with homemade peppery chili con carne, crispy tortilla strips, a sour-cream spread with pickled jalape\u00f1os, and a side of red salsa. Hearty and messy." },
+      {
+        name: "Viva Padaro!",
+        description:
+          "A seasoned patty with shredded cheese blend and cabbage, loaded with homemade peppery chili con carne, crispy tortilla strips, a sour-cream spread with pickled jalape\u00f1os, and a side of red salsa. Hearty and messy.",
+      },
     ],
   },
   {
@@ -617,13 +839,18 @@ const restaurants = [
     address: "2318 Lillie Ave., Summerland, CA",
     website: "https://www.nuggetbarandgrill.com",
     phone: "805-969-6135",
+    instagram: "thenuggetofgoleta",
     area: "Carpinteria",
     lat: 34.421723,
     lng: -119.599547,
     mapUrl: "https://maps.app.goo.gl/Qqp5pJiaCNDZ3uRDA",
     appleMapsUrl: "https://maps.apple/p/HM7pAt5EhvmgQx",
     menuItems: [
-      { name: "Bob's Burger", description: "A tender patty topped with bacon, crispy onions, grape jam, and Skippy peanut butter on a brioche bun with pickles on the side. The peanut butter complements the salty beef and the jelly adds a note of sweetness." },
+      {
+        name: "Bob's Burger",
+        description:
+          "A tender patty topped with bacon, crispy onions, grape jam, and Skippy peanut butter on a brioche bun with pickles on the side. The peanut butter complements the salty beef and the jelly adds a note of sweetness.",
+      },
     ],
   },
   {
@@ -631,13 +858,18 @@ const restaurants = [
     address: "892 Linden Ave., Carpinteria, CA",
     website: "https://www.nuggetbarandgrill.com",
     phone: "+1 (805) 576-9007",
+    instagram: "thenuggetofgoleta",
     area: "Carpinteria",
     lat: 34.398042,
     lng: -119.51916,
     mapUrl: "https://maps.app.goo.gl/xwmjKDJvPnS1oe4w7",
     appleMapsUrl: "https://maps.apple/p/ZP.ggEK10P5_Go",
     menuItems: [
-      { name: "Bob's Burger", description: "A tender patty topped with bacon, crispy onions, grape jam, and Skippy peanut butter on a brioche bun with pickles on the side. The peanut butter complements the salty beef and the jelly adds a note of sweetness." },
+      {
+        name: "Bob's Burger",
+        description:
+          "A tender patty topped with bacon, crispy onions, grape jam, and Skippy peanut butter on a brioche bun with pickles on the side. The peanut butter complements the salty beef and the jelly adds a note of sweetness.",
+      },
     ],
   },
   {
@@ -645,13 +877,18 @@ const restaurants = [
     address: "720 Linden Ave., Carpinteria, CA",
     website: "https://www.thirdwindowbrewing.com",
     phone: "+1 (805) 562-6475",
+    instagram: "thirdwindowbrewing",
     area: "Carpinteria",
     lat: 34.39704,
     lng: -119.520395,
     mapUrl: "https://maps.app.goo.gl/gpcE5McRYoq2aY4MA",
     appleMapsUrl: "https://maps.apple/p/HhNum2x75sTZXQ",
     menuItems: [
-      { name: "Smoked FP Ranch Wagyu Cheeseburger", description: "A six-ounce hand-shaped FP Ranch Wagyu patty smoked over white oak for 90 minutes, then seared on the flat top with a whole round of grilled onion and horseradish crema. The slow smoking retains moisture while adding a savory depth reminiscent of Texas brisket. Served with house-made pickles." },
+      {
+        name: "Smoked FP Ranch Wagyu Cheeseburger",
+        description:
+          "A six-ounce hand-shaped FP Ranch Wagyu patty smoked over white oak for 90 minutes, then seared on the flat top with a whole round of grilled onion and horseradish crema. The slow smoking retains moisture while adding a savory depth reminiscent of Texas brisket. Served with house-made pickles.",
+      },
     ],
   },
 
@@ -661,13 +898,18 @@ const restaurants = [
     address: "6553 Pardall Rd., Isla Vista, CA",
     website: "https://www.facebook.com/ivdelimart",
     phone: "+1 (805) 562-8858",
+    instagram: "ivdelimart",
     area: "Isla Vista",
     lat: 34.412906,
     lng: -119.856403,
     mapUrl: "https://maps.app.goo.gl/3ywpf2asZSic4c6f8",
     appleMapsUrl: "https://maps.apple/p/P8CHoGZ8.n~99_",
     menuItems: [
-      { name: "Gaucho Burger", description: "Stacked with two seared beef patties, cheddar cheese, crispy bacon, sliced avocado, curly fries, and house-made chipotle sauce blended with fresh oranges on a fresh bun. A late-night I.V. staple for over 22 years." },
+      {
+        name: "Gaucho Burger",
+        description:
+          "Stacked with two seared beef patties, cheddar cheese, crispy bacon, sliced avocado, curly fries, and house-made chipotle sauce blended with fresh oranges on a fresh bun. A late-night I.V. staple for over 22 years.",
+      },
     ],
   },
 
@@ -677,13 +919,18 @@ const restaurants = [
     address: "3631 Sagunto St., Santa Ynez, CA",
     website: "https://www.thevictor.us",
     phone: "+1 (805) 695-2999",
+    instagram: "thevictor_sy",
     area: "Santa Ynez",
     lat: 34.613083,
     lng: -120.078474,
     mapUrl: "https://maps.app.goo.gl/tQ9GFna3qRasLufZ7",
     appleMapsUrl: "https://maps.apple/p/NvE-BeGF4haMtX",
     menuItems: [
-      { name: "The Victor Smashburger with Fries", description: "A Wagyu-based smashburger with balsamic grilled onions, tender juicy char, and molten cheddar on a pillowy bun. Accompanied by house-made duck-fat fries dusted with rosemary and sage. Available Wed.\u2013Sun., 5\u20139 p.m." },
+      {
+        name: "The Victor Smashburger with Fries",
+        description:
+          "A Wagyu-based smashburger with balsamic grilled onions, tender juicy char, and molten cheddar on a pillowy bun. Accompanied by house-made duck-fat fries dusted with rosemary and sage. Available Wed.\u2013Sun., 5\u20139 p.m.",
+      },
     ],
   },
 ];
