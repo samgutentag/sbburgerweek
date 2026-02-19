@@ -716,6 +716,60 @@
   });
   new L.Control.SelectPrintFab().addTo(map);
 
+  // ── Random Picker control ──────────────────────
+  L.Control.RandomPicker = L.Control.extend({
+    options: { position: "topright" },
+    onAdd: function () {
+      var btn = L.DomUtil.create("button", "random-picker-btn leaflet-control");
+      btn.title = "Pick a random restaurant";
+      btn.setAttribute("aria-label", "Pick a random restaurant");
+      btn.innerHTML = "\uD83C\uDFB2";
+      L.DomEvent.disableClickPropagation(btn);
+      L.DomEvent.on(btn, "click", function (e) {
+        L.DomEvent.preventDefault(e);
+        pickRandom();
+      });
+      return btn;
+    },
+  });
+  new L.Control.RandomPicker().addTo(map);
+
+  function getFilteredList() {
+    return restaurants.filter(function (r) {
+      var matchesArea = activeArea === "All" || r.area === activeArea;
+      var matchesSearch =
+        !searchTerm ||
+        r.name.toLowerCase().indexOf(searchTerm) !== -1 ||
+        r.address.toLowerCase().indexOf(searchTerm) !== -1 ||
+        r.area.toLowerCase().indexOf(searchTerm) !== -1 ||
+        r.menuItems.some(function (item) {
+          return item.name.toLowerCase().indexOf(searchTerm) !== -1 ||
+            (item.description && item.description.toLowerCase().indexOf(searchTerm) !== -1);
+        });
+      return matchesArea && matchesSearch;
+    });
+  }
+
+  function pickRandom() {
+    var list = getFilteredList();
+    if (list.length === 0) return;
+    var r = list[Math.floor(Math.random() * list.length)];
+    var marker = markerMap.get(r.name);
+    if (!marker) return;
+
+    map.flyTo([r.lat, r.lng], 17, { duration: 0.8 });
+
+    setTimeout(function () {
+      var parent = clusterGroup.getVisibleParent(marker);
+      if (parent && parent !== marker) {
+        parent.spiderfy();
+        setTimeout(function () { marker.openPopup(); }, 300);
+      } else {
+        marker.openPopup();
+      }
+    }, 900);
+  }
+
   function updateFabCount() {
     var countEl = document.getElementById("fabCount");
     if (countEl) {
