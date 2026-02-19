@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stats — SB Burger Week 2026 Map</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍔</text></svg>"
+    />
+    <script src="../config.js"></script>
+    <script>
+      document.title = "Stats — " + THEME.eventName + " Map";
+    </script>
+    <link rel="stylesheet" href="stats.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-left">
+        <h1 id="pageTitle">SB Burger Week 2026</h1>
+        <span class="header-sub">Stats Dashboard</span>
+      </div>
+      <a class="back-link" id="backLink" href="/">Back to Map</a>
+    </header>
+
+    <main>
+      <div class="summary-cards" id="summaryCards">
+        <div class="card">
+          <div class="card-value" id="totalViews">—</div>
+          <div class="card-label">Total Views</div>
+        </div>
+        <div class="card">
+          <div class="card-value" id="totalDirections">—</div>
+          <div class="card-label">Direction Clicks</div>
+        </div>
+        <div class="card">
+          <div class="card-value" id="totalShares">—</div>
+          <div class="card-label">Shares</div>
+        </div>
+      </div>
+
+      <div class="leaderboard-section">
+        <h2>Restaurant Leaderboard</h2>
+        <p class="leaderboard-hint">Ranked by engagement score (views + direction/action clicks &times; 3)</p>
+        <div class="table-wrap">
+          <table id="leaderboard">
+            <thead>
+              <tr>
+                <th class="col-rank">#</th>
+                <th class="col-name">Restaurant</th>
+                <th class="col-num">Views</th>
+                <th class="col-num">Directions</th>
+                <th class="col-num">Website</th>
+                <th class="col-num">Shares</th>
+                <th class="col-num">Score</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboardBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="footer-note" id="footerNote">Loading data…</p>
+    </main>
+
+    <!-- Load data for AREA_COLORS -->
+    <script>
+      var __dataYearOverride =
+        new URLSearchParams(window.location.search).get("year");
+      (function () {
+        var src;
+        if (__dataYearOverride && /^\d{4}$/.test(__dataYearOverride)) {
+          src = "../data-" + __dataYearOverride + ".js";
+        } else {
+          var live = THEME.dataLiveDate;
+          if (!live || new Date() >= new Date(live + "T00:01:00")) {
+            src = "../data-" + new Date().getFullYear() + ".js";
+          } else {
+            src = "../data.js";
+          }
+        }
+        var err = __dataYearOverride
+          ? ' onerror="window.location.replace(window.location.pathname)"'
+          : "";
+        document.write(
+          '<script src="' + src + '"' + err + "></" + "script>"
+        );
+      })();
+    </script>
+    <script src="../trending.js"></script>
+    <script src="stats.js"></script>
+  </body>
+</html>
