@@ -3,6 +3,9 @@
 (function () {
   "use strict";
 
+  // Track stats page view
+  if (typeof window.track === "function") window.track("stats-view", "stats");
+
   // Apply theme
   var pageTitle = document.getElementById("pageTitle");
   if (pageTitle) pageTitle.textContent = THEME.eventName;
