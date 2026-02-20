@@ -195,7 +195,7 @@
 
   // Dietary tag icon helper
   var tagDefs = [
-    { key: "vegan", icon: "icon-vegan.svg", label: "Vegan" },
+    { key: "vegetarian", icon: "icon-vegetarian.svg", label: "Vegetarian" },
     { key: "glutenFree", icon: "icon-gf.svg", label: "Gluten Free" },
     { key: "hasFries", icon: "icon-fries.svg", label: "Fries" },
   ];

@@ -43,7 +43,7 @@
     "Isla Vista": "Isla Vista",
     "Santa Ynez": "Santa Ynez",
     "Other SB": "Other SB",
-    "vegan": "Vegan",
+    "vegetarian": "Vegetarian",
     "glutenFree": "Gluten Free",
     "hasFries": "Fries",
   };
