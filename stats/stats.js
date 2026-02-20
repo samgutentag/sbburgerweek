@@ -35,6 +35,20 @@
     });
   }
 
+  // Labels for filter stats display
+  var filterLabels = {
+    "All": "All",
+    "Downtown SB": "Downtown SB",
+    "Goleta": "Goleta",
+    "Carpinteria": "Carpinteria",
+    "Isla Vista": "Isla Vista",
+    "Santa Ynez": "Santa Ynez",
+    "Other SB": "Other SB",
+    "vegan": "Vegan",
+    "glutenFree": "Gluten Free",
+    "hasFries": "Fries",
+  };
+
   function render(data) {
     var totalViews = 0;
     var totalDirApple = 0;
@@ -44,9 +58,27 @@
     var totalInstagram = 0;
     var totalShares = 0;
 
+    // Collect filter usage stats
+    var filterCounts = {};
+
     var rows = [];
     Object.keys(data).forEach(function (name) {
       var d = data[name];
+
+      // Gather filter-area and filter-tag events
+      var filterArea = d["filter-area"] || 0;
+      var filterTag = d["filter-tag"] || 0;
+      if (filterArea > 0 || filterTag > 0) {
+        filterCounts[name] = (filterCounts[name] || 0) + filterArea + filterTag;
+      }
+
+      // Skip non-restaurant entries (filter labels) for the leaderboard
+      if (d["filter-area"] || d["filter-tag"]) {
+        // Check if this entry ONLY has filter events (not a restaurant)
+        var hasRestaurantEvents = d.view || d["directions-apple"] || d["directions-google"] || d.website || d.phone || d.instagram || d.share;
+        if (!hasRestaurantEvents) return;
+      }
+
       var views = d.view || 0;
       var dirApple = d["directions-apple"] || 0;
       var dirGoogle = d["directions-google"] || 0;
@@ -145,6 +177,26 @@
         "</td>";
       tbody.appendChild(tr);
     });
+
+    // Filter usage section
+    var filterSection = document.getElementById("filterSection");
+    var filterGrid = document.getElementById("filterStatsGrid");
+    var filterKeys = Object.keys(filterCounts);
+    if (filterKeys.length > 0) {
+      filterSection.style.display = "";
+      filterKeys.sort(function (a, b) {
+        return filterCounts[b] - filterCounts[a];
+      });
+      filterGrid.innerHTML = "";
+      filterKeys.forEach(function (key) {
+        var card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML =
+          '<div class="card-value">' + filterCounts[key].toLocaleString() + "</div>" +
+          '<div class="card-label">' + escapeHtml(filterLabels[key] || key) + "</div>";
+        filterGrid.appendChild(card);
+      });
+    }
 
     var note = document.getElementById("footerNote");
     if (rows.length > 0) {

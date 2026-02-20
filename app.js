@@ -451,9 +451,11 @@
     if (tag) {
       activeArea = "All";
       activeTag = tag;
+      if (typeof window.track === "function") window.track("filter-tag", tag);
     } else {
       activeArea = e.target.getAttribute("data-area");
       activeTag = null;
+      if (typeof window.track === "function") window.track("filter-area", activeArea);
     }
     updateFilterBtnState();
     renderList();

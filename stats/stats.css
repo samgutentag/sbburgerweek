@@ -201,6 +201,24 @@ tbody td.col-num {
   letter-spacing: -1px;
 }
 
+/* ── Filter stats grid ───────────────────── */
+
+.filter-stats-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.filter-stats-grid .card {
+  flex: 0 0 auto;
+  min-width: 100px;
+  padding: 14px 18px;
+}
+
+.filter-stats-grid .card-value {
+  font-size: 1.5rem;
+}
+
 /* ── Footer ──────────────────────────────── */
 
 .footer-note {
