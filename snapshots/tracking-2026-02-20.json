@@ -1,0 +1,318 @@
+{
+  "detail": {
+    "All": {
+      "filter-area": 12
+    },
+    "Arnoldi's": {
+      "deeplink": 10,
+      "directions-google": 2,
+      "share": 3,
+      "un-upvote": 4,
+      "upvote": 4,
+      "view": 270,
+      "website": 4
+    },
+    "Caya": {
+      "deeplink": 1,
+      "directions-apple": 1,
+      "directions-google": 1,
+      "view": 267,
+      "website": 4
+    },
+    "Corner Tap": {
+      "directions-apple": 1,
+      "directions-google": 1,
+      "view": 127,
+      "website": 4
+    },
+    "Cristino's Bakery": {
+      "directions-google": 1,
+      "share": 1,
+      "view": 289,
+      "website": 6
+    },
+    "Crushcakes": {
+      "phone": 1,
+      "share": 1,
+      "view": 182,
+      "website": 2
+    },
+    "Crushcakes and Cafe": {
+      "directions-google": 1,
+      "share": 2,
+      "view": 259
+    },
+    "Dang Burger": {
+      "deeplink": 1,
+      "share": 1,
+      "un-upvote": 2,
+      "upvote": 2,
+      "view": 118,
+      "website": 3
+    },
+    "Dave's Dogs Grill": {
+      "directions-google": 3,
+      "view": 224,
+      "website": 2
+    },
+    "Dom's Taverna": {
+      "directions-google": 3,
+      "share": 2,
+      "view": 275,
+      "website": 7
+    },
+    "Downtown Eats": {
+      "directions-google": 4,
+      "view": 285,
+      "website": 6
+    },
+    "Downtown SB": {
+      "filter-area": 8
+    },
+    "Eureka!": {
+      "directions-google": 1,
+      "share": 1,
+      "view": 219,
+      "website": 4
+    },
+    "Finch and Fork": {
+      "directions-apple": 1,
+      "directions-google": 3,
+      "upvote": 1,
+      "view": 302,
+      "website": 6
+    },
+    "Fresco At The Market": {
+      "view": 98
+    },
+    "Gala": {
+      "directions-google": 1,
+      "share": 8,
+      "view": 242,
+      "website": 5
+    },
+    "Goat Tree": {
+      "deeplink": 1,
+      "directions-google": 1,
+      "un-upvote": 5,
+      "upvote": 5,
+      "view": 226,
+      "website": 4
+    },
+    "Goleta": {
+      "filter-area": 1
+    },
+    "Home Plate Grill": {
+      "directions-apple": 1,
+      "directions-google": 2,
+      "phone": 1,
+      "view": 240,
+      "website": 2
+    },
+    "IV Deli Mart": {
+      "directions-google": 1,
+      "view": 141,
+      "website": 3
+    },
+    "Islands Fine Burgers & Drinks": {
+      "directions-google": 1,
+      "phone": 1,
+      "view": 291,
+      "website": 4
+    },
+    "Jonesy's Fried Chicken": {
+      "directions-google": 1,
+      "view": 325,
+      "website": 7
+    },
+    "Kyle's Kitchen (Calle Real)": {
+      "directions-google": 1,
+      "view": 162,
+      "website": 2
+    },
+    "Kyle's Kitchen (Hollister)": {
+      "view": 203,
+      "website": 1
+    },
+    "Little Bird Kitchen": {
+      "directions-google": 1,
+      "share": 1,
+      "view": 234,
+      "website": 4
+    },
+    "Mesa Burger": {
+      "directions-google": 2,
+      "phone": 1,
+      "un-upvote": 1,
+      "upvote": 1,
+      "view": 172,
+      "website": 7
+    },
+    "Other SB": {
+      "filter-area": 2
+    },
+    "Padaro Beach Grill": {
+      "view": 86,
+      "website": 1
+    },
+    "Pascucci": {
+      "deeplink": 3,
+      "directions-google": 1,
+      "view": 313,
+      "website": 6
+    },
+    "Poke House": {
+      "directions-google": 1,
+      "share": 1,
+      "view": 214,
+      "website": 1
+    },
+    "Que Smoke Shack": {
+      "directions-google": 1,
+      "view": 131,
+      "website": 5
+    },
+    "Rinkside Cafe": {
+      "share": 1,
+      "view": 262,
+      "website": 6
+    },
+    "SB Biergarten": {
+      "deeplink": 1,
+      "directions-google": 1,
+      "share": 3,
+      "upvote": 1,
+      "view": 213,
+      "website": 9
+    },
+    "Sama San Roque": {
+      "directions-apple": 1,
+      "directions-google": 3,
+      "share": 1,
+      "view": 278,
+      "website": 4
+    },
+    "Santa Barbara Fish Market": {
+      "directions-google": 1,
+      "view": 278,
+      "website": 7
+    },
+    "Santa Ynez": {
+      "filter-area": 1
+    },
+    "Seoulmate Kitchen": {
+      "deeplink": 5,
+      "directions-google": 1,
+      "un-upvote": 2,
+      "upvote": 2,
+      "view": 124,
+      "website": 3
+    },
+    "Shalhoob's (Magnolia)": {
+      "directions-google": 2,
+      "share": 1,
+      "view": 279,
+      "website": 1
+    },
+    "Shalhoob's Funk Zone Patio": {
+      "share": 1,
+      "view": 222,
+      "website": 4
+    },
+    "The Blue Owl": {
+      "directions-google": 1,
+      "view": 272,
+      "website": 6
+    },
+    "The Brewhouse": {
+      "directions-google": 1,
+      "view": 202,
+      "website": 1
+    },
+    "The Nugget (Carpinteria)": {
+      "directions-google": 1,
+      "view": 108,
+      "website": 2
+    },
+    "The Nugget (Goleta)": {
+      "directions-google": 4,
+      "phone": 2,
+      "view": 209,
+      "website": 5
+    },
+    "The Nugget (Summerland)": {
+      "view": 122
+    },
+    "The Patio Cafe": {
+      "directions-google": 2,
+      "view": 272,
+      "website": 3
+    },
+    "The Victor": {
+      "deeplink": 1,
+      "directions-google": 3,
+      "view": 196,
+      "website": 4
+    },
+    "The Win-dow": {
+      "directions-google": 1,
+      "share": 1,
+      "view": 308,
+      "website": 5
+    },
+    "Third Window Brewing (Carpinteria)": {
+      "view": 122
+    },
+    "Third Window Brewing (Santa Barbara)": {
+      "directions-google": 1,
+      "share": 1,
+      "view": 275,
+      "website": 8
+    },
+    "Validation Ale": {
+      "deeplink": 3,
+      "un-upvote": 6,
+      "upvote": 8,
+      "view": 218,
+      "website": 3
+    },
+    "Validation Annex": {
+      "deeplink": 1,
+      "directions-apple": 1,
+      "directions-google": 2,
+      "view": 12
+    },
+    "White Caps Beach Club": {
+      "directions-apple": 3,
+      "directions-google": 5,
+      "view": 307,
+      "website": 5
+    },
+    "Yellow Belly Tap": {
+      "directions-google": 5,
+      "view": 316,
+      "website": 8
+    },
+    "glutenFree": {
+      "filter-tag": 10
+    },
+    "hasFries": {
+      "filter-tag": 6
+    },
+    "stats": {
+      "stats-view": 4
+    },
+    "vegan": {
+      "filter-tag": 7
+    },
+    "vegetarian": {
+      "filter-tag": 1
+    }
+  },
+  "timestamp": "2026-02-20T08:31:31Z",
+  "upvotes": {
+    "Finch and Fork": 1,
+    "SB Biergarten": 1,
+    "Validation Ale": 2
+  }
+}
