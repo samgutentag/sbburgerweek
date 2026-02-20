@@ -180,7 +180,7 @@
       .then(function (resp) { return resp.json(); })
       .then(function (data) {
         if (data && typeof data === "object") {
-          // Validate values are numbers (not objects from the trending endpoint)
+          // Validate values are numbers
           var valid = {};
           Object.keys(data).forEach(function (k) {
             if (typeof data[k] === "number") valid[k] = data[k];
@@ -670,39 +670,6 @@
     filterToggleBtn.classList.toggle("has-filters", hasActiveFilters);
   }
 
-  // ── Trending data ──────────────────────────────
-
-  window.trendingData = window.TRENDING || {};
-  var sortByTrending = false;
-
-  function getTrendingScore(name) {
-    var data = window.trendingData || {};
-    var r = data[name];
-    if (!r) return 0;
-    return (r.views || 0) + (r.intents || 0) * 3;
-  }
-
-  function getTrendingFires(rank) {
-    if (rank <= 5) return 5;
-    if (rank <= 15) return 3;
-    if (rank <= 25) return 2;
-    if (rank <= 35) return 1;
-    return 0;
-  }
-
-  // Live fetch trending data (non-blocking)
-  if (THEME.trackUrl) {
-    fetch(THEME.trackUrl, { method: "GET" })
-      .then(function (resp) { return resp.json(); })
-      .then(function (data) {
-        if (data && typeof data === "object") {
-          window.trendingData = data;
-          renderList(true);
-        }
-      })
-      .catch(function () { /* silently use static data */ });
-  }
-
   // ── Sidebar: restaurant list ───────────────────
 
   var searchTerm = "";
@@ -716,20 +683,6 @@
       snapDrawerTo(1);
     }
   });
-
-  // ── Sort toggle ────────────────────────────────
-  var sortToggleBtn = document.getElementById("sortToggle");
-  if (sortToggleBtn && !THEME.showTrending) {
-    sortToggleBtn.style.display = "none";
-  }
-  if (sortToggleBtn && THEME.showTrending) {
-    sortToggleBtn.addEventListener("click", function () {
-      sortByTrending = !sortByTrending;
-      this.textContent = sortByTrending ? "\uD83D\uDD25 Hot" : "A\u2013Z";
-      this.classList.toggle("sort-active", sortByTrending);
-      renderList(true);
-    });
-  }
 
   function renderList(skipFitBounds) {
     var listEl = document.getElementById("restaurantList");
@@ -751,25 +704,9 @@
       return matchesArea && matchesSearch && matchesTags;
     });
 
-    // Compute trending ranks for filtered set
-    var trendingRanks = {};
-    var rankedByScore = filtered.slice().sort(function (a, b) {
-      return getTrendingScore(b.name) - getTrendingScore(a.name);
+    filtered.sort(function (a, b) {
+      return a.name.localeCompare(b.name);
     });
-    rankedByScore.forEach(function (r, i) {
-      trendingRanks[r.name] = i + 1;
-    });
-
-    if (sortByTrending) {
-        filtered.sort(function (a, b) {
-        var diff = getTrendingScore(b.name) - getTrendingScore(a.name);
-        return diff !== 0 ? diff : a.name.localeCompare(b.name);
-      });
-    } else {
-      filtered.sort(function (a, b) {
-        return a.name.localeCompare(b.name);
-      });
-    }
 
     if (checklistMode) {
       var checkedCount = filtered.filter(function (r) {
@@ -844,13 +781,6 @@
         nameSpan.appendChild(tagsWrap);
       }
       nameSpan.appendChild(document.createTextNode(r.name));
-      var fires = THEME.showTrending && getTrendingScore(r.name) > 0 ? getTrendingFires(trendingRanks[r.name] || 999) : 0;
-      if (fires > 0) {
-        var trendBadge = document.createElement("span");
-        trendBadge.className = "trending-badge";
-        trendBadge.textContent = "\uD83D\uDD25".repeat(fires);
-        nameSpan.appendChild(trendBadge);
-      }
       nameCol.appendChild(nameSpan);
       if (r.menuItems.length > 0) {
         r.menuItems.forEach(function(item) {
