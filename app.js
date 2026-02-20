@@ -418,7 +418,27 @@
     filtersEl.appendChild(btn);
   });
 
+  // Tag filter buttons (appended after area buttons)
+  var tagDefs = [
+    { key: "vegan", icon: "icon-vegan.svg", label: "Vegan" },
+    { key: "glutenFree", icon: "icon-gf.svg", label: "Gluten Free" },
+    { key: "hasFries", icon: "icon-fries.svg", label: "Fries" },
+  ];
+  tagDefs.forEach(function (t) {
+    var btn = document.createElement("button");
+    btn.className = "area-btn";
+    btn.setAttribute("data-tag", t.key);
+    var img = document.createElement("img");
+    img.src = t.icon;
+    img.alt = t.label;
+    img.className = "tag-icon";
+    btn.appendChild(img);
+    btn.appendChild(document.createTextNode(" " + t.label));
+    filtersEl.appendChild(btn);
+  });
+
   var activeArea = "All";
+  var activeTag = null;
 
   filtersEl.addEventListener("click", function (e) {
     if (!e.target.classList.contains("area-btn")) return;
@@ -426,7 +446,15 @@
       b.classList.remove("active");
     });
     e.target.classList.add("active");
-    activeArea = e.target.getAttribute("data-area");
+
+    var tag = e.target.getAttribute("data-tag");
+    if (tag) {
+      activeArea = "All";
+      activeTag = tag;
+    } else {
+      activeArea = e.target.getAttribute("data-area");
+      activeTag = null;
+    }
     updateFilterBtnState();
     renderList();
   });
@@ -465,7 +493,7 @@
   new L.Control.ZoomReset().addTo(map);
 
   function updateFilterBtnState() {
-    var hasActiveFilters = activeArea !== "All" || checklistMode;
+    var hasActiveFilters = activeArea !== "All" || activeTag || checklistMode;
     filterToggleBtn.classList.toggle("has-filters", hasActiveFilters);
   }
 
@@ -542,7 +570,8 @@
         r.address.toLowerCase().indexOf(searchTerm) !== -1 ||
         r.area.toLowerCase().indexOf(searchTerm) !== -1 ||
         (r.menuItems.some(function(item) { return item.name.toLowerCase().indexOf(searchTerm) !== -1 || (item.description && item.description.toLowerCase().indexOf(searchTerm) !== -1); }));
-      return matchesArea && matchesSearch;
+      var matchesTags = !activeTag || r[activeTag];
+      return matchesArea && matchesSearch && matchesTags;
     });
 
     // Compute trending ranks for filtered set
@@ -837,7 +866,8 @@
           return item.name.toLowerCase().indexOf(searchTerm) !== -1 ||
             (item.description && item.description.toLowerCase().indexOf(searchTerm) !== -1);
         });
-      return matchesArea && matchesSearch;
+      var matchesTags = !activeTag || r[activeTag];
+      return matchesArea && matchesSearch && matchesTags;
     });
   }
 

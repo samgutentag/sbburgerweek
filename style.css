@@ -224,6 +224,23 @@ header h1 span {
   background: #e07a5f;
 }
 
+/* ── Tag filter buttons ──────────────── */
+
+.area-btn[data-tag].active {
+  background: var(--dark);
+}
+
+.tag-icon {
+  width: 14px;
+  height: 14px;
+  vertical-align: -2px;
+  transition: filter 0.15s;
+}
+
+.area-btn[data-tag].active .tag-icon {
+  filter: brightness(0) invert(1);
+}
+
 /* ── Random Picker button ────────────────── */
 
 .random-picker-btn {
