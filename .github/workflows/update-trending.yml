@@ -75,7 +75,10 @@ jobs:
           git diff --quiet trending.js && exit 0
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add trending.js
+          git stash
           git pull --rebase
+          git stash pop
           git add trending.js
           git commit -m "Update trending data [skip ci]"
           git push
