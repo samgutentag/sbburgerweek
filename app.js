@@ -132,6 +132,38 @@
 
   loadChecklist();
 
+  // Dietary tag icon helper
+  var tagDefs = [
+    { key: "vegan", icon: "icon-vegan.svg", label: "Vegan" },
+    { key: "glutenFree", icon: "icon-gf.svg", label: "Gluten Free" },
+    { key: "hasFries", icon: "icon-fries.svg", label: "Fries" },
+  ];
+
+  function getDietaryIconsHtml(r) {
+    var html = "";
+    tagDefs.forEach(function (t) {
+      if (r[t.key]) {
+        html += '<img src="' + t.icon + '" alt="' + t.label + '" title="' + t.label + '" class="dietary-icon">';
+      }
+    });
+    return html;
+  }
+
+  function createDietaryIconEls(r) {
+    var frag = document.createDocumentFragment();
+    tagDefs.forEach(function (t) {
+      if (r[t.key]) {
+        var img = document.createElement("img");
+        img.src = t.icon;
+        img.alt = t.label;
+        img.title = t.label;
+        img.className = "dietary-icon";
+        frag.appendChild(img);
+      }
+    });
+    return frag;
+  }
+
   restaurants.forEach(function (r) {
     const color = AREA_COLORS[r.area] || "#999";
 
@@ -156,8 +188,9 @@
         '<a href="https://instagram.com/' + encodeURIComponent(r.instagram) + '" target="_blank" rel="noopener" class="popup-ig" title="@' + escapeHtml(r.instagram) + '">' +
         '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>' +
         '</a>';
+    var dietaryHtml = getDietaryIconsHtml(r);
     popupHtml += '<div class="popup-section popup-section-name">' +
-      "<h3>" + escapeHtml(r.name) + "</h3></div>";
+      "<h3>" + (dietaryHtml ? '<span class="dietary-tags">' + dietaryHtml + '</span>' : '') + escapeHtml(r.name) + "</h3></div>";
     popupHtml += '<div class="popup-section popup-section-menu">';
     if (r.menuItems.length > 0)
       r.menuItems.forEach(function(item) {
@@ -419,11 +452,6 @@
   });
 
   // Tag filter buttons (appended after area buttons)
-  var tagDefs = [
-    { key: "vegan", icon: "icon-vegan.svg", label: "Vegan" },
-    { key: "glutenFree", icon: "icon-gf.svg", label: "Gluten Free" },
-    { key: "hasFries", icon: "icon-fries.svg", label: "Fries" },
-  ];
   tagDefs.forEach(function (t) {
     var btn = document.createElement("button");
     btn.className = "area-btn";
@@ -660,7 +688,14 @@
       nameCol.className = "name-col";
       var nameSpan = document.createElement("span");
       nameSpan.className = "name";
-      nameSpan.textContent = r.name;
+      var dietaryIcons = createDietaryIconEls(r);
+      if (dietaryIcons.childNodes.length > 0) {
+        var tagsWrap = document.createElement("span");
+        tagsWrap.className = "dietary-tags";
+        tagsWrap.appendChild(dietaryIcons);
+        nameSpan.appendChild(tagsWrap);
+      }
+      nameSpan.appendChild(document.createTextNode(r.name));
       var fires = THEME.showTrending && getTrendingScore(r.name) > 0 ? getTrendingFires(trendingRanks[r.name] || 999) : 0;
       if (fires > 0) {
         var trendBadge = document.createElement("span");
@@ -989,12 +1024,19 @@
           listHtml +=
             '<div style="display:flex;gap:12px;margin-bottom:12px;padding-left:8px">';
           listHtml += '<div style="flex:1;min-width:0">';
+          var printTags = "";
+          tagDefs.forEach(function (t) {
+            if (r[t.key]) {
+              printTags += '<img src="' + t.icon + '" alt="' + t.label + '" style="width:14px;height:14px;vertical-align:-2px;margin-right:2px;opacity:0.7">';
+            }
+          });
           listHtml +=
             '<div style="font-weight:700;font-size:0.95rem"><span style="display:inline-block;background:' +
             (AREA_COLORS[r.area] || "#999") +
             ';color:#fff;width:22px;height:22px;border-radius:50%;text-align:center;line-height:22px;font-size:11px;margin-right:6px">' +
             n +
             "</span>" +
+            (printTags ? '<span style="margin-right:4px">' + printTags + '</span>' : '') +
             escapeHtml(r.name) +
             "</div>";
           listHtml +=
@@ -1318,6 +1360,7 @@
     if (!r) return;
     var marker = markerMap.get(r.name);
     if (!marker) return;
+    if (typeof window.track === "function") window.track("deeplink", r.name);
 
     if (window.innerWidth <= 768) {
       snapDrawerTo(0);

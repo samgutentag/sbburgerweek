@@ -73,9 +73,9 @@ main {
 /* ── Summary cards ───────────────────────── */
 
 .summary-cards {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
-  margin-bottom: 28px;
 }
 
 .card {
@@ -109,6 +109,10 @@ main {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 
+.leaderboard-section + .leaderboard-section {
+  margin-top: 20px;
+}
+
 .leaderboard-section h2 {
   font-size: 1.1rem;
   margin-bottom: 4px;
@@ -118,6 +122,46 @@ main {
   font-size: 0.8rem;
   color: #999;
   margin-bottom: 16px;
+}
+
+.scoring-toggle {
+  color: var(--orange);
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.scoring-toggle:hover {
+  text-decoration: underline;
+}
+
+.toggle-arrow {
+  font-size: 0.6rem;
+  vertical-align: middle;
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+.toggle-arrow.open {
+  transform: rotate(180deg);
+}
+
+.scoring-detail {
+  display: none;
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 0.82rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.scoring-detail.open {
+  display: block;
+}
+
+.scoring-detail p + p {
+  margin-top: 4px;
 }
 
 .table-wrap {
@@ -139,6 +183,25 @@ thead th {
   color: #888;
   text-transform: uppercase;
   letter-spacing: 0.03em;
+  user-select: none;
+}
+
+thead th[data-sort] {
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+thead th[data-sort]:hover {
+  color: var(--dark);
+}
+
+thead th.sort-active {
+  color: var(--red);
+}
+
+.sort-arrow {
+  font-size: 0.6rem;
+  vertical-align: middle;
 }
 
 tbody tr {
@@ -204,19 +267,9 @@ tbody td.col-num {
 /* ── Filter stats grid ───────────────────── */
 
 .filter-stats-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.filter-stats-grid .card {
-  flex: 0 0 auto;
-  min-width: 100px;
-  padding: 14px 18px;
-}
-
-.filter-stats-grid .card-value {
-  font-size: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
 }
 
 /* ── Footer ──────────────────────────────── */
@@ -232,7 +285,7 @@ tbody td.col-num {
 
 @media (max-width: 600px) {
   .summary-cards {
-    flex-direction: column;
+    grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
 
@@ -255,6 +308,10 @@ tbody td.col-num {
 
   .leaderboard-section {
     padding: 14px;
+  }
+
+  .filter-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   table {

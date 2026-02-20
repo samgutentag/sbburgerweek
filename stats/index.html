@@ -24,46 +24,70 @@
     </header>
 
     <main>
-      <div class="summary-cards" id="summaryCards">
-        <div class="card">
-          <div class="card-value" id="totalViews">—</div>
-          <div class="card-label">Total Views</div>
-        </div>
-        <div class="card">
-          <div class="card-value" id="totalDirApple">—</div>
-          <div class="card-label">Apple Maps</div>
-        </div>
-        <div class="card">
-          <div class="card-value" id="totalDirGoogle">—</div>
-          <div class="card-label">Google Maps</div>
-        </div>
-        <div class="card">
-          <div class="card-value" id="totalWebsite">—</div>
-          <div class="card-label">Website</div>
-        </div>
-        <div class="card">
-          <div class="card-value" id="totalPhone">—</div>
-          <div class="card-label">Phone</div>
-        </div>
-        <div class="card">
-          <div class="card-value" id="totalInstagram">—</div>
-          <div class="card-label">Instagram</div>
-        </div>
-        <div class="card">
-          <div class="card-value" id="totalShares">—</div>
-          <div class="card-label">Shares</div>
+      <div class="leaderboard-section" id="activitySection">
+        <h2>Activity</h2>
+        <p class="leaderboard-hint">Total actions across all restaurants</p>
+        <div class="summary-cards" id="summaryCards">
+          <div class="card">
+            <div class="card-value" id="totalViews">—</div>
+            <div class="card-label">Views</div>
+          </div>
+          <div class="card">
+            <div class="card-value" id="totalDirApple">—</div>
+            <div class="card-label">Apple Maps</div>
+          </div>
+          <div class="card">
+            <div class="card-value" id="totalDirGoogle">—</div>
+            <div class="card-label">Google Maps</div>
+          </div>
+          <div class="card">
+            <div class="card-value" id="totalWebsite">—</div>
+            <div class="card-label">Website</div>
+          </div>
+          <div class="card">
+            <div class="card-value" id="totalPhone">—</div>
+            <div class="card-label">Phone</div>
+          </div>
+          <div class="card">
+            <div class="card-value" id="totalInstagram">—</div>
+            <div class="card-label">Instagram</div>
+          </div>
+          <div class="card">
+            <div class="card-value" id="totalShares">—</div>
+            <div class="card-label">Shares</div>
+          </div>
+          <div class="card">
+            <div class="card-value" id="totalDeeplinks">—</div>
+            <div class="card-label">Direct Links</div>
+          </div>
         </div>
       </div>
 
-      <div class="leaderboard-section">
+      <div class="leaderboard-section" id="filterSection">
+        <h2>Filter Usage</h2>
+        <p class="leaderboard-hint">How often each filter button is tapped</p>
+        <div class="filter-stats-grid" id="filterStatsGrid"></div>
+      </div>
+
+      <div class="leaderboard-section" id="leaderboardSection">
         <h2>Restaurant Leaderboard</h2>
-        <p class="leaderboard-hint">Ranked by engagement score (views + direction/action clicks &times; 3)</p>
+        <p class="leaderboard-hint">
+          Ranked by engagement score.
+          <span class="scoring-toggle" id="scoringToggle">How is this calculated? <span class="toggle-arrow">&#x25BC;</span></span>
+        </p>
+        <div class="scoring-detail" id="scoringDetail">
+          <p><strong>Score</strong> = (Directions + Phone) &times; 3 + (Direct Links + Shares) &times; 2 + (Website + Instagram + Views) &times; 1</p>
+          <p><strong>3&times;</strong> Directions (Apple/Google Maps) &amp; Phone &mdash; strongest visit intent, someone is heading there or calling</p>
+          <p><strong>2&times;</strong> Direct Links &amp; Shares &mdash; someone shared or followed a link, actively spreading the word</p>
+          <p><strong>1&times;</strong> Website, Instagram &amp; Views &mdash; casual browsing and interest</p>
+        </div>
         <div class="table-wrap">
           <table id="leaderboard">
             <thead>
               <tr>
                 <th class="col-rank">#</th>
                 <th class="col-name">Restaurant</th>
+                <th class="col-num">Direct</th>
                 <th class="col-num">Views</th>
                 <th class="col-num">Apple</th>
                 <th class="col-num">Google</th>
@@ -77,12 +101,6 @@
             <tbody id="leaderboardBody"></tbody>
           </table>
         </div>
-      </div>
-
-      <div class="leaderboard-section" id="filterSection" style="display:none">
-        <h2>Filter Usage</h2>
-        <p class="leaderboard-hint">How often each filter button is tapped</p>
-        <div class="filter-stats-grid" id="filterStatsGrid"></div>
       </div>
 
       <p class="footer-note" id="footerNote">Loading data…</p>

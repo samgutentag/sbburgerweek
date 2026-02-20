@@ -37,7 +37,6 @@
 
   // Labels for filter stats display
   var filterLabels = {
-    "All": "All",
     "Downtown SB": "Downtown SB",
     "Goleta": "Goleta",
     "Carpinteria": "Carpinteria",
@@ -49,6 +48,139 @@
     "hasFries": "Fries",
   };
 
+  // Column definitions for sortable leaderboard
+  var columns = [
+    { key: "deeplinks", label: "Direct" },
+    { key: "views", label: "Views" },
+    { key: "dirApple", label: "Apple" },
+    { key: "dirGoogle", label: "Google" },
+    { key: "website", label: "Website" },
+    { key: "phone", label: "Phone" },
+    { key: "instagram", label: "Instagram" },
+    { key: "shares", label: "Shares" },
+    { key: "score", label: "Score" },
+  ];
+
+  // Sort state: null = default (score desc), otherwise { key, dir }
+  // dir: "desc" or "asc"
+  var sortState = null;
+  var currentRows = [];
+
+  function defaultSort(rows) {
+    return rows.slice().sort(function (a, b) {
+      return b.score - a.score || a.name.localeCompare(b.name);
+    });
+  }
+
+  function sortRows(rows) {
+    if (!sortState) return defaultSort(rows);
+    var key = sortState.key;
+    var dir = sortState.dir;
+    return rows.slice().sort(function (a, b) {
+      if (key === "name") {
+        var cmp = a.name.localeCompare(b.name);
+        return dir === "asc" ? cmp : -cmp;
+      }
+      var diff = dir === "desc" ? b[key] - a[key] : a[key] - b[key];
+      return diff || a.name.localeCompare(b.name);
+    });
+  }
+
+  function renderTable() {
+    var sorted = sortRows(currentRows);
+    var tbody = document.getElementById("leaderboardBody");
+    tbody.innerHTML = "";
+
+    sorted.forEach(function (row, i) {
+      var rank = i + 1;
+      var tr = document.createElement("tr");
+      tr.innerHTML =
+        '<td class="rank-cell">' + rank + "</td>" +
+        '<td class="name-cell">' +
+        '<a href="' + THEME.siteUrl + '/#' + slugify(row.name) + '" target="_blank" rel="noopener">' + escapeHtml(row.name) + '</a>' +
+        "</td>" +
+        '<td class="col-num">' + row.deeplinks.toLocaleString() + "</td>" +
+        '<td class="col-num">' + row.views.toLocaleString() + "</td>" +
+        '<td class="col-num">' + row.dirApple.toLocaleString() + "</td>" +
+        '<td class="col-num">' + row.dirGoogle.toLocaleString() + "</td>" +
+        '<td class="col-num">' + row.website.toLocaleString() + "</td>" +
+        '<td class="col-num">' + row.phone.toLocaleString() + "</td>" +
+        '<td class="col-num">' + row.instagram.toLocaleString() + "</td>" +
+        '<td class="col-num">' + row.shares.toLocaleString() + "</td>" +
+        '<td class="col-num score-cell">' + row.score.toLocaleString() + "</td>";
+      tbody.appendChild(tr);
+    });
+
+    updateHeaderIndicators();
+  }
+
+  function updateHeaderIndicators() {
+    var ths = document.querySelectorAll("#leaderboard thead th[data-sort]");
+    ths.forEach(function (th) {
+      var key = th.getAttribute("data-sort");
+      var arrow = th.querySelector(".sort-arrow");
+      if (sortState && sortState.key === key) {
+        arrow.textContent = sortState.dir === "desc" ? " \u25BC" : " \u25B2";
+        th.classList.add("sort-active");
+      } else {
+        arrow.textContent = "";
+        th.classList.remove("sort-active");
+      }
+    });
+  }
+
+  function setupSortHeaders() {
+    var headerRow = document.querySelector("#leaderboard thead tr");
+    var ths = headerRow.querySelectorAll("th");
+
+    // Add data-sort and name sort to Restaurant column
+    ths[1].setAttribute("data-sort", "name");
+    var nameArrow = document.createElement("span");
+    nameArrow.className = "sort-arrow";
+    ths[1].appendChild(nameArrow);
+    ths[1].style.cursor = "pointer";
+
+    // Add data-sort to numeric columns
+    columns.forEach(function (col, i) {
+      var th = ths[i + 2]; // offset by # and Restaurant
+      th.setAttribute("data-sort", col.key);
+      var arrow = document.createElement("span");
+      arrow.className = "sort-arrow";
+      th.appendChild(arrow);
+      th.style.cursor = "pointer";
+    });
+
+    headerRow.addEventListener("click", function (e) {
+      var th = e.target.closest("th[data-sort]");
+      if (!th) return;
+      var key = th.getAttribute("data-sort");
+
+      // 3-way toggle: desc → asc → none
+      if (!sortState || sortState.key !== key) {
+        sortState = { key: key, dir: "desc" };
+      } else if (sortState.dir === "desc") {
+        sortState = { key: key, dir: "asc" };
+      } else {
+        sortState = null;
+      }
+
+      renderTable();
+    });
+  }
+
+  setupSortHeaders();
+
+  // Scoring method toggle
+  var scoringToggle = document.getElementById("scoringToggle");
+  var scoringDetail = document.getElementById("scoringDetail");
+  if (scoringToggle && scoringDetail) {
+    scoringToggle.addEventListener("click", function () {
+      var arrow = scoringToggle.querySelector(".toggle-arrow");
+      scoringDetail.classList.toggle("open");
+      arrow.classList.toggle("open");
+    });
+  }
+
   function render(data) {
     var totalViews = 0;
     var totalDirApple = 0;
@@ -57,6 +189,7 @@
     var totalPhone = 0;
     var totalInstagram = 0;
     var totalShares = 0;
+    var totalDeeplinks = 0;
 
     // Collect filter usage stats
     var filterCounts = {};
@@ -75,7 +208,7 @@
       // Skip non-restaurant entries (filter labels) for the leaderboard
       if (d["filter-area"] || d["filter-tag"]) {
         // Check if this entry ONLY has filter events (not a restaurant)
-        var hasRestaurantEvents = d.view || d["directions-apple"] || d["directions-google"] || d.website || d.phone || d.instagram || d.share;
+        var hasRestaurantEvents = d.view || d["directions-apple"] || d["directions-google"] || d.website || d.phone || d.instagram || d.share || d.deeplink;
         if (!hasRestaurantEvents) return;
       }
 
@@ -86,8 +219,8 @@
       var phone = d.phone || 0;
       var instagram = d.instagram || 0;
       var shares = d.share || 0;
-      var intents = dirApple + dirGoogle + website + phone + instagram + shares;
-      var score = views + intents * 3;
+      var deeplinks = d.deeplink || 0;
+      var score = (dirApple + dirGoogle + phone) * 3 + (deeplinks + shares) * 2 + website + instagram + views;
 
       totalViews += views;
       totalDirApple += dirApple;
@@ -96,6 +229,7 @@
       totalPhone += phone;
       totalInstagram += instagram;
       totalShares += shares;
+      totalDeeplinks += deeplinks;
 
       rows.push({
         name: name,
@@ -106,13 +240,12 @@
         phone: phone,
         instagram: instagram,
         shares: shares,
+        deeplinks: deeplinks,
         score: score,
       });
     });
 
-    rows.sort(function (a, b) {
-      return b.score - a.score || a.name.localeCompare(b.name);
-    });
+    currentRows = rows;
 
     // Summary cards
     document.getElementById("totalViews").textContent =
@@ -129,74 +262,27 @@
       totalInstagram.toLocaleString();
     document.getElementById("totalShares").textContent =
       totalShares.toLocaleString();
+    document.getElementById("totalDeeplinks").textContent =
+      totalDeeplinks.toLocaleString();
 
-    // Leaderboard
-    var tbody = document.getElementById("leaderboardBody");
-    tbody.innerHTML = "";
+    // Render leaderboard
+    renderTable();
 
-    rows.forEach(function (row, i) {
-      var rank = i + 1;
-      var fires = getTrendingFires(rank);
-      var area = areaByName[row.name] || "";
-      var color =
-        typeof AREA_COLORS !== "undefined"
-          ? AREA_COLORS[area] || "#999"
-          : "#999";
-
-      var tr = document.createElement("tr");
-      tr.innerHTML =
-        '<td class="rank-cell">' +
-        rank +
-        "</td>" +
-        '<td class="name-cell">' +
-        '<a href="' + THEME.siteUrl + '/#' + slugify(row.name) + '" target="_blank" rel="noopener">' + escapeHtml(row.name) + '</a>' +
-        "</td>" +
-        '<td class="col-num">' +
-        row.views.toLocaleString() +
-        "</td>" +
-        '<td class="col-num">' +
-        row.dirApple.toLocaleString() +
-        "</td>" +
-        '<td class="col-num">' +
-        row.dirGoogle.toLocaleString() +
-        "</td>" +
-        '<td class="col-num">' +
-        row.website.toLocaleString() +
-        "</td>" +
-        '<td class="col-num">' +
-        row.phone.toLocaleString() +
-        "</td>" +
-        '<td class="col-num">' +
-        row.instagram.toLocaleString() +
-        "</td>" +
-        '<td class="col-num">' +
-        row.shares.toLocaleString() +
-        "</td>" +
-        '<td class="col-num score-cell">' +
-        row.score.toLocaleString() +
-        "</td>";
-      tbody.appendChild(tr);
-    });
-
-    // Filter usage section
+    // Filter usage section — always show, with zeros for missing filters
     var filterSection = document.getElementById("filterSection");
     var filterGrid = document.getElementById("filterStatsGrid");
-    var filterKeys = Object.keys(filterCounts);
-    if (filterKeys.length > 0) {
-      filterSection.style.display = "";
-      filterKeys.sort(function (a, b) {
-        return filterCounts[b] - filterCounts[a];
-      });
-      filterGrid.innerHTML = "";
-      filterKeys.forEach(function (key) {
-        var card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML =
-          '<div class="card-value">' + filterCounts[key].toLocaleString() + "</div>" +
-          '<div class="card-label">' + escapeHtml(filterLabels[key] || key) + "</div>";
-        filterGrid.appendChild(card);
-      });
-    }
+    filterSection.style.display = "";
+    filterGrid.innerHTML = "";
+    var allFilterKeys = Object.keys(filterLabels);
+    allFilterKeys.forEach(function (key) {
+      var count = filterCounts[key] || 0;
+      var card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML =
+        '<div class="card-value">' + count.toLocaleString() + "</div>" +
+        '<div class="card-label">' + escapeHtml(filterLabels[key]) + "</div>";
+      filterGrid.appendChild(card);
+    });
 
     var note = document.getElementById("footerNote");
     if (rows.length > 0) {
