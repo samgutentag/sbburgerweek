@@ -1,7 +1,8 @@
 // SB Burger Week 2026 — Restaurant Data
 // Event: February 19–25, 2026
 // Source: Santa Barbara Independent
-const SOURCE_URL = "https://www.independent.com/2026/02/05/burger-week-2026/";
+const SOURCE_URL =
+  "https://www.independent.com/2026/02/18/go-beast-mode-for-santa-barbara-burger-week-2026";
 
 const AREA_COLORS = {
   "Downtown SB": "#e63946",
@@ -37,6 +38,9 @@ const restaurants = [
           "A vegetarian caprese on thick, house-baked ciabatta with heirloom yellow and red tomatoes, pesto, and sharp parmesan.",
       },
     ],
+    vegan: true,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Downtown Eats",
@@ -56,6 +60,9 @@ const restaurants = [
           "Two smashed beef patties seared to perfection, resting on a lattice of bacon strips. Topped with avocado slices, grilled onions, cheese, tomato, and semi-grilled jalape\u00f1o slices on brioche-adjacent potato buns.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Dom's Taverna",
@@ -75,6 +82,9 @@ const restaurants = [
           "A halal lamb patty imported from New Zealand, topped with Picon blue cheese from northern Spain, saffron aioli, and balsamic onion jam. The lamb is light and fresh, the saffron aioli brings brightness, and the balsamic onion jam marries perfectly with the rich blue cheese. Lunch and dine-in only, no modifications.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Eureka!",
@@ -94,6 +104,9 @@ const restaurants = [
           "A grilled patty topped with grilled red onion, lettuce, tomato, pickles, American Swiss cheese, and house-made special sauce on a tall bun. Comes with their signature fries. Everything made in-house. Dine-in only.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: true,
   },
   {
     name: "Finch and Fork",
@@ -113,6 +126,9 @@ const restaurants = [
           "Two smashed beef patties with ooey-gooey cheddar, a bold fried egg pur\u00e9e (a deeply seasoned sauce ensuring rich flavor in every bite), bacon-onion jam with caramelized onion, house-brined bread-and-butter pickles, crisp lettuce, and juicy tomato on a tender Hawaiian bun. Dine-in only.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Fresco At The Market",
@@ -132,6 +148,9 @@ const restaurants = [
           "A house-made turkey patty, juicy and well-seasoned, crowned with melted cheese, creamy avocado, crisp lettuce, tomato, and red onion on a slightly sweet and buttery brioche bun. Special house sauce pulls everything together with a tangy richness, with pickles on the side.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Gala",
@@ -151,6 +170,9 @@ const restaurants = [
           "Angus beef topped with provolone cheese, a house-made tomato chili jam (an inspired blend of tomatoey richness and a pinch of tang), pickles, butter lettuce, and raita sauce on a brioche bun. Dine-in only.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Goat Tree",
@@ -170,6 +192,9 @@ const restaurants = [
           "A five-ounce grass-fed smashed patty with three melted cheeses \u2014 sharp cheddar, mild American, and bold Havarti \u2014 caramelized sweet Vidalia onions, house-made roasted garlic aioli, and bread and butter pickles on a toasted brioche bun. Dine-in only, available 7 a.m.\u20133 p.m.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Little Bird Kitchen",
@@ -189,6 +214,9 @@ const restaurants = [
           "A four-ounce premium beef patty cooked to order on a flat-top grill, topped with New School American cheese, shredded lettuce, tomato, red onion, Guss's Dill Pickles, and signature LBK Sauce on a Martin's potato bun.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Pascucci",
@@ -208,6 +236,9 @@ const restaurants = [
           "A generous half-pound beef patty with tomato, pickles, and onion, choice of cheddar or gorgonzola, finished with teriyaki or BBQ sauce. A straightforward, unfussy burger from Pascucci's final season before closing at the end of March.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Poke House",
@@ -227,6 +258,9 @@ const restaurants = [
           "A creative sushi-burger mashup: compacted sushi rice buns seasoned with furikake and wrapped in nori, filled with a generous scoop of house-made spicy tuna, mixed greens, crisp cucumbers, cherry tomatoes, jalape\u00f1o, crispy onions, and sriracha aioli. Available 11 a.m.\u20138 p.m.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Que Smoke Shack",
@@ -246,6 +280,9 @@ const restaurants = [
           "A quarter-pound brisket/short rib patty topped with hickory-smoked brisket, crispy onion rings, cheddar cheese, and house-made Kansas City BBQ sauce on a pillow-soft toasted potato bun.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "SB Biergarten",
@@ -265,6 +302,9 @@ const restaurants = [
           "A caprese-inspired twist: two smashed patties topped with fresh mozzarella cheese, tomato, arugula, a drizzle of balsamic vinaigrette, and a dollop of pesto. Comes with fries included.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "The Brewhouse",
@@ -284,6 +324,9 @@ const restaurants = [
           "A quarter-pound grilled patty topped with crispy onion, dill pickles, special sauce, and signature pub cheese \u2014 a blend of American cheese, Helles lager, cream, and house-made habanero paste for a rich, slightly spicy kick.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Seoulmate Kitchen",
@@ -303,6 +346,9 @@ const restaurants = [
           "Tender bulgogi beef paired with a soft fried egg, gochujang mayo, melted mozzarella cheese, kimchi, and cabbage slaw on a fluffy brioche bun. Boldly flavorful with savory-tangy aromas.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Shalhoob's Funk Zone Patio",
@@ -322,6 +368,9 @@ const restaurants = [
           "One-third pound of high-quality beef chuck with hickory-smoked thick-cut bacon, pickles, shredded lettuce, American and Tillamook cheeses, and a show-stopping house-made aioli spread on a buttered brioche bun.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "The Blue Owl",
@@ -341,6 +390,9 @@ const restaurants = [
           "Green curry infused directly into the beef patty, topped with basil mayo, caramelized onions, saut\u00e9ed bell peppers, a fried egg, and melted American cheese on a toasted brioche bun. Choice of chips or side salad.",
       },
     ],
+    vegan: false,
+    glutenFree: true,
+    hasFries: false,
   },
   {
     name: "The Win-dow",
@@ -360,6 +412,9 @@ const restaurants = [
           "A satisfyingly tender and cheesy double smashburger from the L.A.-based concept that quickly became an Americana staple downtown. The $10 Burger Week special includes a fountain drink.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Third Window Brewing (Santa Barbara)",
@@ -379,6 +434,9 @@ const restaurants = [
           "A six-ounce hand-shaped FP Ranch Wagyu patty smoked over white oak for 90 minutes, then seared on the flat top with a whole round of grilled onion and horseradish crema. The slow smoking retains moisture while adding a savory depth reminiscent of Texas brisket. Served with house-made pickles.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Validation Ale",
@@ -398,6 +456,32 @@ const restaurants = [
           "A perfectly seasoned ground-beef patty with melted cheddar cheese, luxurious caramelized onions, creamy Validation sauce, fresh lettuce, and tomato on a toasted French bun. Typically only at their uptown location, available at the Funk Zone just for Burger Week. Dine-in only.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
+    type: "sponsor",
+  },
+  {
+    name: "Validation Annex",
+    address: "2840 De La Vina St, Ste C, Santa Barbara, CA",
+    website: "https://www.validationale.com",
+    phone: "805-500-3111",
+    instagram: "validationsb",
+    area: "Other SB",
+    lat: 34.437506,
+    lng: -119.726482,
+    mapUrl: "https://maps.app.goo.gl/MWDHsQcoNZZ5CJ7U9",
+    appleMapsUrl: "https://maps.apple/p/B933gW.aJ3bn4r",
+    menuItems: [
+      {
+        name: "Annex Burger",
+        description:
+          "A perfectly seasoned ground-beef patty with melted cheddar cheese, luxurious caramelized onions, creamy Validation sauce, fresh lettuce, and tomato on a toasted French bun. Typically only at their uptown location, available at the Funk Zone just for Burger Week. Dine-in only.",
+      },
+    ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
     type: "sponsor",
   },
   {
@@ -411,7 +495,16 @@ const restaurants = [
     lng: -119.705214,
     mapUrl: "https://maps.app.goo.gl/BwkDspDsomjtTNk79",
     appleMapsUrl: "https://maps.apple/p/u2LdIBaUBhX.u.z",
-    menuItems: [],
+    menuItems: [
+      {
+        name: "El Diablo Burger",
+        description:
+          "A house-made turkey patty topped with melted Jack cheese, jalape\u00f1os, creamy avocado, lettuce, tomatoes, onions, and a kick of spicy house aioli on a grilled brioche bun.",
+      },
+    ],
+    vegan: false,
+    glutenFree: true,
+    hasFries: false,
   },
 
   // --- Other SB ---
@@ -433,6 +526,9 @@ const restaurants = [
           "A beef patty battered in beer cheese, topped with crispy bacon, arugula, and tangy house-made mustard on a toasted pretzel bun that adds the perfect amount of salt.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Dave's Dogs Grill",
@@ -452,6 +548,9 @@ const restaurants = [
           'A smashed beef patty (or vegetarian option) smothered in American cheese, dill pickle slaw, and house "dirty" sauce on a brioche bun. The crunchy slaw adds extra texture and flavor.',
       },
     ],
+    vegan: true,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Islands Fine Burgers & Drinks",
@@ -471,6 +570,9 @@ const restaurants = [
           "A classic that's withstood the test of time: topped with Tillamook cheddar cheese, lettuce, tomato, onion, pickles, and mustard. Choice of white or wheat bun, with turkey or veggie patty options at no extra charge. Comes with fresh-cut fries.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: true,
   },
   {
     name: "Mesa Burger",
@@ -500,6 +602,9 @@ const restaurants = [
           "A veggie patty and portobello on a vegan wheat bun with arugula, pickled red onion, and house-made hummus.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Sama San Roque",
@@ -519,6 +624,9 @@ const restaurants = [
           "A juicy four-ounce patty with crispy edges and medium-rare center, layered with Tillamook Jack cheese, a lacy parmesan crisp, blistered roasted tomato, and Calabrian chili aioli on a soft Martin's potato bun. Dine-in only.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "The Patio Cafe",
@@ -543,6 +651,9 @@ const restaurants = [
           "A well-seasoned beef patty topped with house-made salsa-soaked tortilla chips, sour cream, cheddar, lettuce, and tomato. Open daily until 2 p.m.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Yellow Belly Tap",
@@ -562,6 +673,9 @@ const restaurants = [
           "A quarter-pound juicy patty with American cheese, bacon, homemade pickles, and a piquant proprietary mix of Thousand Island and mustard on a toasty brioche bun. Meaty, juicy, sweet, sour, salty, cheesy, piggy, and crunchy in each bite. Going to be a weekly Wednesday special after Burger Week.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
 
   // --- Goleta ---
@@ -583,6 +697,9 @@ const restaurants = [
           "A Wagyu patty on a brioche bun topped with cheddar, lettuce, tomato, chipotle aioli, jalape\u00f1o, onion strings, and a fried egg. Immediately crunchy and subtly spicy, with the creaminess of the runny yolk. Dine-in only.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Cristino's Bakery",
@@ -602,6 +719,9 @@ const restaurants = [
           "A juicy beef patty with crispy bacon, crunchy lettuce, cheddar cheese, house sauce, pickles, tomato, and onions on a star-of-the-show homemade brioche bun. Takeout only \u2014 best enjoyed piping hot.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: true,
   },
   {
     name: "Crushcakes and Cafe",
@@ -614,7 +734,16 @@ const restaurants = [
     lng: -119.812297,
     mapUrl: "https://maps.app.goo.gl/YXrd5iwBn4oCouXA9",
     appleMapsUrl: "https://maps.apple/p/Ir9WS14tYcDv6N",
-    menuItems: [],
+    menuItems: [
+      {
+        name: "El Diablo Burger",
+        description:
+          "A house-made turkey patty topped with melted Jack cheese, jalape\u00f1os, creamy avocado, lettuce, tomatoes, onions, and a kick of spicy house aioli on a grilled brioche bun.",
+      },
+    ],
+    vegan: false,
+    glutenFree: true,
+    hasFries: false,
   },
   {
     name: "Home Plate Grill",
@@ -639,6 +768,9 @@ const restaurants = [
           "Half-torta, half-burger with homemade carnitas, white onion, spicy avocado pico de gallo, and chipotle cilantro sauce.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Jonesy's Fried Chicken",
@@ -658,6 +790,9 @@ const restaurants = [
           "A juicy Mary's air-chilled chicken breast dredged in a secret recipe flour mix and fried to golden, crispy perfection on a white French bun, topped with house-made JFC sauce, dill pickles, and crispy shredded iceberg lettuce. Southern-fried flair with a focus on letting the chicken shine.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Kyle's Kitchen (Hollister)",
@@ -677,6 +812,9 @@ const restaurants = [
           "A cheeseburger with extra crispy bacon, lettuce, tomato, and generously slathered garlic aioli on a fresh-baked, pliant, slightly sweet homemade brioche bun. A classic done right.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Kyle's Kitchen (Calle Real)",
@@ -696,6 +834,9 @@ const restaurants = [
           "A cheeseburger with extra crispy bacon, lettuce, tomato, and generously slathered garlic aioli on a fresh-baked, pliant, slightly sweet homemade brioche bun. A classic done right.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Rinkside Cafe",
@@ -715,6 +856,9 @@ const restaurants = [
           "A smashed all-beef patty with crispy bacon, guajillo aioli, melted mozzarella cheese, sizzled bell pepper, onion, jalape\u00f1o, and a Korean red pepper\u2013based fire sauce on a sesame-seed brioche bun. Crunchy pickles on the side.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Santa Barbara Fish Market",
@@ -728,9 +872,20 @@ const restaurants = [
     mapUrl: "https://maps.app.goo.gl/fATpYsiitbhoVSRm7",
     appleMapsUrl: "https://maps.apple/p/MFjhN9uKSytnZH",
     menuItems: [
-      { name: "West Coast Salmon Burger", description: null },
-      { name: "Ellwood Smashburger", description: null },
+      {
+        name: "West Coast Salmon Burger",
+        description:
+          "A salmon patty topped with crisp fennel slaw, cured tomato, butter lettuce, and Dijon aioli on a brioche bun. A lighter, seafood-forward take on Burger Week.",
+      },
+      {
+        name: "Bacon and Blue Burger",
+        description:
+          "A hearty beef burger loaded with house-made bacon jam, sweet caramelized onions, tangy blue cheese, peppery arugula, and Dijon aioli on a brioche bun. Bold and savory from the local fish market's grill.",
+      },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Shalhoob's (Magnolia)",
@@ -750,6 +905,9 @@ const restaurants = [
           "One-third pound of high-quality beef chuck with hickory-smoked thick-cut bacon, pickles, shredded lettuce, American and Tillamook cheeses, and a show-stopping house-made aioli spread on a buttered brioche bun.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "The Nugget (Goleta)",
@@ -769,6 +927,9 @@ const restaurants = [
           "A tender patty topped with bacon, crispy onions, grape jam, and Skippy peanut butter on a brioche bun with pickles on the side. The peanut butter complements the salty beef and the jelly adds a note of sweetness.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "White Caps Beach Club",
@@ -788,6 +949,9 @@ const restaurants = [
           "A juicy, flavorful half-pound patty with shredded lettuce, tomato, purple onion, melted cheese, Thousand Island sauce, crispy bacon, and pickles on a perfectly laminated fresh brioche bun. Dine-in only weekdays 8 a.m.\u20131 p.m.; also available from the Funk Zone food truck Sat.\u2013Sun.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
 
   // --- Carpinteria ---
@@ -814,6 +978,9 @@ const restaurants = [
           "Adds charred poblano, saut\u00e9ed jalape\u00f1o, and herby spicy mayo to the Single Dang.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Padaro Beach Grill",
@@ -833,6 +1000,9 @@ const restaurants = [
           "A seasoned patty with shredded cheese blend and cabbage, loaded with homemade peppery chili con carne, crispy tortilla strips, a sour-cream spread with pickled jalape\u00f1os, and a side of red salsa. Hearty and messy.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "The Nugget (Summerland)",
@@ -852,6 +1022,9 @@ const restaurants = [
           "A tender patty topped with bacon, crispy onions, grape jam, and Skippy peanut butter on a brioche bun with pickles on the side. The peanut butter complements the salty beef and the jelly adds a note of sweetness.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "The Nugget (Carpinteria)",
@@ -871,6 +1044,9 @@ const restaurants = [
           "A tender patty topped with bacon, crispy onions, grape jam, and Skippy peanut butter on a brioche bun with pickles on the side. The peanut butter complements the salty beef and the jelly adds a note of sweetness.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
   {
     name: "Third Window Brewing (Carpinteria)",
@@ -890,6 +1066,9 @@ const restaurants = [
           "A six-ounce hand-shaped FP Ranch Wagyu patty smoked over white oak for 90 minutes, then seared on the flat top with a whole round of grilled onion and horseradish crema. The slow smoking retains moisture while adding a savory depth reminiscent of Texas brisket. Served with house-made pickles.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
 
   // --- Isla Vista ---
@@ -911,6 +1090,9 @@ const restaurants = [
           "Stacked with two seared beef patties, cheddar cheese, crispy bacon, sliced avocado, curly fries, and house-made chipotle sauce blended with fresh oranges on a fresh bun. A late-night I.V. staple for over 22 years.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: false,
   },
 
   // --- Santa Ynez ---
@@ -932,5 +1114,8 @@ const restaurants = [
           "A Wagyu-based smashburger with balsamic grilled onions, tender juicy char, and molten cheddar on a pillowy bun. Accompanied by house-made duck-fat fries dusted with rosemary and sage. Available Wed.\u2013Sun., 5\u20139 p.m.",
       },
     ],
+    vegan: false,
+    glutenFree: false,
+    hasFries: true,
   },
 ];

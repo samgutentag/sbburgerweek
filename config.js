@@ -25,7 +25,7 @@ const THEME = {
 
   // Header
   sourceLabel: "Source: The Independent",
-  sourceUrl: "https://www.independent.com/2026/02/05/burger-week-2026/",
+  sourceUrl: "https://www.independent.com/2026/02/18/go-beast-mode-for-santa-barbara-burger-week-2026",
 
   // Venmo tip jar (set venmoUser to null to hide the link)
   venmoUser: "samgutentag",
