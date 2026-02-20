@@ -811,6 +811,7 @@ header h1 span {
 .popup-directions-btns {
   display: flex;
   gap: 4px;
+  width: 100%;
 }
 
 .popup-dir-btn {
@@ -1138,6 +1139,10 @@ header h1 span {
     padding: 8px 10px;
     min-height: 36px;
     font-size: 0.82rem;
+  }
+
+  .popup-dir-btn .dir-label {
+    display: none;
   }
 
   .popup-share-btn {

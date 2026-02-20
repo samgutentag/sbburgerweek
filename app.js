@@ -62,7 +62,7 @@
 
   // ── Shared DOM refs + drawer state ────────────
   var sidebar = document.getElementById("sidebar");
-  var PEEK_HEIGHT = 200;
+  var PEEK_HEIGHT = 105;
   var drawerStops = [];
   var currentStop = 0;
 
@@ -72,6 +72,20 @@
     zoomControl: true,
     attributionControl: true,
   }).setView([34.42, -119.7], 13);
+
+  // On mobile, offset the target so the marker sits in the lower third of the
+  // visible map area — this keeps the popup (which opens above) from hiding
+  // behind the top-right controls.
+  function mobileOffsetLatLng(lat, lng, zoom) {
+    if (window.innerWidth > 768) return [lat, lng];
+    var mapHeight = map.getSize().y;
+    // Shift target up by 30% of visible height so marker lands lower on screen
+    var offsetPx = mapHeight * 0.3;
+    var point = map.project([lat, lng], zoom);
+    point.y -= offsetPx;
+    var shifted = map.unproject(point, zoom);
+    return [shifted.lat, shifted.lng];
+  }
 
   var tileLayer = L.tileLayer(
     "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
@@ -181,7 +195,7 @@
 
   // Dietary tag icon helper
   var tagDefs = [
-    { key: "vegan", icon: "icon-vegan.svg", label: "Vegan" },
+    { key: "vegetarian", icon: "icon-vegetarian.svg", label: "Vegetarian" },
     { key: "glutenFree", icon: "icon-gf.svg", label: "Gluten Free" },
     { key: "hasFries", icon: "icon-fries.svg", label: "Fries" },
   ];
@@ -276,17 +290,17 @@
         popupHtml +=
           '<a href="' + r.website + '" target="_blank" rel="noopener" class="popup-dir-btn" title="Website">' +
           '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>' +
-          ' Website</a>';
+          '<span class="dir-label"> Website</span></a>';
       if (r.instagram)
         popupHtml +=
           '<a href="https://instagram.com/' + encodeURIComponent(r.instagram) + '" target="_blank" rel="noopener" class="popup-dir-btn" title="Instagram">' +
           '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>' +
-          ' Instagram</a>';
+          '<span class="dir-label"> Instagram</span></a>';
       if (r.phone)
         popupHtml +=
           '<a href="tel:' + r.phone + '" class="popup-dir-btn" title="' + escapeHtml(r.phone) + '">' +
           '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>' +
-          ' Call</a>';
+          '<span class="dir-label"> Call</span></a>';
       popupHtml += '</div>';
     }
     popupHtml += '</div>';
@@ -296,7 +310,7 @@
       '<span>Share this spot</span></a>';
     popupHtml += "</div>";
 
-    var popupMaxWidth = window.innerWidth > 768 ? 360 : 240;
+    var popupMaxWidth = window.innerWidth > 768 ? 360 : 280;
     marker.bindPopup(popupHtml, { maxWidth: popupMaxWidth, offset: [0, -4], closeButton: false });
 
     // Show popup and burger overlay on hover
@@ -697,6 +711,10 @@
   searchBox.addEventListener("input", function () {
     searchTerm = this.value.toLowerCase().trim();
     renderList();
+    // On mobile, snap drawer to half so user can see filtered results
+    if (window.innerWidth <= 768 && searchTerm && currentStop < 1) {
+      snapDrawerTo(1);
+    }
   });
 
   // ── Sort toggle ────────────────────────────────
@@ -879,7 +897,7 @@
           // Snap drawer to peek so user can see the map and popup
           snapDrawerTo(0);
         }
-        map.flyTo([r.lat, r.lng], 17, { duration: 0.8 });
+        map.flyTo(mobileOffsetLatLng(r.lat, r.lng, 17), 17, { duration: 0.8 });
 
         // After fly, open popup (with slight delay for cluster to resolve)
         setTimeout(function () {
@@ -1055,7 +1073,7 @@
     if (window.innerWidth <= 768) {
       snapDrawerTo(0);
     }
-    map.flyTo([r.lat, r.lng], 17, { duration: 0.8 });
+    map.flyTo(mobileOffsetLatLng(r.lat, r.lng, 17), 17, { duration: 0.8 });
 
     setTimeout(function () {
       var parent = clusterGroup.getVisibleParent(marker);
@@ -1502,7 +1520,7 @@
     if (window.innerWidth <= 768) {
       snapDrawerTo(0);
     }
-    map.setView([r.lat, r.lng], 17);
+    map.setView(mobileOffsetLatLng(r.lat, r.lng, 17), 17);
     // Short delay for cluster to resolve at new zoom
     setTimeout(function () {
       var parent = clusterGroup.getVisibleParent(marker);
