@@ -1140,6 +1140,10 @@ header h1 span {
     font-size: 0.82rem;
   }
 
+  .popup-dir-btn .dir-label {
+    display: none;
+  }
+
   .popup-share-btn {
     padding: 10px 12px;
     font-size: 0.88rem;
