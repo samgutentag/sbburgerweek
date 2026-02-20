@@ -17,9 +17,20 @@ export default {
     if (request.method === "GET") {
       const url = new URL(request.url);
       const detail = url.searchParams.get("detail") === "true";
+      const upvotes = url.searchParams.get("upvotes") === "true";
 
       try {
-        const sql = detail
+        const sql = upvotes
+          ? `SELECT blob2 AS name,
+             SUM(IF(blob1 = 'upvote', 1, 0)) - SUM(IF(blob1 = 'un-upvote', 1, 0)) AS net
+             FROM sbburgerweek
+             WHERE timestamp >= toDateTime('2026-02-19 09:00:00')
+               AND (blob1 = 'upvote' OR blob1 = 'un-upvote')
+             GROUP BY blob2
+             HAVING net > 0
+             ORDER BY net DESC
+             LIMIT 500`
+          : detail
           ? `SELECT blob2 AS name, blob1 AS action, SUM(1) AS count
              FROM sbburgerweek
              WHERE timestamp >= toDateTime('2026-02-19 09:00:00')
@@ -57,7 +68,16 @@ export default {
         const data = await resp.json();
         const result = {};
 
-        if (detail) {
+        if (upvotes) {
+          if (data.data) {
+            data.data.forEach(function (row) {
+              if (row.name) {
+                var net = Number(row.net) || 0;
+                if (net > 0) result[row.name] = net;
+              }
+            });
+          }
+        } else if (detail) {
           if (data.data) {
             data.data.forEach(function (row) {
               if (row.name) {

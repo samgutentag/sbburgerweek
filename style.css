@@ -56,6 +56,28 @@ header h1 span {
   margin-left: 6px;
 }
 
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.header-nav-link {
+  color: var(--orange);
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.header-nav-link:hover {
+  text-decoration: underline;
+}
+
+.header-nav-sep {
+  color: #999;
+  font-size: 0.85rem;
+}
+
 .about-link {
   color: var(--orange);
   text-decoration: none;
@@ -496,6 +518,14 @@ header h1 span {
   text-overflow: ellipsis;
 }
 
+.upvote-sidebar-badge {
+  font-size: 0.7rem;
+  color: #666;
+  flex-shrink: 0;
+  margin-left: 6px;
+  white-space: nowrap;
+}
+
 .restaurant-item .area-badge {
   font-size: 0.68rem;
   padding: 2px 8px;
@@ -704,7 +734,7 @@ header h1 span {
   font-size: 0.95rem;
   margin-bottom: 4px;
   color: var(--dark);
-  padding-right: 28px;
+  padding-right: 50px;
 }
 
 .popup-content p {
@@ -735,27 +765,6 @@ header h1 span {
 }
 
 
-.popup-ig {
-  position: absolute;
-  top: 8px;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  color: #888;
-  transition: color 0.15s;
-}
-
-.popup-ig:hover {
-  color: var(--red);
-}
-
-.popup-ig svg {
-  width: 16px;
-  height: 16px;
-}
 
 .popup-section {
   background: #f9f9f9;
@@ -838,6 +847,56 @@ header h1 span {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
+}
+
+/* ── Popup upvote button (top-right) ──────── */
+
+.popup-upvote {
+  position: absolute;
+  top: 8px;
+  right: 0;
+  z-index: 1;
+}
+
+.upvote-btn {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 4px 8px;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.upvote-btn:hover {
+  background: #e8e8e8;
+  border-color: #bbb;
+}
+
+.upvote-btn:active {
+  transform: scale(0.95);
+}
+
+.upvote-btn.upvoted {
+  background: #c8e6c9;
+  border-color: #4caf50;
+}
+
+.upvote-heart {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.upvote-count {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--dark);
+  min-width: 0;
 }
 
 .popup-share-btn {
@@ -1083,6 +1142,11 @@ header h1 span {
 
   .popup-share-btn {
     padding: 10px 12px;
+    font-size: 0.88rem;
+  }
+
+  .upvote-btn {
+    padding: 6px 10px;
     font-size: 0.88rem;
   }
 
