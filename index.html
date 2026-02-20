@@ -6,6 +6,15 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
+
+    <!-- Preconnect to CDN and tile origins for faster LCP -->
+    <link rel="preconnect" href="https://unpkg.com" crossorigin />
+    <link rel="preconnect" href="https://a.basemaps.cartocdn.com" crossorigin />
+    <link rel="preconnect" href="https://b.basemaps.cartocdn.com" crossorigin />
+    <link rel="preconnect" href="https://c.basemaps.cartocdn.com" crossorigin />
+    <link rel="dns-prefetch" href="https://unpkg.com" />
+    <link rel="dns-prefetch" href="https://a.basemaps.cartocdn.com" />
+
     <title>SB Burger Week 2026 Map</title>
     <link
       rel="icon"
@@ -63,17 +72,20 @@
       crossorigin=""
     />
 
-    <!-- MarkerCluster CSS -->
+    <!-- App CSS first — contains above-the-fold styles -->
+    <link rel="stylesheet" href="style.css" fetchpriority="high" />
+
+    <!-- MarkerCluster CSS (non-critical, can load after) -->
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"
+      crossorigin
     />
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"
+      crossorigin
     />
-
-    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="loading-overlay" id="loadingOverlay">
@@ -195,7 +207,7 @@
     ></script>
 
     <!-- MarkerCluster JS -->
-    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js" crossorigin></script>
 
     <!-- Load data: ?year=YYYY forces a specific year, otherwise date-gated -->
     <script>
