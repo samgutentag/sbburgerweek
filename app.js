@@ -310,7 +310,7 @@
       '<span>Share this spot</span></a>';
     popupHtml += "</div>";
 
-    var popupMaxWidth = window.innerWidth > 768 ? 360 : 240;
+    var popupMaxWidth = window.innerWidth > 768 ? 360 : 280;
     marker.bindPopup(popupHtml, { maxWidth: popupMaxWidth, offset: [0, -4], closeButton: false });
 
     // Show popup and burger overlay on hover
