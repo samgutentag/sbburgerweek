@@ -140,6 +140,64 @@
 
   loadChecklist();
 
+  // ── Upvote state ──────────────────────────────
+  var upvotedSet = new Set();
+  var UPVOTE_KEY = THEME.storageKey + "-upvotes";
+  var upvoteCounts = {};
+
+  function loadUpvotes() {
+    try {
+      var saved = localStorage.getItem(UPVOTE_KEY);
+      if (saved) {
+        JSON.parse(saved).forEach(function (n) {
+          upvotedSet.add(n);
+        });
+      }
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  function saveUpvotes() {
+    try {
+      localStorage.setItem(UPVOTE_KEY, JSON.stringify(Array.from(upvotedSet)));
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  loadUpvotes();
+
+  // Fetch upvote counts (non-blocking)
+  if (THEME.trackUrl) {
+    fetch(THEME.trackUrl + "?upvotes=true", { method: "GET" })
+      .then(function (resp) { return resp.json(); })
+      .then(function (data) {
+        if (data && typeof data === "object") {
+          var valid = {};
+          Object.keys(data).forEach(function (k) {
+            if (typeof data[k] === "number") valid[k] = data[k];
+          });
+          upvoteCounts = valid;
+          refreshOpenPopupUpvote();
+        }
+      })
+      .catch(function () { /* silently ignore */ });
+  }
+
+  function refreshOpenPopupUpvote() {
+    var popup = document.querySelector(".leaflet-popup .upvote-btn");
+    if (!popup) return;
+    var name = popup.getAttribute("data-name");
+    if (!name) return;
+    var isUpvoted = upvotedSet.has(name);
+    popup.classList.toggle("upvoted", isUpvoted);
+    var heart = popup.querySelector(".upvote-heart");
+    var count = popup.querySelector(".upvote-count");
+    if (heart) heart.textContent = "\uD83D\uDC4D";
+    if (count) count.textContent = String(upvoteCounts[name] || 0);
+  }
+
   restaurants.forEach(function (r) {
     var color = AREA_COLORS[r.area] || "#999";
 
@@ -159,11 +217,13 @@
     var popupHtml =
       '<div class="popup-content">' +
       '<div class="popup-accent" style="background:' + color + '"></div>';
-    if (r.instagram)
-      popupHtml +=
-        '<a href="https://instagram.com/' + encodeURIComponent(r.instagram) + '" target="_blank" rel="noopener" class="popup-ig" title="@' + escapeHtml(r.instagram) + '">' +
-        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>' +
-        '</a>';
+    var isUpvoted = upvotedSet.has(r.name);
+    var upvoteCount = upvoteCounts[r.name] || 0;
+    popupHtml +=
+      '<button class="upvote-btn popup-upvote' + (isUpvoted ? ' upvoted' : '') + '" data-name="' + escapeHtml(r.name) + '">' +
+      '<span class="upvote-count">' + upvoteCount + '</span>' +
+      '<span class="upvote-heart">\uD83D\uDC4D</span>' +
+      '</button>';
     popupHtml += '<div class="popup-section popup-section-name">' +
       "<h3>" + escapeHtml(r.name) + "</h3></div>";
     popupHtml += '<div class="popup-section popup-section-menu">';
@@ -196,13 +256,18 @@
       '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>' +
       ' Google Maps</a>' +
       '</div>';
-    if (r.website || r.phone) {
+    if (r.website || r.instagram || r.phone) {
       popupHtml += '<div class="popup-directions-btns" style="margin-top:4px">';
       if (r.website)
         popupHtml +=
           '<a href="' + r.website + '" target="_blank" rel="noopener" class="popup-dir-btn" title="Website">' +
           '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>' +
           ' Website</a>';
+      if (r.instagram)
+        popupHtml +=
+          '<a href="https://instagram.com/' + encodeURIComponent(r.instagram) + '" target="_blank" rel="noopener" class="popup-dir-btn" title="Instagram">' +
+          '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>' +
+          ' Instagram</a>';
       if (r.phone)
         popupHtml +=
           '<a href="tel:' + r.phone + '" class="popup-dir-btn" title="' + escapeHtml(r.phone) + '">' +
@@ -306,6 +371,9 @@
     if (h3 && typeof window.track === "function") {
       window.track("view", h3.textContent);
     }
+
+    // Refresh upvote button state
+    refreshOpenPopupUpvote();
   });
 
   map.on("popupclose", function () {
@@ -359,6 +427,36 @@
       link.textContent = "Copied!";
       setTimeout(function () { link.textContent = orig; }, 1500);
     }
+  });
+
+  // Upvote button click handler (delegated)
+  document.addEventListener("click", function (e) {
+    var btn = e.target.closest(".upvote-btn");
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    var name = btn.getAttribute("data-name");
+    if (!name) return;
+
+    var wasUpvoted = upvotedSet.has(name);
+    if (wasUpvoted) {
+      upvotedSet.delete(name);
+      upvoteCounts[name] = Math.max((upvoteCounts[name] || 0) - 1, 0);
+      if (typeof window.track === "function") window.track("un-upvote", name);
+    } else {
+      upvotedSet.add(name);
+      upvoteCounts[name] = (upvoteCounts[name] || 0) + 1;
+      if (typeof window.track === "function") window.track("upvote", name);
+    }
+    saveUpvotes();
+
+    // Update button UI in-place
+    var heart = btn.querySelector(".upvote-heart");
+    var countEl = btn.querySelector(".upvote-count");
+    var isNowUpvoted = upvotedSet.has(name);
+    btn.classList.toggle("upvoted", isNowUpvoted);
+    if (heart) heart.textContent = "\uD83D\uDC4D";
+    if (countEl) countEl.textContent = String(upvoteCounts[name] || 0);
   });
 
   // Fit bounds to show all markers

@@ -58,6 +58,7 @@
     { key: "phone", label: "Phone" },
     { key: "instagram", label: "Instagram" },
     { key: "shares", label: "Shares" },
+    { key: "likes", label: "Likes" },
     { key: "score", label: "Score" },
   ];
 
@@ -107,6 +108,7 @@
         '<td class="col-num">' + row.phone.toLocaleString() + "</td>" +
         '<td class="col-num">' + row.instagram.toLocaleString() + "</td>" +
         '<td class="col-num">' + row.shares.toLocaleString() + "</td>" +
+        '<td class="col-num">' + row.likes.toLocaleString() + "</td>" +
         '<td class="col-num score-cell">' + row.score.toLocaleString() + "</td>";
       tbody.appendChild(tr);
     });
@@ -190,6 +192,7 @@
     var totalInstagram = 0;
     var totalShares = 0;
     var totalDeeplinks = 0;
+    var totalLikes = 0;
 
     // Collect filter usage stats
     var filterCounts = {};
@@ -208,7 +211,7 @@
       // Skip non-restaurant entries (filter labels) for the leaderboard
       if (d["filter-area"] || d["filter-tag"]) {
         // Check if this entry ONLY has filter events (not a restaurant)
-        var hasRestaurantEvents = d.view || d["directions-apple"] || d["directions-google"] || d.website || d.phone || d.instagram || d.share || d.deeplink;
+        var hasRestaurantEvents = d.view || d["directions-apple"] || d["directions-google"] || d.website || d.phone || d.instagram || d.share || d.deeplink || d.upvote;
         if (!hasRestaurantEvents) return;
       }
 
@@ -220,7 +223,8 @@
       var instagram = d.instagram || 0;
       var shares = d.share || 0;
       var deeplinks = d.deeplink || 0;
-      var score = (dirApple + dirGoogle + phone) * 3 + (deeplinks + shares) * 2 + website + instagram + views;
+      var likes = Math.max((d.upvote || 0) - (d["un-upvote"] || 0), 0);
+      var score = (dirApple + dirGoogle + phone) * 3 + (deeplinks + shares + likes) * 2 + website + instagram + views;
 
       totalViews += views;
       totalDirApple += dirApple;
@@ -230,6 +234,7 @@
       totalInstagram += instagram;
       totalShares += shares;
       totalDeeplinks += deeplinks;
+      totalLikes += likes;
 
       rows.push({
         name: name,
@@ -241,6 +246,7 @@
         instagram: instagram,
         shares: shares,
         deeplinks: deeplinks,
+        likes: likes,
         score: score,
       });
     });
@@ -264,6 +270,8 @@
       totalShares.toLocaleString();
     document.getElementById("totalDeeplinks").textContent =
       totalDeeplinks.toLocaleString();
+    document.getElementById("totalLikes").textContent =
+      totalLikes.toLocaleString();
 
     // Render leaderboard
     renderTable();
