@@ -418,39 +418,6 @@ header h1 span {
   font-weight: 600;
 }
 
-/* ── Trending badge ───────────────────────── */
-
-.trending-badge {
-  font-style: normal;
-  font-size: 0.7rem;
-  margin-left: 4px;
-  letter-spacing: -1px;
-}
-
-/* ── Sort toggle ─────────────────────────── */
-
-.sort-toggle-btn {
-  padding: 4px 10px;
-  border: 1px solid #ccc;
-  border-radius: 14px;
-  background: #fff;
-  font-size: 0.75rem;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.15s;
-  flex-shrink: 0;
-}
-
-.sort-toggle-btn:hover {
-  background: #f0f0f0;
-}
-
-.sort-toggle-btn.sort-active {
-  background: var(--orange);
-  color: #fff;
-  border-color: transparent;
-}
-
 .restaurant-list {
   flex: 1;
   overflow-y: auto;
@@ -1092,14 +1059,6 @@ header h1 span {
     font-size: 0.8rem;
     width: 100%;
     text-align: center;
-  }
-
-  /* ── Mobile sort toggle ─────────────────── */
-
-  .sort-toggle-btn {
-    padding: 8px 14px;
-    min-height: 36px;
-    font-size: 0.8rem;
   }
 
   /* ── Mobile filter toggle ────────────────── */

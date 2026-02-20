@@ -22,14 +22,6 @@
     return str.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   }
 
-  function getTrendingFires(rank) {
-    if (rank <= 5) return 5;
-    if (rank <= 15) return 3;
-    if (rank <= 25) return 2;
-    if (rank <= 35) return 1;
-    return 0;
-  }
-
   // Build area color lookup from data.js
   var areaByName = {};
   if (typeof restaurants !== "undefined") {
@@ -305,24 +297,6 @@
     }
   }
 
-  // Render from static trending data first as fallback
-  function renderFromTrending() {
-    var trending = window.TRENDING || {};
-    var fakeDetail = {};
-    Object.keys(trending).forEach(function (name) {
-      var t = trending[name];
-      fakeDetail[name] = {
-        view: t.views || 0,
-        "directions-apple": 0,
-        "directions-google": Math.round((t.intents || 0) * 0.6),
-        website: Math.round((t.intents || 0) * 0.3),
-        phone: 0,
-        share: Math.round((t.intents || 0) * 0.1),
-      };
-    });
-    render(fakeDetail);
-  }
-
   // Try live fetch with ?detail=true
   if (THEME.trackUrl) {
     fetch(THEME.trackUrl + "?detail=true", { method: "GET" })
@@ -333,13 +307,16 @@
         if (data && typeof data === "object" && Object.keys(data).length > 0) {
           render(data);
         } else {
-          renderFromTrending();
+          document.getElementById("footerNote").textContent =
+            "No tracking data yet. Stats will appear once the event starts.";
         }
       })
       .catch(function () {
-        renderFromTrending();
+        document.getElementById("footerNote").textContent =
+          "No tracking data yet. Stats will appear once the event starts.";
       });
   } else {
-    renderFromTrending();
+    document.getElementById("footerNote").textContent =
+      "No tracking data yet. Stats will appear once the event starts.";
   }
 })();

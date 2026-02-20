@@ -520,38 +520,6 @@
     renderList();
   });
 
-  // ── Trending data ──────────────────────────────
-
-  window.trendingData = window.TRENDING || {};
-
-  function getTrendingScore(name) {
-    var data = window.trendingData || {};
-    var r = data[name];
-    if (!r) return 0;
-    return (r.views || 0) + (r.intents || 0) * 3;
-  }
-
-  function getTrendingFires(rank) {
-    if (rank <= 5) return 5;
-    if (rank <= 15) return 3;
-    if (rank <= 25) return 2;
-    if (rank <= 35) return 1;
-    return 0;
-  }
-
-  // Live fetch trending data (non-blocking)
-  if (THEME.trackUrl) {
-    fetch(THEME.trackUrl, { method: "GET" })
-      .then(function (resp) { return resp.json(); })
-      .then(function (data) {
-        if (data && typeof data === "object") {
-          window.trendingData = data;
-          renderList();
-        }
-      })
-      .catch(function () { /* silently use static data */ });
-  }
-
   // ── Sidebar: restaurant list ───────────────────
 
   var searchTerm = "";
@@ -578,15 +546,6 @@
         r.area.toLowerCase().indexOf(searchTerm) !== -1 ||
         (r.menuItems.some(function(item) { return item.name.toLowerCase().indexOf(searchTerm) !== -1 || (item.description && item.description.toLowerCase().indexOf(searchTerm) !== -1); }));
       return matchesArea && matchesSearch;
-    });
-
-    // Compute trending ranks for filtered set
-    var trendingRanks = {};
-    var rankedByScore = filtered.slice().sort(function (a, b) {
-      return getTrendingScore(b.name) - getTrendingScore(a.name);
-    });
-    rankedByScore.forEach(function (r, i) {
-      trendingRanks[r.name] = i + 1;
     });
 
     filtered.sort(function (a, b) {
@@ -658,13 +617,6 @@
       var nameSpan = document.createElement("span");
       nameSpan.className = "name";
       nameSpan.textContent = r.name;
-      var fires = THEME.showTrending && getTrendingScore(r.name) > 0 ? getTrendingFires(trendingRanks[r.name] || 999) : 0;
-      if (fires > 0) {
-        var trendBadge = document.createElement("span");
-        trendBadge.className = "trending-badge";
-        trendBadge.textContent = "\uD83D\uDD25".repeat(fires);
-        nameSpan.appendChild(trendBadge);
-      }
       nameCol.appendChild(nameSpan);
 
       if (r.menuItems.length > 0) {

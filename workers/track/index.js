@@ -13,10 +13,9 @@ export default {
       return new Response(null, { headers: corsHeaders });
     }
 
-    // GET — return aggregated trending counts
+    // GET — return aggregated counts (?upvotes=true for upvotes, otherwise detail breakdown)
     if (request.method === "GET") {
       const url = new URL(request.url);
-      const detail = url.searchParams.get("detail") === "true";
       const upvotes = url.searchParams.get("upvotes") === "true";
 
       try {
@@ -30,22 +29,13 @@ export default {
              HAVING net > 0
              ORDER BY net DESC
              LIMIT 500`
-          : detail
-          ? `SELECT blob2 AS name, blob1 AS action, SUM(1) AS count
+          : `SELECT blob2 AS name, blob1 AS action, SUM(1) AS count
              FROM sbburgerweek
              WHERE timestamp >= toDateTime('2026-02-19 09:00:00')
                AND blob1 != 'test'
              GROUP BY blob2, blob1
              ORDER BY count DESC
-             LIMIT 2000`
-          : `SELECT blob2 AS name,
-             SUM(IF(blob1 = 'view', 1, 0)) AS views,
-             SUM(IF(blob1 != 'view' AND blob1 != 'test', 1, 0)) AS intents
-             FROM sbburgerweek
-             WHERE timestamp >= toDateTime('2026-02-19 09:00:00')
-             GROUP BY blob2
-             ORDER BY intents DESC
-             LIMIT 500`;
+             LIMIT 2000`;
 
         const resp = await fetch(
           `https://api.cloudflare.com/client/v4/accounts/${env.ACCOUNT_ID}/analytics_engine/sql`,
@@ -77,23 +67,12 @@ export default {
               }
             });
           }
-        } else if (detail) {
+        } else {
           if (data.data) {
             data.data.forEach(function (row) {
               if (row.name) {
                 if (!result[row.name]) result[row.name] = {};
                 result[row.name][row.action] = Number(row.count) || 0;
-              }
-            });
-          }
-        } else {
-          if (data.data) {
-            data.data.forEach(function (row) {
-              if (row.name) {
-                result[row.name] = {
-                  views: Number(row.views) || 0,
-                  intents: Number(row.intents) || 0,
-                };
               }
             });
           }
