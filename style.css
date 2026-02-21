@@ -485,12 +485,13 @@ header h1 span {
   text-overflow: ellipsis;
 }
 
-.upvote-sidebar-badge {
-  font-size: 0.7rem;
-  color: #666;
+.sidebar-right-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   flex-shrink: 0;
-  margin-left: 6px;
-  white-space: nowrap;
+  margin-left: 8px;
+  gap: 4px;
 }
 
 .restaurant-item .area-badge {
@@ -499,7 +500,61 @@ header h1 span {
   border-radius: 10px;
   color: #fff;
   flex-shrink: 0;
-  margin-left: 8px;
+  white-space: nowrap;
+}
+
+.sidebar-upvote {
+  background: #fff3e0;
+  border: 1px solid #f9a825;
+  border-radius: 12px;
+  padding: 1px 8px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  color: #e65100;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s, opacity 0.15s;
+}
+
+.sidebar-upvote:hover {
+  background: #ffe0b2;
+  border-color: #f57f17;
+}
+
+.sidebar-upvote.upvoted {
+  background: #fff3e0;
+  border-color: #f9a825;
+  color: #e65100;
+}
+
+.sidebar-upvote.zero {
+  background: none;
+  border: 1px dashed #ccc;
+  color: #aaa;
+}
+
+.sidebar-upvote.zero:hover {
+  background: #fafafa;
+  border: 1px solid #bbb;
+  color: #888;
+}
+
+.sidebar-upvote.zero:hover .upvote-heart {
+  opacity: 1;
+}
+
+.sidebar-upvote .upvote-heart {
+  font-size: 0.75rem;
+}
+
+.sidebar-upvote.zero .upvote-heart {
+  opacity: 0.4;
+}
+
+.sidebar-upvote .upvote-count {
+  font-size: 0.7rem;
 }
 
 .restaurant-count {

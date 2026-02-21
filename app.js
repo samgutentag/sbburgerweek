@@ -536,19 +536,22 @@
   function updateSidebarUpvoteBadge(name) {
     var li = document.querySelector('.restaurant-item[data-restaurant-name="' + CSS.escape(name) + '"]');
     if (!li) return;
-    var badge = li.querySelector(".upvote-sidebar-badge");
+    var btn = li.querySelector(".sidebar-upvote");
+    if (!btn) return;
     var c = upvoteCounts[name] || 0;
+    var isUpvoted = upvotedSet.has(name);
+    btn.classList.toggle("upvoted", isUpvoted);
+    btn.classList.toggle("zero", c === 0);
+    var countEl = btn.querySelector(".upvote-count");
     if (c > 0) {
-      if (!badge) {
-        badge = document.createElement("span");
-        badge.className = "upvote-sidebar-badge";
-        var nameCol = li.querySelector(".name-col");
-        var areaBadge = li.querySelector(".area-badge");
-        li.insertBefore(badge, areaBadge);
+      if (!countEl) {
+        countEl = document.createElement("span");
+        countEl.className = "upvote-count";
+        btn.appendChild(countEl);
       }
-      badge.textContent = "\uD83D\uDC4D " + c;
-    } else if (badge) {
-      badge.remove();
+      countEl.textContent = String(c);
+    } else if (countEl) {
+      countEl.remove();
     }
   }
 
@@ -802,14 +805,20 @@
       badge.style.backgroundColor = AREA_COLORS[r.area] || "#999";
 
       li.appendChild(nameCol);
+
+      var rightCol = document.createElement("div");
+      rightCol.className = "sidebar-right-col";
+      rightCol.appendChild(badge);
+
       var upvoteC = upvoteCounts[r.name] || 0;
-      if (upvoteC > 0) {
-        var upBadge = document.createElement("span");
-        upBadge.className = "upvote-sidebar-badge";
-        upBadge.textContent = "\uD83D\uDC4D " + upvoteC;
-        li.appendChild(upBadge);
-      }
-      li.appendChild(badge);
+      var isUpvoted = upvotedSet.has(r.name);
+      var upBtn = document.createElement("button");
+      upBtn.setAttribute("data-name", r.name);
+      upBtn.className = "upvote-btn sidebar-upvote" + (isUpvoted ? " upvoted" : "") + (upvoteC === 0 ? " zero" : "");
+      upBtn.innerHTML = '<span class="upvote-heart">\uD83D\uDC4D</span>' + (upvoteC > 0 ? '<span class="upvote-count">' + upvoteC + '</span>' : '');
+      rightCol.appendChild(upBtn);
+
+      li.appendChild(rightCol);
 
       li.addEventListener("mouseenter", function () {
         showBurgerOverlay([r.lat, r.lng]);

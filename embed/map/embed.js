@@ -429,6 +429,28 @@
     }
   });
 
+  function updateSidebarUpvoteBadge(name) {
+    var li = document.querySelector('.restaurant-item[data-restaurant-name="' + CSS.escape(name) + '"]');
+    if (!li) return;
+    var btn = li.querySelector(".sidebar-upvote");
+    if (!btn) return;
+    var c = upvoteCounts[name] || 0;
+    var isUpvoted = upvotedSet.has(name);
+    btn.classList.toggle("upvoted", isUpvoted);
+    btn.classList.toggle("zero", c === 0);
+    var countEl = btn.querySelector(".upvote-count");
+    if (c > 0) {
+      if (!countEl) {
+        countEl = document.createElement("span");
+        countEl.className = "upvote-count";
+        btn.appendChild(countEl);
+      }
+      countEl.textContent = String(c);
+    } else if (countEl) {
+      countEl.remove();
+    }
+  }
+
   // Upvote button click handler (delegated)
   document.addEventListener("click", function (e) {
     var btn = e.target.closest(".upvote-btn");
@@ -457,6 +479,8 @@
     btn.classList.toggle("upvoted", isNowUpvoted);
     if (heart) heart.textContent = "\uD83D\uDC4D";
     if (countEl) countEl.textContent = String(upvoteCounts[name] || 0);
+
+    updateSidebarUpvoteBadge(name);
   });
 
   // Fit bounds to show all markers
@@ -639,7 +663,20 @@
       badge.style.backgroundColor = AREA_COLORS[r.area] || "#999";
 
       li.appendChild(nameCol);
-      li.appendChild(badge);
+
+      var rightCol = document.createElement("div");
+      rightCol.className = "sidebar-right-col";
+      rightCol.appendChild(badge);
+
+      var upvoteC = upvoteCounts[r.name] || 0;
+      var isUpvoted = upvotedSet.has(r.name);
+      var upBtn = document.createElement("button");
+      upBtn.setAttribute("data-name", r.name);
+      upBtn.className = "upvote-btn sidebar-upvote" + (isUpvoted ? " upvoted" : "") + (upvoteC === 0 ? " zero" : "");
+      upBtn.innerHTML = '<span class="upvote-heart">\uD83D\uDC4D</span>' + (upvoteC > 0 ? '<span class="upvote-count">' + upvoteC + '</span>' : '');
+      rightCol.appendChild(upBtn);
+
+      li.appendChild(rightCol);
 
       li.addEventListener("mouseenter", function () {
         showBurgerOverlay([r.lat, r.lng]);
