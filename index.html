@@ -162,7 +162,7 @@
             <span class="about-link-desc">The Independent</span>
           </a>
           <a id="aboutVenmo" class="about-link-card" href="#">
-            <span class="about-link-icon">🍔</span>
+            <span class="about-link-icon">🫙</span>
             <span class="about-link-label">Tip Jar</span>
             <span class="about-link-desc">Buy me a burger</span>
           </a>
@@ -193,6 +193,55 @@
             >Sam Gutentag</a
           >
           in Santa Barbara, CA
+        </p>
+      </div>
+    </div>
+
+    <!-- Tip Jar modal -->
+    <div class="about-overlay" id="tipJarOverlay">
+      <div class="about-modal tip-jar-modal">
+        <button class="about-close" id="tipJarClose" aria-label="Close">
+          &times;
+        </button>
+        <h2>🫙 Tip Jar</h2>
+        <p class="about-body" id="tipJarBody">
+          This map was built by a solo dev in Santa Barbara. If it helped you
+          find your next burger, consider leaving a tip!
+        </p>
+        <div class="tip-amounts">
+          <a id="tipAmount1" class="tip-amount-btn" href="#">
+            <span class="tip-emoji">🍟</span>
+            <span class="tip-label">Side of Fries</span>
+            <span class="tip-price">$1</span>
+          </a>
+          <a id="tipAmount5" class="tip-amount-btn tip-amount-featured" href="#">
+            <span class="tip-emoji"><span class="tip-emoji-half" id="tipHalfEmoji">🍔</span></span>
+            <span class="tip-label" id="tipHalfLabel">Half a Burger</span>
+            <span class="tip-price">$5</span>
+          </a>
+          <a id="tipAmount10" class="tip-amount-btn" href="#">
+            <span class="tip-emoji" id="tipFullEmoji">🍔</span>
+            <span class="tip-label" id="tipFullLabel">Full Burger</span>
+            <span class="tip-price">$10</span>
+          </a>
+          <a id="tipShare" class="tip-amount-btn tip-amount-share" href="#">
+            <span class="tip-emoji">📤</span>
+            <span class="tip-label">Share the map with a friend</span>
+            <span class="tip-price tip-price-free"></span>
+          </a>
+        </div>
+        <div class="tip-qr">
+          <img
+            src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://venmo.com/samgutentag"
+            alt="Venmo QR Code"
+            width="120"
+            height="120"
+            loading="lazy"
+          />
+          <span class="tip-qr-label">Scan to open Venmo</span>
+        </div>
+        <p class="about-footer">
+          Made with ❤️ in Santa Barbara
         </p>
       </div>
     </div>

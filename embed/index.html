@@ -38,6 +38,26 @@
         display: block;
         border-radius: 8px;
       }
+      .instructions {
+        margin-top: 24px;
+      }
+      .instructions h2 {
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+      }
+      .instructions p {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 8px;
+      }
+      .instructions a {
+        color: #e63946;
+        font-weight: 600;
+        text-decoration: none;
+      }
+      .instructions a:hover {
+        text-decoration: underline;
+      }
       pre {
         background: #2b2b2b;
         color: #f0f0f0;
@@ -104,6 +124,12 @@
       </iframe>
     </div>
 
+    <div class="instructions" id="instructions">
+      <h2>How to Embed</h2>
+      <p>Copy and paste the code below into an HTML block on your website, blog, or CMS. Works with WordPress, Squarespace, Wix, and most site builders.</p>
+      <p>Need help getting it set up? <a id="embedContact" href="#">Get in touch</a> and I'm happy to help.</p>
+    </div>
+
     <pre id="embedSnippet"><code></code></pre>
 
     <script src="../config.js"></script>
@@ -118,6 +144,11 @@
         document.getElementById("embedPreview").title = mapTitle;
         var mobileLink = document.getElementById("mobileFullMapLink");
         if (mobileLink) mobileLink.href = t.siteUrl + "/";
+        var embedContact = document.getElementById("embedContact");
+        if (embedContact && t.contactDomain) {
+          var year = new Date().getFullYear();
+          embedContact.href = "mailto:sb" + t.itemLabel + "week" + year + "@" + t.contactDomain;
+        }
         document.getElementById("embedSnippet").querySelector("code").textContent =
           '<iframe\n' +
           '  src="' + t.siteUrl + '/embed/map"\n' +

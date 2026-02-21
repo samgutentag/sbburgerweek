@@ -286,14 +286,14 @@ header h1 span {
   opacity: 0.8;
 }
 
-/* ── Random Picker button ────────────────── */
+/* ── Tip Jar button ──────────────────────── */
 
-.random-picker-btn {
+.tip-jar-btn {
   width: 44px;
   height: 44px;
   border-radius: 50%;
   border: none;
-  background: #fff;
+  background: #fff8f0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   cursor: pointer;
   font-size: 1.3rem;
@@ -301,11 +301,143 @@ header h1 span {
   align-items: center;
   justify-content: center;
   transition: background 0.2s, transform 0.15s;
+  border: 2px solid var(--orange);
 }
 
-.random-picker-btn:hover {
-  background: #f0f0f0;
+@keyframes tip-ripple {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+.tip-jar-btn {
+  position: relative;
+}
+
+.tip-jar-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid var(--orange);
+  animation: tip-ripple 2.5s ease-out 5;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.tip-jar-btn:hover::after {
+  animation: none;
+  opacity: 0;
+}
+
+.tip-jar-btn:hover {
+  animation: none;
+  background: #ffe8cc;
   transform: scale(1.05);
+}
+
+/* ── Tip Jar modal ──────────────────────── */
+
+.tip-jar-modal {
+  max-width: 360px;
+}
+
+.tip-amounts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tip-amount-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #f8f8f8;
+  border: 2px solid #eee;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: calc(33.33% - 8px);
+}
+
+.tip-amount-btn:hover {
+  background: var(--cream);
+  border-color: var(--orange);
+  transform: translateY(-2px);
+}
+
+.tip-amount-featured {
+  border-color: var(--orange);
+  background: #fff8f0;
+}
+
+.tip-emoji {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.tip-emoji-half {
+  display: inline-block;
+  width: 0.7em;
+  overflow: hidden;
+}
+
+.tip-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--dark);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.tip-price {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--red);
+}
+
+.tip-price-free {
+  color: var(--orange);
+}
+
+.tip-amount-btn.tip-amount-share {
+  flex: 0 0 100%;
+  max-width: 100%;
+  padding: 8px 16px;
+  flex-direction: row;
+  gap: 8px;
+  justify-content: center;
+}
+
+.tip-amount-btn.tip-amount-share .tip-emoji {
+  font-size: 1rem;
+}
+
+.tip-amount-btn.tip-amount-share .tip-price {
+  font-size: 0.85rem;
+}
+
+.tip-qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.tip-qr img {
+  border-radius: 8px;
+  border: 1px solid #eee;
+}
+
+.tip-qr-label {
+  font-size: 0.72rem;
+  color: #999;
 }
 
 /* ── FAB: Select & Print ─────────────────── */
