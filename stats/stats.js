@@ -47,8 +47,7 @@
   var columns = [
     { key: "deeplinks", label: "Direct" },
     { key: "views", label: "Views" },
-    { key: "dirApple", label: "Apple" },
-    { key: "dirGoogle", label: "Google" },
+    { key: "directions", label: "Maps" },
     { key: "website", label: "Website" },
     { key: "phone", label: "Phone" },
     { key: "instagram", label: "Instagram" },
@@ -97,8 +96,7 @@
         "</td>" +
         '<td class="col-num">' + row.deeplinks.toLocaleString() + "</td>" +
         '<td class="col-num">' + row.views.toLocaleString() + "</td>" +
-        '<td class="col-num">' + row.dirApple.toLocaleString() + "</td>" +
-        '<td class="col-num">' + row.dirGoogle.toLocaleString() + "</td>" +
+        '<td class="col-num">' + row.directions.toLocaleString() + "</td>" +
         '<td class="col-num">' + row.website.toLocaleString() + "</td>" +
         '<td class="col-num">' + row.phone.toLocaleString() + "</td>" +
         '<td class="col-num">' + row.instagram.toLocaleString() + "</td>" +
@@ -203,23 +201,21 @@
         filterCounts[name] = (filterCounts[name] || 0) + filterArea + filterTag;
       }
 
-      // Skip non-restaurant entries (filter labels) for the leaderboard
-      if (d["filter-area"] || d["filter-tag"]) {
-        // Check if this entry ONLY has filter events (not a restaurant)
-        var hasRestaurantEvents = d.view || d["directions-apple"] || d["directions-google"] || d.website || d.phone || d.instagram || d.share || d.deeplink || d.upvote;
-        if (!hasRestaurantEvents) return;
-      }
+      // Skip non-restaurant entries for the leaderboard
+      var hasRestaurantEvents = d.view || d["directions-apple"] || d["directions-google"] || d.website || d.phone || d.instagram || d.share || d.deeplink || d.upvote;
+      if (!hasRestaurantEvents) return;
 
       var views = d.view || 0;
       var dirApple = d["directions-apple"] || 0;
       var dirGoogle = d["directions-google"] || 0;
+      var directions = dirApple + dirGoogle;
       var website = d.website || 0;
       var phone = d.phone || 0;
       var instagram = d.instagram || 0;
       var shares = d.share || 0;
       var deeplinks = d.deeplink || 0;
       var likes = Math.max((d.upvote || 0) - (d["un-upvote"] || 0), 0);
-      var score = (dirApple + dirGoogle + phone) * 3 + (deeplinks + shares + likes) * 2 + website + instagram + views;
+      var score = (directions + phone) * 3 + (deeplinks + shares + likes) * 2 + website + instagram + views;
 
       totalViews += views;
       totalDirApple += dirApple;
@@ -234,8 +230,7 @@
       rows.push({
         name: name,
         views: views,
-        dirApple: dirApple,
-        dirGoogle: dirGoogle,
+        directions: directions,
         website: website,
         phone: phone,
         instagram: instagram,
