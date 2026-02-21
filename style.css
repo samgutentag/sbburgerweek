@@ -401,10 +401,6 @@ header h1 span {
   color: var(--red);
 }
 
-.tip-price-free {
-  color: var(--orange);
-}
-
 .tip-amount-btn.tip-amount-share {
   flex: 0 0 100%;
   max-width: 100%;
