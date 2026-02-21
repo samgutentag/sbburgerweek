@@ -751,13 +751,11 @@ body {
   gap: 4px;
 }
 
-/* ── Popup upvote button (top-right) ──────── */
+/* ── Popup upvote button (inline with address) ──────── */
 
 .popup-upvote {
-  position: absolute;
-  top: 8px;
-  right: 0;
-  z-index: 1;
+  margin-left: auto;
+  flex-shrink: 0;
 }
 
 .upvote-btn {
@@ -785,8 +783,33 @@ body {
 }
 
 .upvote-btn.upvoted {
-  background: #c8e6c9;
-  border-color: #4caf50;
+  background: #fff3e0;
+  border-color: #f9a825;
+  color: #e65100;
+}
+
+.upvote-btn.zero {
+  background: none;
+  border: 1px dashed #ccc;
+  color: #aaa;
+}
+
+.upvote-btn.zero:hover {
+  background: #fafafa;
+  border: 1px solid #bbb;
+  color: #888;
+}
+
+.upvote-btn.zero .upvote-heart {
+  opacity: 0.4;
+}
+
+.popup-upvote.zero .upvote-heart {
+  opacity: 0.6;
+}
+
+.upvote-btn.zero:hover .upvote-heart {
+  opacity: 1;
 }
 
 .upvote-heart {

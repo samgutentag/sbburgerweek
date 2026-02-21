@@ -246,11 +246,6 @@
       '<div class="popup-accent" style="background:' + color + '"></div>';
     var isUpvoted = upvotedSet.has(r.name);
     var upvoteCount = upvoteCounts[r.name] || 0;
-    popupHtml +=
-      '<button class="upvote-btn popup-upvote' + (isUpvoted ? ' upvoted' : '') + '" data-name="' + escapeHtml(r.name) + '">' +
-      '<span class="upvote-count">' + upvoteCount + '</span>' +
-      '<span class="upvote-heart">\uD83D\uDC4D</span>' +
-      '</button>';
     var dietaryHtml = getDietaryIconsHtml(r);
     popupHtml += '<div class="popup-section popup-section-name">' +
       "<h3>" + escapeHtml(r.name) + (dietaryHtml ? '<span class="dietary-tags">' + dietaryHtml + '</span>' : '') + "</h3></div>";
@@ -275,7 +270,12 @@
       '<div class="popup-section-heading">Address</div>' +
       '<div class="popup-address-row">' +
       '<svg class="popup-pin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>' +
-      '<span>' + escapeHtml(r.address) + '</span></div>' +
+      '<span>' + escapeHtml(r.address) + '</span>' +
+      '<button class="upvote-btn popup-upvote' + (isUpvoted ? ' upvoted' : '') + (upvoteCount === 0 ? ' zero' : '') + '" data-name="' + escapeHtml(r.name) + '">' +
+      '<span class="upvote-heart">\uD83D\uDC4D</span>' +
+      (upvoteCount > 0 ? '<span class="upvote-count">' + upvoteCount + '</span>' : '') +
+      '</button>' +
+      '</div>' +
       '<div class="popup-directions-btns">' +
       '<a href="' + appleMapsUrl + '" target="_blank" rel="noopener" class="popup-dir-btn" title="Apple Maps">' +
       '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>' +
@@ -521,16 +521,25 @@
   });
 
   function refreshOpenPopupUpvote() {
-    var popup = document.querySelector(".leaflet-popup .upvote-btn");
-    if (!popup) return;
-    var name = popup.getAttribute("data-name");
+    var btn = document.querySelector(".leaflet-popup .upvote-btn");
+    if (!btn) return;
+    var name = btn.getAttribute("data-name");
     if (!name) return;
+    var c = upvoteCounts[name] || 0;
     var isUpvoted = upvotedSet.has(name);
-    popup.classList.toggle("upvoted", isUpvoted);
-    var heart = popup.querySelector(".upvote-heart");
-    var count = popup.querySelector(".upvote-count");
-    if (heart) heart.textContent = "\uD83D\uDC4D";
-    if (count) count.textContent = String(upvoteCounts[name] || 0);
+    btn.classList.toggle("upvoted", isUpvoted);
+    btn.classList.toggle("zero", c === 0);
+    var countEl = btn.querySelector(".upvote-count");
+    if (c > 0) {
+      if (!countEl) {
+        countEl = document.createElement("span");
+        countEl.className = "upvote-count";
+        btn.appendChild(countEl);
+      }
+      countEl.textContent = String(c);
+    } else if (countEl) {
+      countEl.remove();
+    }
   }
 
   function updateSidebarUpvoteBadge(name) {
@@ -577,7 +586,7 @@
     return { padding: [30, 30] };
   }
 
-  if (allCoords.length) {
+  if (allCoords.length && !window.location.hash) {
     map.fitBounds(allCoords, { padding: [30, 30] });
   }
 
@@ -1390,7 +1399,7 @@
     snapDrawerTo(0); // peek position
     setTimeout(function () {
       map.invalidateSize();
-      if (allCoords.length) {
+      if (allCoords.length && !window.location.hash) {
         map.fitBounds(allCoords, {
           paddingTopLeft: [20, 20],
           paddingBottomRight: [20, PEEK_HEIGHT],
@@ -1459,7 +1468,7 @@
     if (window.innerWidth <= 768) {
       snapDrawerTo(0);
     }
-    map.setView(mobileOffsetLatLng(r.lat, r.lng, 17), 17);
+    map.flyTo(mobileOffsetLatLng(r.lat, r.lng, 17), 17, { duration: 0.8 });
     // Short delay for cluster to resolve at new zoom
     setTimeout(function () {
       var parent = clusterGroup.getVisibleParent(marker);
