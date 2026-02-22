@@ -11,7 +11,7 @@
       "share": 4,
       "un-upvote": 6,
       "upvote": 7,
-      "view": 639,
+      "view": 641,
       "website": 10
     },
     "Carpinteria": {
@@ -44,7 +44,7 @@
       "share": 4,
       "un-upvote": 2,
       "upvote": 1,
-      "view": 704,
+      "view": 705,
       "website": 12
     },
     "Crushcakes": {
@@ -55,7 +55,7 @@
       "share": 1,
       "un-upvote": 1,
       "upvote": 4,
-      "view": 521,
+      "view": 524,
       "website": 3
     },
     "Crushcakes and Cafe": {
@@ -65,7 +65,7 @@
       "share": 2,
       "un-upvote": 1,
       "upvote": 1,
-      "view": 627,
+      "view": 629,
       "website": 5
     },
     "Dang Burger": {
@@ -82,7 +82,7 @@
       "directions-google": 3,
       "instagram": 1,
       "share": 1,
-      "view": 558,
+      "view": 559,
       "website": 4
     },
     "Dom's Taverna": {
@@ -90,7 +90,7 @@
       "directions-google": 7,
       "share": 3,
       "upvote": 1,
-      "view": 681,
+      "view": 685,
       "website": 18
     },
     "Downtown Eats": {
@@ -99,7 +99,7 @@
       "directions-google": 8,
       "phone": 3,
       "share": 2,
-      "view": 732,
+      "view": 736,
       "website": 13
     },
     "Downtown SB": {
@@ -112,7 +112,7 @@
       "share": 2,
       "un-upvote": 2,
       "upvote": 4,
-      "view": 610,
+      "view": 612,
       "website": 11
     },
     "Finch and Fork": {
@@ -124,7 +124,7 @@
       "share": 3,
       "un-upvote": 1,
       "upvote": 2,
-      "view": 788,
+      "view": 789,
       "website": 11
     },
     "Fresco At The Market": {
@@ -145,7 +145,7 @@
       "share": 1,
       "un-upvote": 5,
       "upvote": 5,
-      "view": 599,
+      "view": 600,
       "website": 8
     },
     "Goleta": {
@@ -175,7 +175,7 @@
       "directions-google": 3,
       "instagram": 1,
       "phone": 4,
-      "view": 632,
+      "view": 633,
       "website": 11
     },
     "Jonesy's Fried Chicken": {
@@ -187,7 +187,7 @@
       "share": 1,
       "un-upvote": 1,
       "upvote": 3,
-      "view": 726,
+      "view": 729,
       "website": 7
     },
     "Kyle's Kitchen (Calle Real)": {
@@ -205,11 +205,12 @@
       "website": 4
     },
     "Little Bird Kitchen": {
+      "deeplink": 1,
       "directions-google": 1,
       "instagram": 1,
       "phone": 1,
       "share": 2,
-      "view": 522,
+      "view": 526,
       "website": 4
     },
     "Mesa Burger": {
@@ -217,9 +218,9 @@
       "directions-google": 2,
       "phone": 1,
       "share": 2,
-      "un-upvote": 1,
-      "upvote": 2,
-      "view": 340,
+      "un-upvote": 2,
+      "upvote": 3,
+      "view": 344,
       "website": 11
     },
     "Other SB": {
@@ -238,7 +239,7 @@
       "instagram": 2,
       "phone": 1,
       "share": 1,
-      "view": 717,
+      "view": 723,
       "website": 10
     },
     "Poke House": {
@@ -247,7 +248,7 @@
       "share": 2,
       "un-upvote": 1,
       "upvote": 4,
-      "view": 587,
+      "view": 588,
       "website": 2
     },
     "Que Smoke Shack": {
@@ -276,7 +277,7 @@
       "share": 5,
       "un-upvote": 2,
       "upvote": 5,
-      "view": 585,
+      "view": 587,
       "website": 13
     },
     "Sama San Roque": {
@@ -287,7 +288,7 @@
       "phone": 5,
       "share": 1,
       "upvote": 2,
-      "view": 637,
+      "view": 640,
       "website": 12
     },
     "Santa Barbara Fish Market": {
@@ -315,7 +316,7 @@
       "directions-google": 5,
       "phone": 1,
       "share": 3,
-      "view": 642,
+      "view": 643,
       "website": 12
     },
     "Shalhoob's Funk Zone Patio": {
@@ -325,7 +326,7 @@
       "instagram": 2,
       "share": 3,
       "upvote": 2,
-      "view": 561,
+      "view": 563,
       "website": 9
     },
     "The Blue Owl": {
@@ -333,7 +334,9 @@
       "directions-google": 6,
       "phone": 2,
       "share": 1,
-      "view": 745,
+      "un-upvote": 1,
+      "upvote": 2,
+      "view": 746,
       "website": 13
     },
     "The Brewhouse": {
@@ -342,7 +345,7 @@
       "directions-google": 1,
       "instagram": 1,
       "share": 1,
-      "view": 483,
+      "view": 484,
       "website": 1
     },
     "The Nugget (Carpinteria)": {
@@ -370,7 +373,7 @@
       "directions-google": 3,
       "un-upvote": 1,
       "upvote": 3,
-      "view": 560,
+      "view": 561,
       "website": 8
     },
     "The Victor": {
@@ -388,7 +391,7 @@
       "directions-google": 2,
       "instagram": 1,
       "share": 2,
-      "view": 693,
+      "view": 696,
       "website": 8
     },
     "Third Window Brewing (Carpinteria)": {
@@ -406,7 +409,7 @@
       "instagram": 1,
       "share": 4,
       "upvote": 1,
-      "view": 609,
+      "view": 610,
       "website": 16
     },
     "Validation Ale": {
@@ -416,7 +419,7 @@
       "share": 5,
       "un-upvote": 6,
       "upvote": 9,
-      "view": 574,
+      "view": 575,
       "website": 4
     },
     "Validation Annex": {
@@ -425,7 +428,7 @@
       "directions-google": 6,
       "instagram": 1,
       "share": 1,
-      "view": 341
+      "view": 342
     },
     "White Caps Beach Club": {
       "deeplink": 10,
@@ -444,7 +447,7 @@
       "share": 2,
       "un-upvote": 2,
       "upvote": 3,
-      "view": 708,
+      "view": 711,
       "website": 11
     },
     "glutenFree": {
@@ -454,13 +457,13 @@
       "filter-tag": 63
     },
     "stats": {
-      "stats-view": 86
+      "stats-view": 87
     },
     "tip-jar": {
       "tip-fries": 4,
       "tip-full": 3,
       "tip-half": 1,
-      "tip-jar-open": 120,
+      "tip-jar-open": 122,
       "tip-share": 1
     },
     "vegan": {
@@ -470,7 +473,7 @@
       "filter-tag": 76
     }
   },
-  "timestamp": "2026-02-22T09:46:57Z",
+  "timestamp": "2026-02-22T14:18:06Z",
   "upvotes": {
     "Arnoldi's": 1,
     "Crushcakes": 3,
@@ -485,6 +488,7 @@
     "Sama San Roque": 2,
     "Seoulmate Kitchen": 3,
     "Shalhoob's Funk Zone Patio": 2,
+    "The Blue Owl": 1,
     "The Nugget (Goleta)": 1,
     "The Patio Cafe": 2,
     "Third Window Brewing (Santa Barbara)": 1,
