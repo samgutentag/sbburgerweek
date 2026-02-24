@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Insights — SB Burger Week 2026 Map</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍔</text></svg>"
+    />
+    <script src="../../config.js"></script>
+    <script>
+      document.title = "Insights — " + THEME.eventName + " Map";
+    </script>
+    <link rel="stylesheet" href="insights.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="header-left">
+        <h1 id="pageTitle">SB Burger Week 2026</h1>
+        <span class="header-sub">Insights</span>
+      </div>
+      <nav class="header-nav">
+        <a class="nav-link" href="../">Stats</a>
+        <a class="nav-link" href="../../">Map</a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="section" id="funnelSection">
+        <h2>Conversion Funnel</h2>
+        <p class="section-hint">Views vs. intent actions (directions, website, phone) per restaurant</p>
+        <div class="table-wrap">
+          <table id="funnelTable">
+            <thead>
+              <tr>
+                <th class="col-rank">#</th>
+                <th class="col-name">Restaurant</th>
+                <th class="col-num">Views</th>
+                <th class="col-num">Intents</th>
+                <th class="col-num">Rate</th>
+                <th class="col-tag">Tag</th>
+              </tr>
+            </thead>
+            <tbody id="funnelBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="section" id="areaSection">
+        <h2>Area Breakdown</h2>
+        <p class="section-hint">Engagement aggregated by neighborhood</p>
+        <div class="area-cards" id="areaCards"></div>
+      </div>
+
+      <div class="section" id="distributionSection">
+        <h2>Engagement Distribution</h2>
+        <p class="section-hint">How evenly attention is spread across restaurants</p>
+        <div class="distribution-bars" id="distributionBars"></div>
+        <div class="distribution-summary" id="distributionSummary"></div>
+      </div>
+
+      <div class="section charts-row">
+        <div class="section chart-half" id="platformSection">
+          <h2>Platform Split</h2>
+          <p class="section-hint">Apple Maps vs Google Maps directions</p>
+          <div class="chart-container">
+            <canvas id="platformChart"></canvas>
+          </div>
+          <div class="platform-legend" id="platformLegend"></div>
+        </div>
+
+        <div class="section chart-half" id="actionSection">
+          <h2>Action Breakdown</h2>
+          <p class="section-hint">What people do after discovering a restaurant</p>
+          <div class="chart-container">
+            <canvas id="actionChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <p class="footer-note" id="footerNote">Loading data...</p>
+    </main>
+
+    <script>
+      var __dataYearOverride =
+        new URLSearchParams(window.location.search).get("year");
+      (function () {
+        var src;
+        if (__dataYearOverride && /^\d{4}$/.test(__dataYearOverride)) {
+          src = "../../data-" + __dataYearOverride + ".js";
+        } else {
+          var live = THEME.dataLiveDate;
+          if (!live || new Date() >= new Date(live + "T00:01:00")) {
+            src = "../../data-" + new Date().getFullYear() + ".js";
+          } else {
+            src = "../../data.js";
+          }
+        }
+        var err = __dataYearOverride
+          ? ' onerror="window.location.replace(window.location.pathname)"'
+          : "";
+        document.write(
+          '<script src="' + src + '"' + err + "></" + "script>"
+        );
+      })();
+    </script>
+    <script src="../../track.js"></script>
+    <script src="insights.js"></script>
+  </body>
+</html>

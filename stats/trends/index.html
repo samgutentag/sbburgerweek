@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trends — SB Burger Week 2026 Map</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍔</text></svg>"
+    />
+    <script src="../../config.js"></script>
+    <script>
+      document.title = "Trends — " + THEME.eventName + " Map";
+    </script>
+    <link rel="stylesheet" href="trends.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="header-left">
+        <h1 id="pageTitle">SB Burger Week 2026</h1>
+        <span class="header-sub">Trends</span>
+      </div>
+      <nav class="header-nav">
+        <a class="nav-link" href="../">Stats</a>
+        <a class="nav-link" href="../../">Map</a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="section" id="overallSection">
+        <h2>Overall Daily Trend</h2>
+        <p class="section-hint">Cumulative engagement over time</p>
+        <div class="chart-container-wide">
+          <canvas id="overallChart"></canvas>
+        </div>
+      </div>
+
+      <div class="section" id="dailySection">
+        <h2>Daily New Activity</h2>
+        <p class="section-hint">New actions each day, broken down by type</p>
+        <div class="chart-container-wide">
+          <canvas id="dailyChart"></canvas>
+        </div>
+      </div>
+
+      <div class="section" id="moversSection">
+        <h2>Movers &amp; Shakers</h2>
+        <p class="section-hint">Biggest view gains in the latest day</p>
+        <div class="movers-grid" id="moversGrid"></div>
+      </div>
+
+      <div class="section" id="areaTrendsSection">
+        <h2>Area Trends</h2>
+        <p class="section-hint">Cumulative views by neighborhood over time</p>
+        <div class="chart-container-wide">
+          <canvas id="areaTrendsChart"></canvas>
+        </div>
+      </div>
+
+      <div class="section" id="sparklinesSection">
+        <h2>Restaurant Trajectories</h2>
+        <p class="section-hint">View counts across available snapshots</p>
+        <div class="sparklines-list" id="sparklinesList"></div>
+      </div>
+
+      <p class="footer-note" id="footerNote">Loading data...</p>
+    </main>
+
+    <script>
+      var __dataYearOverride =
+        new URLSearchParams(window.location.search).get("year");
+      (function () {
+        var src;
+        if (__dataYearOverride && /^\d{4}$/.test(__dataYearOverride)) {
+          src = "../../data-" + __dataYearOverride + ".js";
+        } else {
+          var live = THEME.dataLiveDate;
+          if (!live || new Date() >= new Date(live + "T00:01:00")) {
+            src = "../../data-" + new Date().getFullYear() + ".js";
+          } else {
+            src = "../../data.js";
+          }
+        }
+        var err = __dataYearOverride
+          ? ' onerror="window.location.replace(window.location.pathname)"'
+          : "";
+        document.write(
+          '<script src="' + src + '"' + err + "></" + "script>"
+        );
+      })();
+    </script>
+    <script src="../../track.js"></script>
+    <script src="trends.js"></script>
+  </body>
+</html>
