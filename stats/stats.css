@@ -62,6 +62,68 @@ header h1 {
   text-decoration: underline;
 }
 
+/* ── Live activity ───────────────────────── */
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  display: inline-block;
+  animation: live-pulse 2s ease-in-out infinite;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.live-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* ── Info tooltip ────────────────────────── */
+
+.info-tip {
+  position: relative;
+  cursor: pointer;
+  color: #aaa;
+  font-size: 0.85rem;
+  vertical-align: middle;
+}
+
+.info-tip:hover,
+.info-tip:focus {
+  color: var(--orange);
+}
+
+.info-tip-text {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--dark);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 400;
+  line-height: 1.4;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.info-tip:hover .info-tip-text,
+.info-tip:focus .info-tip-text {
+  display: block;
+}
+
 /* ── Main ────────────────────────────────── */
 
 main {
@@ -289,6 +351,101 @@ tbody td.col-num {
   gap: 16px;
 }
 
+/* ── Platform & Device ───────────────────── */
+
+.platform-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.platform-col h3 {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+  margin-bottom: 12px;
+}
+
+.device-cards {
+  display: flex;
+  gap: 10px;
+}
+
+.device-card {
+  flex: 1;
+  text-align: center;
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 12px 6px;
+}
+
+.device-card .device-emoji {
+  font-size: 1.5rem;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.device-card .device-pct {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.2;
+}
+
+.device-card .device-label {
+  font-size: 0.72rem;
+  color: #888;
+  margin-top: 2px;
+}
+
+.device-card .device-count {
+  font-size: 0.68rem;
+  color: #aaa;
+  margin-top: 2px;
+}
+
+.bar-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.bar-label {
+  width: 70px;
+  font-size: 0.78rem;
+  color: var(--dark);
+  flex-shrink: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bar-track {
+  flex: 1;
+  height: 18px;
+  background: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0 8px;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--orange), var(--red));
+  transition: width 0.4s ease;
+}
+
+.bar-value {
+  width: 40px;
+  font-size: 0.75rem;
+  color: #888;
+  text-align: right;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+
 /* ── Footer ──────────────────────────────── */
 
 .footer-note {
@@ -329,6 +486,11 @@ tbody td.col-num {
 
   .filter-stats-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .platform-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   table {

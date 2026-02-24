@@ -13,9 +13,150 @@ export default {
       return new Response(null, { headers: corsHeaders });
     }
 
-    // GET — return aggregated counts (?upvotes=true for upvotes, otherwise detail breakdown)
+    // GET — return aggregated counts
     if (request.method === "GET") {
       const url = new URL(request.url);
+
+      // Active users — recent actions (5 min) + RUM visitors (1 hour)
+      if (url.searchParams.get("active") === "true") {
+        try {
+          const now = new Date();
+          const fiveMinAgo = new Date(now.getTime() - 5 * 60 * 1000);
+          const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
+
+          // Parallel: Analytics Engine (recent actions) + RUM (visitors last hour)
+          const [aeResp, rumResp] = await Promise.all([
+            fetch(
+              `https://api.cloudflare.com/client/v4/accounts/${env.ACCOUNT_ID}/analytics_engine/sql`,
+              {
+                method: "POST",
+                headers: {
+                  Authorization: `Bearer ${env.CF_API_TOKEN}`,
+                  "Content-Type": "text/plain",
+                },
+                body: `SELECT SUM(1) AS total FROM sbburgerweek WHERE timestamp >= NOW() - INTERVAL '5' MINUTE AND blob1 != 'test'`,
+              },
+            ),
+            fetch("https://api.cloudflare.com/client/v4/graphql", {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${env.CF_API_TOKEN}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                query: `{
+                  viewer {
+                    accounts(filter: { accountTag: "${env.ACCOUNT_ID}" }) {
+                      rumPageloadEventsAdaptiveGroups(
+                        filter: { siteTag: "${env.RUM_SITE_TAG}", datetime_geq: "${oneHourAgo.toISOString()}", datetime_leq: "${now.toISOString()}" }
+                        limit: 1
+                      ) { count }
+                    }
+                  }
+                }`,
+              }),
+            }),
+          ]);
+
+          var recentActions = 0;
+          var visitors1h = 0;
+
+          if (aeResp.ok) {
+            const aeData = await aeResp.json();
+            if (aeData.data && aeData.data[0]) {
+              recentActions = Number(aeData.data[0].total) || 0;
+            }
+          }
+
+          if (rumResp.ok) {
+            const rumData = await rumResp.json();
+            const acct = rumData.data && rumData.data.viewer && rumData.data.viewer.accounts && rumData.data.viewer.accounts[0];
+            if (acct && acct.rumPageloadEventsAdaptiveGroups && acct.rumPageloadEventsAdaptiveGroups[0]) {
+              visitors1h = acct.rumPageloadEventsAdaptiveGroups[0].count || 0;
+            }
+          }
+
+          return new Response(JSON.stringify({ recentActions, visitors1h }), {
+            headers: { ...corsHeaders, "Content-Type": "application/json", "Cache-Control": "public, max-age=30" },
+          });
+        } catch (e) {
+          return new Response(JSON.stringify({ recentActions: 0, visitors1h: 0 }), {
+            headers: { ...corsHeaders, "Content-Type": "application/json", "Cache-Control": "public, max-age=30" },
+          });
+        }
+      }
+
+      // RUM proxy — fetch device/browser/OS from Cloudflare Web Analytics
+      if (url.searchParams.get("rum") === "true") {
+        try {
+          const now = new Date();
+          const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+          const query = `{
+            viewer {
+              accounts(filter: { accountTag: "${env.ACCOUNT_ID}" }) {
+                devices: rumPageloadEventsAdaptiveGroups(
+                  filter: { siteTag: "${env.RUM_SITE_TAG}", datetime_geq: "${weekAgo.toISOString()}", datetime_leq: "${now.toISOString()}" }
+                  limit: 50
+                  orderBy: [count_DESC]
+                ) { count dimensions { deviceType } }
+                browsers: rumPageloadEventsAdaptiveGroups(
+                  filter: { siteTag: "${env.RUM_SITE_TAG}", datetime_geq: "${weekAgo.toISOString()}", datetime_leq: "${now.toISOString()}" }
+                  limit: 50
+                  orderBy: [count_DESC]
+                ) { count dimensions { userAgentBrowser } }
+                os: rumPageloadEventsAdaptiveGroups(
+                  filter: { siteTag: "${env.RUM_SITE_TAG}", datetime_geq: "${weekAgo.toISOString()}", datetime_leq: "${now.toISOString()}" }
+                  limit: 50
+                  orderBy: [count_DESC]
+                ) { count dimensions { userAgentOS } }
+              }
+            }
+          }`;
+
+          const gqlResp = await fetch("https://api.cloudflare.com/client/v4/graphql", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${env.CF_API_TOKEN}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ query }),
+          });
+
+          if (!gqlResp.ok) {
+            return new Response(JSON.stringify({ devices: {}, browsers: {}, os: {} }), {
+              headers: { ...corsHeaders, "Content-Type": "application/json", "Cache-Control": "public, max-age=900" },
+            });
+          }
+
+          const gql = await gqlResp.json();
+          const acct = gql.data && gql.data.viewer && gql.data.viewer.accounts && gql.data.viewer.accounts[0];
+          const result = { devices: {}, browsers: {}, os: {} };
+
+          if (acct) {
+            (acct.devices || []).forEach(function (r) {
+              var key = r.dimensions.deviceType || "unknown";
+              result.devices[key] = (result.devices[key] || 0) + r.count;
+            });
+            (acct.browsers || []).forEach(function (r) {
+              var key = r.dimensions.userAgentBrowser || "unknown";
+              result.browsers[key] = (result.browsers[key] || 0) + r.count;
+            });
+            (acct.os || []).forEach(function (r) {
+              var key = r.dimensions.userAgentOS || "unknown";
+              result.os[key] = (result.os[key] || 0) + r.count;
+            });
+          }
+
+          return new Response(JSON.stringify(result), {
+            headers: { ...corsHeaders, "Content-Type": "application/json", "Cache-Control": "public, max-age=900" },
+          });
+        } catch (e) {
+          return new Response(JSON.stringify({ devices: {}, browsers: {}, os: {} }), {
+            headers: { ...corsHeaders, "Content-Type": "application/json", "Cache-Control": "public, max-age=900" },
+          });
+        }
+      }
+
       const upvotes = url.searchParams.get("upvotes") === "true";
 
       try {

@@ -67,10 +67,35 @@
         </div>
       </div>
 
+      <div class="leaderboard-section" id="liveSection" style="display: none">
+        <h2><span class="live-dot"></span> Live Activity</h2>
+        <p class="leaderboard-hint">Updates every 30 seconds</p>
+        <div class="live-cards" id="liveCards">
+          <div class="card">
+            <div class="card-value" id="liveVisitors">—</div>
+            <div class="card-label">Visitors (last hour) <span class="info-tip" tabindex="0">&#9432;<span class="info-tip-text">Visitor data from Cloudflare RUM typically has a 15–30 minute delay.</span></span></div>
+          </div>
+          <div class="card">
+            <div class="card-value" id="liveActions">—</div>
+            <div class="card-label">Actions (last 5 min)</div>
+          </div>
+          <div class="card">
+            <div class="card-value" id="statsPageViews">—</div>
+            <div class="card-label">Stats Page Views</div>
+          </div>
+        </div>
+      </div>
+
       <div class="leaderboard-section" id="filterSection">
         <h2>Filter Usage</h2>
         <p class="leaderboard-hint">How often each filter button is tapped</p>
         <div class="filter-stats-grid" id="filterStatsGrid"></div>
+      </div>
+
+      <div class="leaderboard-section" id="platformSection" style="display: none">
+        <h2>Platform & Device</h2>
+        <p class="leaderboard-hint">Visitor breakdown from the last 7 days</p>
+        <div class="platform-grid" id="platformGrid"></div>
       </div>
 
       <div class="leaderboard-section" id="leaderboardSection">

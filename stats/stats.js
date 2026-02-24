@@ -286,6 +286,13 @@
       filterGrid.appendChild(card);
     });
 
+    // Stats page view count
+    var statsData = data["stats"];
+    if (statsData) {
+      var statsViews = statsData["stats-view"] || 0;
+      document.getElementById("statsPageViews").textContent = statsViews.toLocaleString();
+    }
+
     var note = document.getElementById("footerNote");
     if (rows.length > 0) {
       note.textContent =
@@ -295,6 +302,116 @@
         "No tracking data yet. Stats will appear once the event starts.";
     }
   }
+
+  // ── Platform & Device (RUM) ──────────────
+  function renderBars(container, rawData) {
+    var entries = Object.keys(rawData).map(function (k) {
+      return { label: k, count: rawData[k] };
+    }).sort(function (a, b) { return b.count - a.count; }).slice(0, 6);
+
+    if (entries.length === 0) return;
+    var max = entries[0].count;
+
+    entries.forEach(function (e) {
+      var row = document.createElement("div");
+      row.className = "bar-row";
+      var pct = max > 0 ? (e.count / max * 100) : 0;
+      row.innerHTML =
+        '<span class="bar-label">' + escapeHtml(e.label) + '</span>' +
+        '<div class="bar-track"><div class="bar-fill" style="width:' + pct.toFixed(1) + '%"></div></div>' +
+        '<span class="bar-value">' + e.count.toLocaleString() + '</span>';
+      container.appendChild(row);
+    });
+  }
+
+  function renderPlatform(data) {
+    var grid = document.getElementById("platformGrid");
+    if (!grid) return;
+
+    var hasData = (Object.keys(data.devices).length + Object.keys(data.browsers).length + Object.keys(data.os).length) > 0;
+    if (!hasData) return;
+
+    document.getElementById("platformSection").style.display = "";
+    grid.innerHTML = "";
+
+    // Device Type column
+    var devCol = document.createElement("div");
+    devCol.className = "platform-col";
+    devCol.innerHTML = '<h3>Device Type</h3>';
+    var devCards = document.createElement("div");
+    devCards.className = "device-cards";
+    var total = 0;
+    Object.keys(data.devices).forEach(function (k) { total += data.devices[k]; });
+
+    var deviceMeta = {
+      desktop: { emoji: "\uD83D\uDDA5\uFE0F", label: "Desktop" },
+      mobile: { emoji: "\uD83D\uDCF1", label: "Mobile" },
+      tablet: { emoji: "\uD83D\uDCCB", label: "Tablet" },
+    };
+
+    ["desktop", "mobile", "tablet"].forEach(function (type) {
+      var count = data.devices[type] || 0;
+      if (count === 0 && !data.devices[type]) return;
+      var meta = deviceMeta[type] || { emoji: "\u2753", label: type };
+      var pct = total > 0 ? (count / total * 100).toFixed(1) : "0";
+      var card = document.createElement("div");
+      card.className = "device-card";
+      card.innerHTML =
+        '<span class="device-emoji">' + meta.emoji + '</span>' +
+        '<div class="device-pct">' + pct + '%</div>' +
+        '<div class="device-label">' + meta.label + '</div>' +
+        '<div class="device-count">' + count.toLocaleString() + '</div>';
+      devCards.appendChild(card);
+    });
+    devCol.appendChild(devCards);
+    grid.appendChild(devCol);
+
+    // Browsers column
+    var brCol = document.createElement("div");
+    brCol.className = "platform-col";
+    brCol.innerHTML = '<h3>Top Browsers</h3>';
+    renderBars(brCol, data.browsers);
+    grid.appendChild(brCol);
+
+    // OS column
+    var osCol = document.createElement("div");
+    osCol.className = "platform-col";
+    osCol.innerHTML = '<h3>Operating System</h3>';
+    renderBars(osCol, data.os);
+    grid.appendChild(osCol);
+  }
+
+  // Fetch RUM data (independent of detail fetch)
+  if (THEME.trackUrl) {
+    fetch(THEME.trackUrl + "?rum=true", { method: "GET" })
+      .then(function (resp) { return resp.json(); })
+      .then(function (data) {
+        if (data && typeof data === "object") renderPlatform(data);
+      })
+      .catch(function () { /* section stays hidden */ });
+  }
+
+  // ── Live activity section ──────────────
+  function updateLiveActivity() {
+    if (!THEME.trackUrl) return;
+    fetch(THEME.trackUrl + "?active=true", { method: "GET" })
+      .then(function (resp) { return resp.json(); })
+      .then(function (data) {
+        var section = document.getElementById("liveSection");
+        if (!section || !data) return;
+
+        var v = data.visitors1h || 0;
+        var a = data.recentActions || 0;
+
+        document.getElementById("liveVisitors").textContent = v.toLocaleString();
+        document.getElementById("liveActions").textContent = a.toLocaleString();
+        section.style.display = "";
+      })
+      .catch(function () { /* section stays hidden */ });
+  }
+
+  updateLiveActivity();
+  setInterval(updateLiveActivity, 30000);
 
   // Try live fetch with ?detail=true
   if (THEME.trackUrl) {
