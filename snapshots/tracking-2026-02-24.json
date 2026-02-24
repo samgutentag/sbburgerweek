@@ -6,18 +6,18 @@
     "Arnoldi's": {
       "deeplink": 30,
       "directions-apple": 3,
-      "directions-google": 5,
+      "directions-google": 6,
       "instagram": 2,
       "phone": 5,
       "restaurant-detail": 2,
       "share": 5,
       "un-upvote": 7,
       "upvote": 8,
-      "view": 854,
+      "view": 856,
       "website": 14
     },
     "Carpinteria": {
-      "filter-area": 40
+      "filter-area": 41
     },
     "Caya": {
       "deeplink": 11,
@@ -66,11 +66,11 @@
     "Crushcakes and Cafe": {
       "deeplink": 2,
       "directions-apple": 3,
-      "directions-google": 5,
+      "directions-google": 6,
       "share": 2,
       "un-upvote": 1,
       "upvote": 3,
-      "view": 915,
+      "view": 916,
       "website": 6
     },
     "Dang Burger": {
@@ -111,7 +111,7 @@
       "website": 16
     },
     "Downtown SB": {
-      "filter-area": 227
+      "filter-area": 229
     },
     "Eureka!": {
       "deeplink": 14,
@@ -164,17 +164,17 @@
       "website": 10
     },
     "Goleta": {
-      "filter-area": 156
+      "filter-area": 157
     },
     "Home Plate Grill": {
       "deeplink": 4,
       "directions-apple": 4,
-      "directions-google": 9,
+      "directions-google": 10,
       "instagram": 2,
       "phone": 2,
       "share": 1,
       "upvote": 1,
-      "view": 782,
+      "view": 783,
       "website": 14
     },
     "IV Deli Mart": {
@@ -187,7 +187,7 @@
       "website": 3
     },
     "Isla Vista": {
-      "filter-area": 22
+      "filter-area": 23
     },
     "Islands Fine Burgers & Drinks": {
       "deeplink": 5,
@@ -201,14 +201,14 @@
     "Jonesy's Fried Chicken": {
       "deeplink": 9,
       "directions-apple": 9,
-      "directions-google": 12,
+      "directions-google": 13,
       "instagram": 2,
       "phone": 2,
       "restaurant-detail": 7,
       "share": 4,
       "un-upvote": 1,
       "upvote": 6,
-      "view": 1097,
+      "view": 1099,
       "website": 14
     },
     "Kyle's Kitchen (Calle Real)": {
@@ -252,7 +252,7 @@
       "website": 14
     },
     "Other SB": {
-      "filter-area": 90
+      "filter-area": 91
     },
     "Padaro Beach Grill": {
       "deeplink": 4,
@@ -333,7 +333,7 @@
       "phone": 3,
       "share": 3,
       "upvote": 2,
-      "view": 978,
+      "view": 979,
       "website": 19
     },
     "Santa Ynez": {
@@ -350,11 +350,11 @@
     "Shalhoob's (Magnolia)": {
       "deeplink": 6,
       "directions-apple": 1,
-      "directions-google": 5,
+      "directions-google": 6,
       "phone": 7,
       "share": 4,
       "upvote": 1,
-      "view": 967,
+      "view": 968,
       "website": 15
     },
     "Shalhoob's Funk Zone Patio": {
@@ -370,12 +370,12 @@
     },
     "The Blue Owl": {
       "deeplink": 7,
-      "directions-google": 7,
+      "directions-google": 9,
       "phone": 2,
       "share": 5,
       "un-upvote": 1,
       "upvote": 3,
-      "view": 1052,
+      "view": 1053,
       "website": 17
     },
     "The Brewhouse": {
@@ -433,11 +433,11 @@
     "The Win-dow": {
       "deeplink": 13,
       "directions-apple": 2,
-      "directions-google": 4,
+      "directions-google": 5,
       "instagram": 1,
       "phone": 1,
       "share": 3,
-      "view": 935,
+      "view": 936,
       "website": 11
     },
     "Third Window Brewing (Carpinteria)": {
@@ -500,7 +500,7 @@
       "website": 15
     },
     "dinner": {
-      "filter-hours": 7
+      "filter-hours": 9
     },
     "glutenFree": {
       "filter-tag": 46
@@ -509,7 +509,7 @@
       "filter-tag": 97
     },
     "lunch": {
-      "filter-hours": 11
+      "filter-hours": 13
     },
     "open": {
       "filter-hours": 25
@@ -532,10 +532,10 @@
       "filter-tag": 7
     },
     "vegetarian": {
-      "filter-tag": 108
+      "filter-tag": 110
     }
   },
-  "timestamp": "2026-02-24T12:55:48Z",
+  "timestamp": "2026-02-24T14:09:48Z",
   "upvotes": {
     "Arnoldi's": 1,
     "Caya": 4,
