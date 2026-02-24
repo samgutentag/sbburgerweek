@@ -52,4 +52,9 @@ const THEME = {
   // Contact email domain — generates sb{itemLabel}week{year}@{domain}
   // Set null to hide the contact link
   contactDomain: "samgutentag.com",
+
+  // Google Places API key for hours fetching (null to disable hours feature)
+  // Only used by fetch-hours.py and fetch-place-ids.py, never exposed client-side.
+  // The actual API key should be stored as a GitHub repo secret: GOOGLE_PLACES_API_KEY
+  googlePlacesApiKey: null,
 };

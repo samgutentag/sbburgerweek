@@ -795,6 +795,68 @@ body {
   color: #bbb;
 }
 
+/* ── Hours filters ──────────────────────── */
+
+.hours-filters {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid #eee;
+}
+
+.hours-filters .area-btn {
+  flex: 1;
+}
+
+.hours-filters .area-btn.active {
+  background: var(--dark);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* ── Hours in popup ──────────────────────── */
+
+.popup-hours {
+  font-size: 0.78rem;
+  color: #555;
+  margin-top: 4px;
+  min-height: 0;
+}
+
+.popup-hours:empty {
+  display: none;
+}
+
+.popup-hours-dot {
+  font-size: 0.65rem;
+}
+
+/* ── Hours badge in sidebar ──────────────── */
+
+.hours-dot {
+  display: inline-block;
+  font-size: 0.62rem;
+  padding: 1px 6px;
+  border-radius: 8px;
+  margin-top: 2px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+.hours-dot.closing-soon {
+  color: #e65100;
+  background: #fff3e0;
+  border: 1px solid #ffcc80;
+}
+
+.hours-dot.closed {
+  color: #c62828;
+  background: #fce4ec;
+  border: 1px solid #ef9a9a;
+}
+
 
 .popup-section {
   background: #f9f9f9;

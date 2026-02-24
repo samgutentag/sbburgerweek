@@ -221,6 +221,164 @@
     }
   }
 
+  // ── Hours data ──────────────────────────────
+  var hoursData = {};
+  var hoursLoaded = false;
+  var activeHoursFilter = null;
+
+  fetch("../../hours.json")
+    .then(function (resp) {
+      if (!resp.ok) throw new Error("not found");
+      return resp.json();
+    })
+    .then(function (data) {
+      if (data && typeof data === "object") {
+        hoursData = data;
+        hoursLoaded = true;
+        var hf = document.getElementById("hoursFilters");
+        if (hf) hf.style.display = "flex";
+        renderList();
+      }
+    })
+    .catch(function () {
+      /* silently ignore */
+    });
+
+  function isOpenNow(name) {
+    var entry = hoursData[name];
+    if (!entry || !entry.periods) return null;
+    var now = new Date();
+    var day = now.getDay();
+    var hhmm =
+      String(now.getHours()).padStart(2, "0") +
+      String(now.getMinutes()).padStart(2, "0");
+    var timeNum = parseInt(hhmm, 10);
+    for (var i = 0; i < entry.periods.length; i++) {
+      var p = entry.periods[i];
+      if (p.day === day && timeNum >= parseInt(p.open, 10) && timeNum <= parseInt(p.close, 10)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function getOpenStatus(name) {
+    var entry = hoursData[name];
+    if (!entry || !entry.periods) return null;
+    var now = new Date();
+    var day = now.getDay();
+    var hhmm =
+      String(now.getHours()).padStart(2, "0") +
+      String(now.getMinutes()).padStart(2, "0");
+    var timeNum = parseInt(hhmm, 10);
+    for (var i = 0; i < entry.periods.length; i++) {
+      var p = entry.periods[i];
+      if (p.day === day && timeNum >= parseInt(p.open, 10) && timeNum <= parseInt(p.close, 10)) {
+        var closeNum = parseInt(p.close, 10);
+        var effectiveCloseMinutes = Math.floor(closeNum / 100) * 60 + (closeNum % 100);
+        if (p.close === "2359") {
+          var nextDay = (day + 1) % 7;
+          for (var j = 0; j < entry.periods.length; j++) {
+            var np = entry.periods[j];
+            if (np.day === nextDay && np.open === "0000") {
+              var nextClose = parseInt(np.close, 10);
+              effectiveCloseMinutes += Math.floor(nextClose / 100) * 60 + (nextClose % 100);
+              break;
+            }
+          }
+        }
+        var nowMinutes = Math.floor(timeNum / 100) * 60 + (timeNum % 100);
+        if (effectiveCloseMinutes - nowMinutes <= 60) return "closing-soon";
+        return "open";
+      }
+    }
+    var prevDay = (day + 6) % 7;
+    for (var i = 0; i < entry.periods.length; i++) {
+      var p = entry.periods[i];
+      if (p.day === day && p.open === "0000") {
+        for (var j = 0; j < entry.periods.length; j++) {
+          if (entry.periods[j].day === prevDay && entry.periods[j].close === "2359") {
+            if (timeNum <= parseInt(p.close, 10)) {
+              var closeMinutes = Math.floor(parseInt(p.close, 10) / 100) * 60 + (parseInt(p.close, 10) % 100);
+              var nowMinutes = Math.floor(timeNum / 100) * 60 + (timeNum % 100);
+              if (closeMinutes - nowMinutes <= 60) return "closing-soon";
+              return "open";
+            }
+            break;
+          }
+        }
+      }
+    }
+    return "closed";
+  }
+
+  function getNextOpenTime(name) {
+    var entry = hoursData[name];
+    if (!entry || !entry.periods) return null;
+    var now = new Date();
+    var day = now.getDay();
+    var hhmm =
+      String(now.getHours()).padStart(2, "0") +
+      String(now.getMinutes()).padStart(2, "0");
+    var timeNum = parseInt(hhmm, 10);
+    for (var i = 0; i < entry.periods.length; i++) {
+      var p = entry.periods[i];
+      if (p.day === day && parseInt(p.open, 10) > timeNum) {
+        return formatTime(p.open);
+      }
+    }
+    for (var d = 1; d <= 7; d++) {
+      var checkDay = (day + d) % 7;
+      for (var j = 0; j < entry.periods.length; j++) {
+        var p2 = entry.periods[j];
+        if (p2.day === checkDay) {
+          var dayLabel = d === 1 ? "tomorrow" : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][checkDay];
+          return dayLabel + " " + formatTime(p2.open);
+        }
+      }
+    }
+    return null;
+  }
+
+  function formatTime(hhmm) {
+    if (hhmm === "2359") return "midnight";
+    var h = parseInt(hhmm.substring(0, 2), 10);
+    var m = hhmm.substring(2);
+    var suffix = h >= 12 ? "pm" : "am";
+    if (h === 0) h = 12;
+    else if (h > 12) h -= 12;
+    return m === "00" ? h + suffix : h + ":" + m + suffix;
+  }
+
+  function formatTodayHours(name) {
+    var entry = hoursData[name];
+    if (!entry || !entry.periods) return "Closed today";
+    var day = new Date().getDay();
+    var nextDay = (day + 1) % 7;
+    var todayPeriods = entry.periods.filter(function (p) {
+      return p.day === day;
+    });
+    if (todayPeriods.length === 0) return "Closed today";
+    var ranges = [];
+    for (var i = 0; i < todayPeriods.length; i++) {
+      var p = todayPeriods[i];
+      if (p.open === "0000" && p.close !== "2359" && todayPeriods.length > 1) {
+        continue;
+      }
+      var closeTime = p.close;
+      if (p.close === "2359") {
+        var nextDayCarryover = entry.periods.filter(function (np) {
+          return np.day === nextDay && np.open === "0000" && np.close !== "2359";
+        });
+        if (nextDayCarryover.length > 0) {
+          closeTime = nextDayCarryover[0].close;
+        }
+      }
+      ranges.push(formatTime(p.open) + "\u2013" + formatTime(closeTime));
+    }
+    return ranges.length > 0 ? ranges.join(", ") : "Closed today";
+  }
+
   restaurants.forEach(function (r) {
     var color = AREA_COLORS[r.area] || "#999";
 
@@ -269,6 +427,7 @@
       });
     else popupHtml += '<p class="popup-coming-soon">Details coming soon!</p>';
     popupHtml += "</div>";
+    popupHtml += '<div class="popup-hours" data-hours-name="' + escapeHtml(r.name) + '"></div>';
     var shareUrl = THEME.siteUrl + "/#" + slugify(r.name);
     popupHtml +=
       '<div class="popup-section popup-section-directions">' +
@@ -434,6 +593,26 @@
     var h3 = popupEl && popupEl.querySelector("h3");
     if (h3 && typeof window.track === "function") {
       window.track("view", h3.textContent);
+    }
+
+    // Populate hours in popup
+    if (hoursLoaded) {
+      var hoursEl = popupEl && popupEl.querySelector(".popup-hours");
+      if (hoursEl) {
+        var hName = hoursEl.getAttribute("data-hours-name");
+        if (hName && hoursData[hName]) {
+          var popupStatus = getOpenStatus(hName);
+          var dot = popupStatus === "open" ? "\uD83D\uDFE2" : popupStatus === "closing-soon" ? "\uD83D\uDFE1" : "\uD83D\uDD34";
+          var statusText = popupStatus === "open" ? "Open" : popupStatus === "closing-soon" ? "Closing Soon" : "Closed";
+          var todayStr = formatTodayHours(hName);
+          hoursEl.innerHTML =
+            '<span class="popup-hours-dot">' + dot + "</span> " +
+            "<strong>" + statusText + "</strong> \u00B7 Today: " + todayStr;
+        } else if (hName && hoursData[hName] === null) {
+          hoursEl.innerHTML =
+            '<span class="popup-hours-dot">\u26AA</span> Hours not available';
+        }
+      }
     }
 
     // Refresh upvote button state
@@ -609,6 +788,25 @@
 
   var activeArea = "All";
 
+  // Hours filter buttons (hidden until hours.json loads)
+  var hoursFilterSpan = document.createElement("span");
+  hoursFilterSpan.id = "hoursFilters";
+  hoursFilterSpan.className = "hours-filters";
+  hoursFilterSpan.style.display = "none";
+  var hoursDefs = [
+    { key: "open", icon: "\uD83D\uDFE2", label: "Open Now" },
+    { key: "lunch", icon: "\u2600\uFE0F", label: "Lunch" },
+    { key: "dinner", icon: "\uD83C\uDF19", label: "Dinner" },
+  ];
+  hoursDefs.forEach(function (h) {
+    var btn = document.createElement("button");
+    btn.className = "area-btn";
+    btn.setAttribute("data-hours", h.key);
+    btn.textContent = h.icon + " " + h.label;
+    hoursFilterSpan.appendChild(btn);
+  });
+  filtersEl.parentNode.insertBefore(hoursFilterSpan, filtersEl.nextSibling);
+
   filtersEl.addEventListener("click", function (e) {
     if (!e.target.classList.contains("area-btn")) return;
     filtersEl.querySelectorAll(".area-btn").forEach(function (b) {
@@ -616,6 +814,25 @@
     });
     e.target.classList.add("active");
     activeArea = e.target.getAttribute("data-area");
+    renderList();
+  });
+
+  hoursFilterSpan.addEventListener("click", function (e) {
+    var btn = e.target.closest(".area-btn");
+    if (!btn) return;
+    var hoursKey = btn.getAttribute("data-hours");
+    if (activeHoursFilter === hoursKey) {
+      activeHoursFilter = null;
+      btn.classList.remove("active");
+    } else {
+      hoursFilterSpan.querySelectorAll(".area-btn").forEach(function (b) {
+        b.classList.remove("active");
+      });
+      activeHoursFilter = hoursKey;
+      btn.classList.add("active");
+    }
+    if (typeof window.track === "function")
+      window.track("filter-hours", hoursKey);
     renderList();
   });
 
@@ -650,7 +867,20 @@
               item.description.toLowerCase().indexOf(searchTerm) !== -1)
           );
         });
-      return matchesArea && matchesSearch;
+      var matchesHours = true;
+      if (activeHoursFilter && hoursLoaded) {
+        var entry = hoursData[r.name];
+        if (!entry) {
+          matchesHours = false;
+        } else if (activeHoursFilter === "open") {
+          matchesHours = isOpenNow(r.name) === true;
+        } else if (activeHoursFilter === "lunch") {
+          matchesHours = entry.lunch === true;
+        } else if (activeHoursFilter === "dinner") {
+          matchesHours = entry.dinner === true;
+        }
+      }
+      return matchesArea && matchesSearch && matchesHours;
     });
 
     filtered.sort(function (a, b) {
@@ -736,6 +966,22 @@
         coming.className = "menu-item-subtitle coming-soon";
         coming.textContent = "Details coming soon!";
         nameCol.appendChild(coming);
+      }
+
+      // Hours badge in sidebar (only show closing-soon and closed)
+      if (hoursLoaded && hoursData[r.name]) {
+        var status = getOpenStatus(r.name);
+        if (status === "closing-soon" || status === "closed") {
+          var hoursBadge = document.createElement("span");
+          hoursBadge.className = "hours-dot " + status;
+          if (status === "closing-soon") {
+            hoursBadge.textContent = "Closing Soon";
+          } else {
+            var nextOpen = getNextOpenTime(r.name);
+            hoursBadge.textContent = nextOpen ? "Opens " + nextOpen : "Closed";
+          }
+          nameCol.appendChild(hoursBadge);
+        }
       }
 
       var badge = document.createElement("span");

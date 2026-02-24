@@ -199,9 +199,33 @@ header h1 span {
 
 .area-filters {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 5px;
   margin-top: 8px;
+}
+
+.filter-row {
+  display: grid;
+  gap: 5px;
+  padding-top: 6px;
+  border-top: 1px solid #eee;
+}
+
+.filter-row:first-of-type {
+  padding-top: 0;
+  border-top: none;
+}
+
+.filter-row-areas {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.filter-row-tags {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.filter-row-hours {
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .area-btn {
@@ -213,6 +237,7 @@ header h1 span {
   cursor: pointer;
   transition: all 0.15s;
   white-space: nowrap;
+  text-align: center;
 }
 
 .area-btn:hover {
@@ -224,8 +249,17 @@ header h1 span {
   border-color: transparent;
 }
 
-.area-btn[data-area="All"].active {
-  background: var(--dark);
+.clear-filters-btn {
+  width: 100%;
+  background: var(--red);
+  color: #fff;
+  border-color: transparent;
+  font-weight: 600;
+}
+
+.clear-filters-btn:hover {
+  background: #c62d3a;
+  color: #fff;
 }
 .area-btn[data-area="Downtown SB"].active {
   background: #e63946;
@@ -912,6 +946,56 @@ header h1 span {
 
 .coming-soon {
   color: #bbb;
+}
+
+/* ── Hours in popup ──────────────────────── */
+
+.popup-hours {
+  font-size: 0.82rem;
+  color: #555;
+  margin-top: 4px;
+  min-height: 0;
+}
+
+.popup-hours:empty {
+  display: none;
+}
+
+.popup-hours-dot {
+  font-size: 0.7rem;
+}
+
+/* ── Hours badge in sidebar ──────────────── */
+
+.hours-dot {
+  display: inline-block;
+  font-size: 0.68rem;
+  padding: 2px 8px;
+  border-radius: 8px;
+  margin-top: 2px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+.hours-dot.closing-soon {
+  color: #e65100;
+  background: #fff3e0;
+  border: 1px solid #ffcc80;
+}
+
+.hours-dot.closed {
+  color: #c62828;
+  background: #fce4ec;
+  border: 1px solid #ef9a9a;
+}
+
+/* ── Hours filter buttons ────────────────── */
+
+.area-btn[data-hours].active {
+  background: var(--dark);
+  color: #fff;
+  border-color: transparent;
 }
 
 

@@ -41,6 +41,9 @@
     "vegetarian": "Vegetarian",
     "glutenFree": "Gluten Free",
     "hasFries": "Fries",
+    "open": "Open Now",
+    "lunch": "Lunch",
+    "dinner": "Dinner",
   };
 
   // Column definitions for sortable leaderboard
@@ -194,11 +197,12 @@
     Object.keys(data).forEach(function (name) {
       var d = data[name];
 
-      // Gather filter-area and filter-tag events
+      // Gather filter-area, filter-tag, and filter-hours events
       var filterArea = d["filter-area"] || 0;
       var filterTag = d["filter-tag"] || 0;
-      if (filterArea > 0 || filterTag > 0) {
-        filterCounts[name] = (filterCounts[name] || 0) + filterArea + filterTag;
+      var filterHours = d["filter-hours"] || 0;
+      if (filterArea > 0 || filterTag > 0 || filterHours > 0) {
+        filterCounts[name] = (filterCounts[name] || 0) + filterArea + filterTag + filterHours;
       }
 
       // Skip non-restaurant entries for the leaderboard

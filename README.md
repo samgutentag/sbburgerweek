@@ -24,6 +24,7 @@ An interactive map of all participating restaurants for [Santa Barbara Burger We
 - **Stats dashboard** — Live leaderboard at `/stats` showing per-restaurant engagement scores
 - **Click tracking** — Cloudflare Worker + Analytics Engine tracks views, directions, website clicks, calls, shares, and upvotes
 - **About modal** — Info modal with source link, tip jar, embed link, stats, GitHub, and contact email
+- **Restaurant hours** — Shows today's hours in popups, open/closed badges in sidebar, and "Open Now" / Lunch / Dinner filters. Powered by Google Places API via daily GitHub Action
 - **Date-gated data** — Before `dataLiveDate`, loads skeleton data; after, loads full menu details
 - **Source monitoring** — GitHub Actions workflow checks the source article daily and opens an issue if content changes
 - **Placeholder support** — Restaurants without menu details show "Details coming soon!" in popups and sidebar
@@ -163,6 +164,10 @@ sbburgerweek/
 ├── icon-fries.svg          # Dietary tag icon
 ├── venmo_qr.png            # Venmo QR code
 ├── CNAME                   # Custom domain for GitHub Pages
+├── fetch-place-ids.py      # One-time Place ID lookup from mapUrl redirects
+├── place-ids.json          # Restaurant name → Google Place ID mapping
+├── fetch-hours.py          # Daily hours fetch from Google Places API
+├── hours.json              # Operating hours data (committed, updated daily)
 │
 ├── snapshots/              # Daily tracking data snapshots (committed by GitHub Action)
 │   └── tracking-YYYY-MM-DD.json
@@ -464,7 +469,42 @@ Cloudflare Analytics Engine only retains data for 90 days. To preserve your trac
 
 ---
 
-### Step 10: Embed (optional)
+### Step 10: Restaurant Hours (optional)
+
+Show operating hours, "Open Now" filter, and Lunch/Dinner filters on the map. Uses the Google Places API (free $200/mo credit covers ~48 lookups/day).
+
+1. **Get a Google Places API key:**
+   - Go to [console.cloud.google.com](https://console.cloud.google.com), create a project
+   - Enable "Places API"
+   - Create an API key (APIs & Services → Credentials → Create Credentials → API Key)
+   - Restrict the key to "Places API" only
+
+2. **Add as GitHub repo secret:** `Settings → Secrets → GOOGLE_PLACES_API_KEY`
+
+3. **Run the one-time Place ID lookup:**
+   ```bash
+   GOOGLE_PLACES_API_KEY=xxx python3 fetch-place-ids.py
+   ```
+   - Verify `place-ids.json` — spot-check a few entries
+   - Commit `place-ids.json` to the repo
+
+4. **Generate initial hours data:**
+   ```bash
+   GOOGLE_PLACES_API_KEY=xxx python3 fetch-hours.py
+   ```
+   - Verify `hours.json` has entries for all restaurants
+   - Commit `hours.json` to the repo
+
+5. **Update `.github/workflows/fetch-hours.yml`:**
+   - Change the cron schedule `17-26 2` to match your event month/days (2 days before through 1 day after)
+
+6. **Push and enable** — the workflow runs daily during your event window, fetching fresh hours and committing `hours.json`. The map automatically loads it and shows hours filters, open/closed badges, and today's hours in popups.
+
+**Graceful degradation:** If `hours.json` is missing or fails to load, the hours features simply don't appear — everything else works normally.
+
+---
+
+### Step 11: Embed (optional)
 
 ```html
 <iframe
@@ -503,6 +543,7 @@ The embed shares `data.js` and `config.js` with the main site (via relative path
 | `trackUrl`                      | string \| null | Cloudflare Worker URL for click tracking. `null` to disable             |
 | `cfAnalyticsToken`              | string \| null | Cloudflare Web Analytics token. `null` to disable                       |
 | `contactDomain`                 | string \| null | Domain for auto-generated contact email. `null` to hide                 |
+| `googlePlacesApiKey`            | null           | Documentation field — actual key goes in GitHub Secrets                 |
 
 ## Tech Stack
 
