@@ -83,13 +83,13 @@
       "website": 8
     },
     "Dave's Dogs Grill": {
-      "deeplink": 3,
+      "deeplink": 4,
       "directions-apple": 3,
       "directions-google": 7,
       "instagram": 1,
       "restaurant-detail": 2,
       "share": 3,
-      "view": 809,
+      "view": 810,
       "website": 5
     },
     "Dom's Taverna": {
@@ -179,15 +179,15 @@
     },
     "IV Deli Mart": {
       "deeplink": 3,
-      "directions-google": 3,
+      "directions-google": 5,
       "restaurant-detail": 2,
       "share": 2,
       "upvote": 1,
-      "view": 454,
+      "view": 458,
       "website": 3
     },
     "Isla Vista": {
-      "filter-area": 21
+      "filter-area": 22
     },
     "Islands Fine Burgers & Drinks": {
       "deeplink": 5,
@@ -208,7 +208,7 @@
       "share": 4,
       "un-upvote": 1,
       "upvote": 6,
-      "view": 1096,
+      "view": 1097,
       "website": 14
     },
     "Kyle's Kitchen (Calle Real)": {
@@ -224,10 +224,10 @@
     "Kyle's Kitchen (Hollister)": {
       "deeplink": 9,
       "directions-apple": 2,
-      "directions-google": 1,
+      "directions-google": 2,
       "restaurant-detail": 1,
       "share": 1,
-      "view": 747,
+      "view": 748,
       "website": 9
     },
     "Little Bird Kitchen": {
@@ -274,7 +274,7 @@
       "website": 12
     },
     "Poke House": {
-      "deeplink": 12,
+      "deeplink": 13,
       "directions-apple": 1,
       "directions-google": 3,
       "share": 7,
@@ -294,12 +294,12 @@
     "Rinkside Cafe": {
       "deeplink": 15,
       "directions-apple": 1,
-      "directions-google": 6,
+      "directions-google": 7,
       "instagram": 3,
       "share": 4,
       "un-upvote": 2,
       "upvote": 2,
-      "view": 965,
+      "view": 968,
       "website": 15
     },
     "SB Biergarten": {
@@ -322,18 +322,18 @@
       "phone": 5,
       "share": 1,
       "upvote": 4,
-      "view": 915,
+      "view": 916,
       "website": 16
     },
     "Santa Barbara Fish Market": {
       "deeplink": 6,
       "directions-apple": 2,
-      "directions-google": 6,
+      "directions-google": 7,
       "instagram": 2,
       "phone": 3,
       "share": 3,
       "upvote": 2,
-      "view": 977,
+      "view": 978,
       "website": 19
     },
     "Santa Ynez": {
@@ -379,7 +379,7 @@
       "website": 17
     },
     "The Brewhouse": {
-      "deeplink": 8,
+      "deeplink": 9,
       "directions-apple": 2,
       "directions-google": 3,
       "instagram": 1,
@@ -409,7 +409,7 @@
       "deeplink": 2,
       "directions-google": 1,
       "share": 1,
-      "view": 319
+      "view": 320
     },
     "The Patio Cafe": {
       "deeplink": 2,
@@ -476,17 +476,17 @@
       "directions-google": 8,
       "instagram": 1,
       "share": 3,
-      "view": 566,
+      "view": 567,
       "website": 1
     },
     "White Caps Beach Club": {
       "deeplink": 14,
       "directions-apple": 3,
-      "directions-google": 12,
+      "directions-google": 14,
       "share": 2,
       "un-upvote": 1,
       "upvote": 3,
-      "view": 1070,
+      "view": 1073,
       "website": 14
     },
     "Yellow Belly Tap": {
@@ -506,7 +506,7 @@
       "filter-tag": 46
     },
     "hasFries": {
-      "filter-tag": 96
+      "filter-tag": 97
     },
     "lunch": {
       "filter-hours": 11
@@ -535,7 +535,7 @@
       "filter-tag": 108
     }
   },
-  "timestamp": "2026-02-24T11:37:15Z",
+  "timestamp": "2026-02-24T12:55:48Z",
   "upvotes": {
     "Arnoldi's": 1,
     "Caya": 4,
