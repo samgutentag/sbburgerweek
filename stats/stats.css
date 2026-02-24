@@ -455,6 +455,92 @@ tbody td.col-num {
   font-variant-numeric: tabular-nums;
 }
 
+/* ── Clickable cards ─────────────────────── */
+
+.card-clickable {
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.card-clickable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.card-clickable:active {
+  transform: translateY(0);
+}
+
+/* ── Chart modal ─────────────────────────── */
+
+.chart-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.chart-modal-overlay.open {
+  display: flex;
+}
+
+.chart-modal {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 720px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  animation: chart-modal-in 0.2s ease;
+}
+
+@keyframes chart-modal-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.chart-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.chart-modal-header h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.chart-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #888;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.chart-modal-close:hover {
+  color: var(--dark);
+}
+
+.chart-modal-body {
+  padding: 16px 20px 20px;
+}
+
+.chart-modal-body canvas {
+  width: 100% !important;
+  max-height: 400px;
+}
+
 /* ── Footer ──────────────────────────────── */
 
 .footer-note {

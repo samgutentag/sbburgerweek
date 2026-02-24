@@ -38,39 +38,39 @@
           <h2>Activity</h2>
           <p class="leaderboard-hint">Total actions across all restaurants</p>
           <div class="summary-cards" id="summaryCards">
-            <div class="card">
+            <div class="card card-clickable" data-metric="view" data-metric-label="Views">
               <div class="card-value" id="totalViews">—</div>
               <div class="card-label">Views</div>
             </div>
-            <div class="card">
+            <div class="card card-clickable" data-metric="directions-apple" data-metric-label="Apple Maps">
               <div class="card-value" id="totalDirApple">—</div>
               <div class="card-label">Apple Maps</div>
             </div>
-            <div class="card">
+            <div class="card card-clickable" data-metric="directions-google" data-metric-label="Google Maps">
               <div class="card-value" id="totalDirGoogle">—</div>
               <div class="card-label">Google Maps</div>
             </div>
-            <div class="card">
+            <div class="card card-clickable" data-metric="website" data-metric-label="Website">
               <div class="card-value" id="totalWebsite">—</div>
               <div class="card-label">Website</div>
             </div>
-            <div class="card">
+            <div class="card card-clickable" data-metric="phone" data-metric-label="Phone">
               <div class="card-value" id="totalPhone">—</div>
               <div class="card-label">Phone</div>
             </div>
-            <div class="card">
+            <div class="card card-clickable" data-metric="instagram" data-metric-label="Instagram">
               <div class="card-value" id="totalInstagram">—</div>
               <div class="card-label">Instagram</div>
             </div>
-            <div class="card">
+            <div class="card card-clickable" data-metric="share" data-metric-label="Shares">
               <div class="card-value" id="totalShares">—</div>
               <div class="card-label">Shares</div>
             </div>
-            <div class="card">
+            <div class="card card-clickable" data-metric="deeplink" data-metric-label="Direct Links">
               <div class="card-value" id="totalDeeplinks">—</div>
               <div class="card-label">Direct Links</div>
             </div>
-            <div class="card">
+            <div class="card card-clickable" data-metric="upvote" data-metric-label="Likes">
               <div class="card-value" id="totalLikes">—</div>
               <div class="card-label">Likes</div>
             </div>
@@ -85,11 +85,11 @@
               <div class="card-value" id="liveVisitors">—</div>
               <div class="card-label">Visitors (last hour) <span class="info-tip" tabindex="0">&#9432;<span class="info-tip-text">Visitor data from Cloudflare RUM typically has a 15–30 minute delay.</span></span></div>
             </div>
-            <div class="card">
+            <div class="card card-clickable" data-live-metric="all-actions" data-metric-label="All Actions">
               <div class="card-value" id="liveActions">—</div>
               <div class="card-label">Actions (last 5 min)</div>
             </div>
-            <div class="card">
+            <div class="card card-clickable" data-live-metric="stats-view" data-metric-label="Stats Page Views">
               <div class="card-value" id="statsPageViews">—</div>
               <div class="card-label">Stats Page Views</div>
             </div>
@@ -118,6 +118,7 @@
             <p><strong>3&times;</strong> Directions &amp; Phone &mdash; strongest visit intent, someone is heading there or calling</p>
             <p><strong>2&times;</strong> Direct Links, Shares &amp; Likes &mdash; active engagement, someone shared a link or upvoted a favorite</p>
             <p><strong>1&times;</strong> Website, Instagram &amp; Views &mdash; casual browsing and interest</p>
+            <p><strong>Contact</strong> = Website + Phone + Instagram combined</p>
           </div>
           <div class="table-wrap">
             <table id="leaderboard">
@@ -128,9 +129,7 @@
                   <th class="col-num">Direct</th>
                   <th class="col-num">Views</th>
                   <th class="col-num">Maps</th>
-                  <th class="col-num">Website</th>
-                  <th class="col-num">Phone</th>
-                  <th class="col-num">Instagram</th>
+                  <th class="col-num">Contact</th>
                   <th class="col-num">Shares</th>
                   <th class="col-num">Likes</th>
                   <th class="col-num">Score</th>
@@ -148,6 +147,19 @@
 
       <p class="footer-note" id="footerNote">Loading data…</p>
     </main>
+
+    <!-- Metric chart modal -->
+    <div class="chart-modal-overlay" id="chartModalOverlay">
+      <div class="chart-modal">
+        <div class="chart-modal-header">
+          <h3 id="chartModalTitle">—</h3>
+          <button class="chart-modal-close" id="chartModalClose">&times;</button>
+        </div>
+        <div class="chart-modal-body">
+          <canvas id="chartModalCanvas"></canvas>
+        </div>
+      </div>
+    </div>
 
     <!-- Load data for AREA_COLORS -->
     <script>

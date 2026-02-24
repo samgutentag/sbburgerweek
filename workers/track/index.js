@@ -160,12 +160,20 @@ export default {
       // Hourly breakdown — event counts grouped by hour
       if (url.searchParams.get("hourly") === "true") {
         try {
-          const sql = `SELECT toStartOfHour(timestamp) AS hour, blob1 AS action, SUM(1) AS count
-             FROM sbburgerweek
-             WHERE timestamp >= NOW() - INTERVAL '7' DAY AND blob1 != 'test'
-             GROUP BY hour, action
-             ORDER BY hour ASC
-             LIMIT 5000`;
+          const label = url.searchParams.get("label");
+          const sql = label
+            ? `SELECT toStartOfHour(timestamp) AS hour, blob2 AS label, SUM(1) AS count
+               FROM sbburgerweek
+               WHERE timestamp >= NOW() - INTERVAL '7' DAY AND blob1 != 'test' AND blob2 = '${label.replace(/'/g, "''")}'
+               GROUP BY hour, label
+               ORDER BY hour ASC
+               LIMIT 5000`
+            : `SELECT toStartOfHour(timestamp) AS hour, blob1 AS action, SUM(1) AS count
+               FROM sbburgerweek
+               WHERE timestamp >= NOW() - INTERVAL '7' DAY AND blob1 != 'test'
+               GROUP BY hour, action
+               ORDER BY hour ASC
+               LIMIT 5000`;
 
           const resp = await fetch(
             `https://api.cloudflare.com/client/v4/accounts/${env.ACCOUNT_ID}/analytics_engine/sql`,
@@ -192,8 +200,13 @@ export default {
             data.data.forEach(function (row) {
               var hour = row.hour;
               if (!hour) return;
-              if (!result[hour]) result[hour] = {};
-              result[hour][row.action] = Number(row.count) || 0;
+              if (label) {
+                // label mode: just store count per hour
+                result[hour] = Number(row.count) || 0;
+              } else {
+                if (!result[hour]) result[hour] = {};
+                result[hour][row.action] = Number(row.count) || 0;
+              }
             });
           }
 

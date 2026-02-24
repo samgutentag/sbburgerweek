@@ -39,9 +39,7 @@
     { key: "deeplinks", label: "Direct" },
     { key: "views", label: "Views" },
     { key: "directions", label: "Maps" },
-    { key: "website", label: "Website" },
-    { key: "phone", label: "Phone" },
-    { key: "instagram", label: "Instagram" },
+    { key: "contact", label: "Contact" },
     { key: "shares", label: "Shares" },
     { key: "likes", label: "Likes" },
     { key: "score", label: "Score" },
@@ -88,9 +86,7 @@
         '<td class="col-num">' + row.deeplinks.toLocaleString() + "</td>" +
         '<td class="col-num">' + row.views.toLocaleString() + "</td>" +
         '<td class="col-num">' + row.directions.toLocaleString() + "</td>" +
-        '<td class="col-num">' + row.website.toLocaleString() + "</td>" +
-        '<td class="col-num">' + row.phone.toLocaleString() + "</td>" +
-        '<td class="col-num">' + row.instagram.toLocaleString() + "</td>" +
+        '<td class="col-num">' + row.contact.toLocaleString() + "</td>" +
         '<td class="col-num">' + row.shares.toLocaleString() + "</td>" +
         '<td class="col-num">' + row.likes.toLocaleString() + "</td>" +
         '<td class="col-num score-cell">' + row.score.toLocaleString() + "</td>";
@@ -223,9 +219,7 @@
         name: name,
         views: views,
         directions: directions,
-        website: website,
-        phone: phone,
-        instagram: instagram,
+        contact: website + phone + instagram,
         shares: shares,
         deeplinks: deeplinks,
         likes: likes,
@@ -267,7 +261,9 @@
     allFilterKeys.forEach(function (key) {
       var count = filterCounts[key] || 0;
       var card = document.createElement("div");
-      card.className = "card";
+      card.className = "card card-clickable";
+      card.setAttribute("data-filter-label", key);
+      card.setAttribute("data-metric-label", filterLabels[key]);
       card.innerHTML =
         '<div class="card-value">' + count.toLocaleString() + "</div>" +
         '<div class="card-label">' + escapeHtml(filterLabels[key]) + "</div>";
@@ -400,6 +396,206 @@
 
   updateLiveActivity();
   setInterval(updateLiveActivity, 30000);
+
+  // ── Hourly chart modal ──────────────────
+  var hourlyCache = null;
+  var hourlyLabelCache = {};
+  var chartInstance = null;
+
+  function fetchHourly() {
+    if (hourlyCache) return Promise.resolve(hourlyCache);
+    if (!THEME.trackUrl) return Promise.resolve(null);
+    return fetch(THEME.trackUrl + "?hourly=true", { method: "GET" })
+      .then(function (resp) { return resp.json(); })
+      .then(function (data) { hourlyCache = data; return data; })
+      .catch(function () { return null; });
+  }
+
+  function fetchHourlyLabel(label) {
+    if (hourlyLabelCache[label]) return Promise.resolve(hourlyLabelCache[label]);
+    if (!THEME.trackUrl) return Promise.resolve(null);
+    return fetch(THEME.trackUrl + "?hourly=true&label=" + encodeURIComponent(label), { method: "GET" })
+      .then(function (resp) { return resp.json(); })
+      .then(function (data) { hourlyLabelCache[label] = data; return data; })
+      .catch(function () { return null; });
+  }
+
+  function formatHourLabel(h) {
+    var d = new Date(h);
+    var mon = d.getMonth() + 1;
+    var day = d.getDate();
+    var hr = d.getHours();
+    var ampm = hr >= 12 ? "p" : "a";
+    var h12 = hr % 12 || 12;
+    return mon + "/" + day + " " + h12 + ampm;
+  }
+
+  function formatHourTooltip(h) {
+    var d = new Date(h);
+    return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }) + " " +
+      d.toLocaleTimeString("en-US", { hour: "numeric", hour12: true });
+  }
+
+  // opts: { cumulative: bool }
+  function renderChart(hours, values, label, opts) {
+    var cumulative = opts && opts.cumulative;
+    var chartValues = values;
+    if (cumulative) {
+      chartValues = [];
+      var sum = 0;
+      values.forEach(function (v) { sum += v; chartValues.push(sum); });
+    }
+
+    var labels = hours.map(formatHourLabel);
+
+    if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+
+    var ctx = document.getElementById("chartModalCanvas").getContext("2d");
+
+    var dataset = {
+      label: label,
+      data: chartValues,
+      borderColor: "#e76f51",
+      backgroundColor: "rgba(230, 111, 81, 0.1)",
+      borderWidth: 2,
+      fill: true,
+      tension: 0.3,
+      pointRadius: 0,
+      pointHitRadius: 8,
+    };
+
+    chartInstance = new Chart(ctx, {
+      type: "line",
+      data: { labels: labels, datasets: [dataset] },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              title: function (items) {
+                return formatHourTooltip(hours[items[0].dataIndex]);
+              },
+            },
+          },
+        },
+        scales: {
+          x: {
+            ticks: { maxRotation: 45, font: { size: 10 }, autoSkip: true, maxTicksLimit: 24 },
+            grid: { display: false },
+          },
+          y: {
+            beginAtZero: true,
+            ticks: { precision: 0, font: { size: 11 } },
+          },
+        },
+      },
+    });
+  }
+
+  // Open chart for a metric (action-based, from ?hourly=true)
+  function openChartModal(metricKey, label, opts) {
+    fetchHourly().then(function (data) {
+      if (!data) return;
+
+      var overlay = document.getElementById("chartModalOverlay");
+      document.getElementById("chartModalTitle").textContent = label + " per Hour";
+      overlay.classList.add("open");
+
+      var keys = metricKey.split(",");
+      var hourMap = {};
+      Object.keys(data).forEach(function (hour) {
+        var total = 0;
+        keys.forEach(function (k) { total += data[hour][k] || 0; });
+        hourMap[hour] = total;
+      });
+
+      var hours = Object.keys(hourMap).sort();
+      var values = hours.map(function (h) { return hourMap[h]; });
+      renderChart(hours, values, label, opts);
+    });
+  }
+
+  // Open chart for a filter label (label-based, from ?hourly=true&label=X)
+  function openFilterChartModal(filterKey, label) {
+    fetchHourlyLabel(filterKey).then(function (data) {
+      if (!data) return;
+
+      var overlay = document.getElementById("chartModalOverlay");
+      document.getElementById("chartModalTitle").textContent = label + " (Cumulative)";
+      overlay.classList.add("open");
+
+      var hours = Object.keys(data).sort();
+      var values = hours.map(function (h) { return data[h] || 0; });
+      renderChart(hours, values, label, { cumulative: true });
+    });
+  }
+
+  function closeChartModal() {
+    var overlay = document.getElementById("chartModalOverlay");
+    overlay.classList.remove("open");
+    if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+  }
+
+  // Close handlers
+  document.getElementById("chartModalOverlay").addEventListener("click", function (e) {
+    if (e.target === this) closeChartModal();
+  });
+  document.getElementById("chartModalClose").addEventListener("click", closeChartModal);
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeChartModal();
+  });
+
+  // Summary card click → bar chart
+  document.getElementById("summaryCards").addEventListener("click", function (e) {
+    var card = e.target.closest(".card-clickable[data-metric]");
+    if (!card) return;
+    var metric = card.getAttribute("data-metric");
+    var label = card.getAttribute("data-metric-label");
+    openChartModal(metric, label);
+  });
+
+  // Filter card click → cumulative line chart
+  document.getElementById("filterStatsGrid").addEventListener("click", function (e) {
+    var card = e.target.closest(".card-clickable[data-filter-label]");
+    if (!card) return;
+    var filterKey = card.getAttribute("data-filter-label");
+    var label = card.getAttribute("data-metric-label");
+    openFilterChartModal(filterKey, label);
+  });
+
+  // Live card click → line chart
+  document.getElementById("liveCards").addEventListener("click", function (e) {
+    var card = e.target.closest(".card-clickable[data-live-metric]");
+    if (!card) return;
+    var metric = card.getAttribute("data-live-metric");
+    var label = card.getAttribute("data-metric-label");
+
+    if (metric === "all-actions") {
+      // Sum all actions per hour
+      fetchHourly().then(function (data) {
+        if (!data) return;
+        var overlay = document.getElementById("chartModalOverlay");
+        document.getElementById("chartModalTitle").textContent = label + " per Hour";
+        overlay.classList.add("open");
+
+        var hourMap = {};
+        Object.keys(data).forEach(function (hour) {
+          var total = 0;
+          Object.keys(data[hour]).forEach(function (k) { total += data[hour][k] || 0; });
+          hourMap[hour] = total;
+        });
+
+        var hours = Object.keys(hourMap).sort();
+        var values = hours.map(function (h) { return hourMap[h]; });
+        renderChart(hours, values, label);
+      });
+    } else {
+      // Label-based (e.g. stats-view)
+      openFilterChartModal(metric, label);
+    }
+  });
 
   // Try live fetch with ?detail=true
   if (THEME.trackUrl) {
