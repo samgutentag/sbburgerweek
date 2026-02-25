@@ -116,7 +116,7 @@
       "filter-area": 287
     },
     "Eureka!": {
-      "deeplink": 16,
+      "deeplink": 17,
       "directions-apple": 1,
       "directions-google": 9,
       "instagram": 1,
@@ -442,6 +442,7 @@
       "directions-google": 7,
       "instagram": 1,
       "share": 2,
+      "sidebar-view": 1,
       "view": 502,
       "website": 9
     },
@@ -532,11 +533,11 @@
       "filter-hours": 54
     },
     "stats": {
-      "insights-view": 43,
+      "insights-view": 45,
       "restaurant-stats-view": 3,
       "restaurants-view": 38,
-      "stats-view": 218,
-      "trends-view": 43
+      "stats-view": 221,
+      "trends-view": 45
     },
     "tip-jar": {
       "tip-fries": 6,
@@ -550,9 +551,12 @@
     },
     "vegetarian": {
       "filter-tag": 143
+    },
+    "wagyu": {
+      "search": 1
     }
   },
-  "timestamp": "2026-02-25T07:03:44Z",
+  "timestamp": "2026-02-25T08:41:48Z",
   "upvotes": {
     "Arnoldi's": 1,
     "Caya": 6,
