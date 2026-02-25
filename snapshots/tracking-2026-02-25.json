@@ -7,7 +7,7 @@
       "filter-area": 117
     },
     "Arnoldi's": {
-      "deeplink": 32,
+      "deeplink": 33,
       "directions-apple": 3,
       "directions-google": 7,
       "instagram": 2,
@@ -17,11 +17,11 @@
       "sidebar-view": 1,
       "un-upvote": 8,
       "upvote": 10,
-      "view": 1008,
+      "view": 1012,
       "website": 15
     },
     "Carpinteria": {
-      "filter-area": 47
+      "filter-area": 48
     },
     "Caya": {
       "deeplink": 13,
@@ -30,10 +30,10 @@
       "instagram": 2,
       "phone": 1,
       "share": 8,
-      "sidebar-view": 1,
+      "sidebar-view": 4,
       "un-upvote": 7,
       "upvote": 13,
-      "view": 1013,
+      "view": 1018,
       "website": 17
     },
     "Corner Tap": {
@@ -41,7 +41,7 @@
       "directions-apple": 4,
       "directions-google": 6,
       "share": 1,
-      "sidebar-view": 2,
+      "sidebar-view": 4,
       "un-upvote": 1,
       "upvote": 1,
       "view": 433,
@@ -54,9 +54,10 @@
       "instagram": 2,
       "phone": 1,
       "share": 5,
+      "sidebar-view": 4,
       "un-upvote": 3,
       "upvote": 6,
-      "view": 1216,
+      "view": 1226,
       "website": 18
     },
     "Crushcakes": {
@@ -65,10 +66,10 @@
       "directions-google": 5,
       "phone": 1,
       "share": 2,
-      "sidebar-view": 1,
+      "sidebar-view": 2,
       "un-upvote": 1,
       "upvote": 4,
-      "view": 886,
+      "view": 890,
       "website": 6
     },
     "Crushcakes and Cafe": {
@@ -76,15 +77,17 @@
       "directions-apple": 3,
       "directions-google": 8,
       "share": 2,
+      "sidebar-view": 2,
       "un-upvote": 1,
       "upvote": 4,
-      "view": 1103,
+      "view": 1112,
       "website": 6
     },
     "Dang Burger": {
       "deeplink": 5,
       "directions-google": 1,
       "share": 2,
+      "sidebar-view": 1,
       "un-upvote": 2,
       "upvote": 2,
       "view": 377,
@@ -98,7 +101,7 @@
       "restaurant-detail": 2,
       "share": 3,
       "sidebar-view": 2,
-      "view": 957,
+      "view": 968,
       "website": 5
     },
     "Dom's Taverna": {
@@ -109,7 +112,7 @@
       "share": 18,
       "sidebar-view": 2,
       "upvote": 2,
-      "view": 1105,
+      "view": 1111,
       "website": 27
     },
     "Downtown Eats": {
@@ -118,11 +121,11 @@
       "directions-google": 16,
       "phone": 5,
       "share": 6,
-      "view": 1152,
+      "view": 1156,
       "website": 18
     },
     "Downtown SB": {
-      "filter-area": 297
+      "filter-area": 301
     },
     "Eureka!": {
       "deeplink": 17,
@@ -132,9 +135,10 @@
       "phone": 1,
       "restaurant-detail": 1,
       "share": 2,
+      "sidebar-view": 2,
       "un-upvote": 2,
       "upvote": 6,
-      "view": 996,
+      "view": 998,
       "website": 15
     },
     "Finch and Fork": {
@@ -144,16 +148,17 @@
       "instagram": 2,
       "phone": 4,
       "share": 3,
+      "sidebar-view": 1,
       "un-upvote": 2,
       "upvote": 4,
-      "view": 1364,
+      "view": 1373,
       "website": 20
     },
     "Fresco At The Market": {
       "deeplink": 4,
       "directions-apple": 1,
       "upvote": 2,
-      "view": 316,
+      "view": 318,
       "website": 3
     },
     "Gala": {
@@ -164,7 +169,7 @@
       "restaurant-detail": 1,
       "share": 10,
       "sidebar-view": 1,
-      "view": 959,
+      "view": 960,
       "website": 12
     },
     "Goat Tree": {
@@ -176,11 +181,11 @@
       "sidebar-view": 1,
       "un-upvote": 6,
       "upvote": 8,
-      "view": 997,
+      "view": 1002,
       "website": 11
     },
     "Goleta": {
-      "filter-area": 206
+      "filter-area": 213
     },
     "Home Plate Grill": {
       "deeplink": 6,
@@ -189,8 +194,10 @@
       "instagram": 2,
       "phone": 2,
       "share": 1,
-      "upvote": 1,
-      "view": 902,
+      "sidebar-view": 1,
+      "un-upvote": 1,
+      "upvote": 2,
+      "view": 912,
       "website": 15
     },
     "IV Deli Mart": {
@@ -199,11 +206,11 @@
       "restaurant-detail": 2,
       "share": 2,
       "upvote": 1,
-      "view": 548,
+      "view": 553,
       "website": 3
     },
     "Isla Vista": {
-      "filter-area": 39
+      "filter-area": 41
     },
     "Islands Fine Burgers & Drinks": {
       "deeplink": 7,
@@ -215,7 +222,7 @@
       "share": 1,
       "sidebar-view": 1,
       "upvote": 1,
-      "view": 1040,
+      "view": 1048,
       "website": 14
     },
     "Jonesy's Fried Chicken": {
@@ -228,7 +235,7 @@
       "share": 8,
       "un-upvote": 1,
       "upvote": 6,
-      "view": 1328,
+      "view": 1338,
       "website": 19
     },
     "Kyle's Kitchen (Calle Real)": {
@@ -239,7 +246,7 @@
       "sidebar-view": 1,
       "un-upvote": 2,
       "upvote": 3,
-      "view": 683,
+      "view": 687,
       "website": 4
     },
     "Kyle's Kitchen (Hollister)": {
@@ -250,7 +257,7 @@
       "share": 1,
       "sidebar-view": 1,
       "upvote": 1,
-      "view": 881,
+      "view": 885,
       "website": 11
     },
     "Little Bird Kitchen": {
@@ -261,7 +268,7 @@
       "share": 2,
       "sidebar-view": 1,
       "upvote": 2,
-      "view": 902,
+      "view": 910,
       "website": 7
     },
     "Mesa Burger": {
@@ -277,7 +284,7 @@
       "website": 16
     },
     "Other SB": {
-      "filter-area": 117
+      "filter-area": 118
     },
     "Padaro Beach Grill": {
       "deeplink": 4,
@@ -296,7 +303,7 @@
       "restaurant-detail": 1,
       "share": 1,
       "upvote": 2,
-      "view": 1234,
+      "view": 1239,
       "website": 13
     },
     "Poke House": {
@@ -304,10 +311,10 @@
       "directions-apple": 1,
       "directions-google": 4,
       "share": 7,
-      "sidebar-view": 2,
+      "sidebar-view": 3,
       "un-upvote": 1,
       "upvote": 4,
-      "view": 978,
+      "view": 982,
       "website": 3
     },
     "Que Smoke Shack": {
@@ -315,9 +322,9 @@
       "directions-google": 9,
       "instagram": 1,
       "share": 1,
-      "sidebar-view": 1,
+      "sidebar-view": 5,
       "upvote": 10,
-      "view": 527,
+      "view": 528,
       "website": 12
     },
     "Rinkside Cafe": {
@@ -326,10 +333,10 @@
       "directions-google": 8,
       "instagram": 3,
       "share": 4,
-      "sidebar-view": 2,
+      "sidebar-view": 4,
       "un-upvote": 2,
       "upvote": 2,
-      "view": 1137,
+      "view": 1147,
       "website": 16
     },
     "SB Biergarten": {
@@ -339,9 +346,10 @@
       "instagram": 1,
       "phone": 2,
       "share": 6,
+      "sidebar-view": 1,
       "un-upvote": 2,
       "upvote": 5,
-      "view": 966,
+      "view": 969,
       "website": 19
     },
     "Sama San Roque": {
@@ -352,7 +360,7 @@
       "phone": 5,
       "share": 1,
       "upvote": 4,
-      "view": 1069,
+      "view": 1075,
       "website": 16
     },
     "Santa Barbara Fish Market": {
@@ -362,35 +370,35 @@
       "instagram": 2,
       "phone": 3,
       "share": 4,
-      "sidebar-view": 2,
+      "sidebar-view": 4,
       "un-upvote": 1,
       "upvote": 4,
-      "view": 1140,
+      "view": 1146,
       "website": 20
     },
     "Santa Ynez": {
-      "filter-area": 28
+      "filter-area": 29
     },
     "Seoulmate Kitchen": {
       "deeplink": 28,
       "directions-google": 3,
       "share": 1,
-      "sidebar-view": 2,
+      "sidebar-view": 3,
       "un-upvote": 5,
       "upvote": 13,
-      "view": 410,
+      "view": 412,
       "website": 7
     },
     "Shalhoob's (Magnolia)": {
       "deeplink": 7,
       "directions-apple": 1,
-      "directions-google": 8,
+      "directions-google": 9,
       "phone": 8,
       "share": 4,
-      "sidebar-view": 2,
+      "sidebar-view": 3,
       "un-upvote": 1,
       "upvote": 3,
-      "view": 1159,
+      "view": 1174,
       "website": 17
     },
     "Shalhoob's Funk Zone Patio": {
@@ -412,19 +420,19 @@
       "directions-google": 9,
       "phone": 2,
       "share": 5,
-      "sidebar-view": 1,
+      "sidebar-view": 2,
       "un-upvote": 1,
       "upvote": 5,
-      "view": 1224,
+      "view": 1228,
       "website": 20
     },
     "The Brewhouse": {
       "deeplink": 10,
       "directions-apple": 2,
       "directions-google": 5,
-      "instagram": 1,
+      "instagram": 2,
       "share": 2,
-      "view": 813,
+      "view": 819,
       "website": 3
     },
     "The Nugget (Carpinteria)": {
@@ -440,9 +448,10 @@
       "directions-google": 4,
       "phone": 2,
       "share": 2,
+      "sidebar-view": 2,
       "un-upvote": 2,
       "upvote": 3,
-      "view": 784,
+      "view": 788,
       "website": 9
     },
     "The Nugget (Summerland)": {
@@ -450,16 +459,17 @@
       "directions-apple": 1,
       "directions-google": 1,
       "share": 1,
-      "view": 369
+      "view": 371
     },
     "The Patio Cafe": {
       "deeplink": 2,
       "directions-apple": 1,
       "directions-google": 10,
       "share": 1,
+      "sidebar-view": 1,
       "un-upvote": 1,
       "upvote": 5,
-      "view": 878,
+      "view": 883,
       "website": 10
     },
     "The Victor": {
@@ -469,7 +479,7 @@
       "instagram": 1,
       "share": 2,
       "sidebar-view": 4,
-      "view": 507,
+      "view": 508,
       "website": 9
     },
     "The Win-dow": {
@@ -480,17 +490,17 @@
       "phone": 1,
       "restaurant-detail": 1,
       "share": 3,
-      "view": 1099,
+      "view": 1105,
       "website": 13
     },
     "Third Window Brewing (Carpinteria)": {
-      "deeplink": 11,
+      "deeplink": 12,
       "directions-apple": 2,
       "directions-google": 4,
       "instagram": 4,
       "phone": 2,
       "share": 1,
-      "sidebar-view": 1,
+      "sidebar-view": 2,
       "view": 399,
       "website": 4
     },
@@ -501,9 +511,9 @@
       "instagram": 6,
       "phone": 4,
       "share": 5,
-      "sidebar-view": 2,
+      "sidebar-view": 3,
       "upvote": 1,
-      "view": 1041,
+      "view": 1050,
       "website": 25
     },
     "Validation Ale": {
@@ -511,6 +521,7 @@
       "directions-google": 6,
       "instagram": 1,
       "share": 10,
+      "sidebar-view": 2,
       "un-upvote": 6,
       "upvote": 10,
       "view": 961,
@@ -522,18 +533,18 @@
       "directions-google": 9,
       "instagram": 1,
       "share": 3,
-      "view": 651,
+      "view": 656,
       "website": 1
     },
     "White Caps Beach Club": {
-      "deeplink": 19,
+      "deeplink": 20,
       "directions-apple": 4,
       "directions-google": 15,
       "share": 2,
-      "sidebar-view": 1,
+      "sidebar-view": 2,
       "un-upvote": 1,
       "upvote": 4,
-      "view": 1260,
+      "view": 1271,
       "website": 16
     },
     "Yellow Belly Tap": {
@@ -541,19 +552,26 @@
       "directions-apple": 3,
       "directions-google": 10,
       "share": 4,
+      "sidebar-view": 1,
       "un-upvote": 2,
       "upvote": 3,
-      "view": 1157,
+      "view": 1161,
       "website": 18
     },
     "dinner": {
       "filter-hours": 22
     },
+    "fi": {
+      "search": 1
+    },
+    "fin": {
+      "search": 1
+    },
     "glutenFree": {
-      "filter-tag": 63
+      "filter-tag": 64
     },
     "hasFries": {
-      "filter-tag": 120
+      "filter-tag": 125
     },
     "lunch": {
       "filter-hours": 16
@@ -562,11 +580,11 @@
       "filter-hours": 56
     },
     "stats": {
-      "insights-view": 51,
+      "insights-view": 54,
       "restaurant-stats-view": 3,
-      "restaurants-view": 43,
-      "stats-view": 232,
-      "trends-view": 49
+      "restaurants-view": 46,
+      "stats-view": 235,
+      "trends-view": 52
     },
     "the": {
       "search": 1
@@ -579,9 +597,9 @@
     },
     "tip-jar": {
       "tip-fries": 6,
-      "tip-full": 15,
+      "tip-full": 17,
       "tip-half": 5,
-      "tip-jar-open": 280,
+      "tip-jar-open": 285,
       "tip-share": 3
     },
     "vegan": {
@@ -594,7 +612,7 @@
       "search": 1
     }
   },
-  "timestamp": "2026-02-25T18:59:33Z",
+  "timestamp": "2026-02-25T19:51:59Z",
   "upvotes": {
     "Arnoldi's": 2,
     "Caya": 6,
