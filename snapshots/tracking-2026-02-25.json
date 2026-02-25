@@ -28,7 +28,7 @@
       "share": 8,
       "un-upvote": 6,
       "upvote": 12,
-      "view": 1001,
+      "view": 1002,
       "website": 17
     },
     "Corner Tap": {
@@ -71,7 +71,7 @@
       "share": 2,
       "un-upvote": 1,
       "upvote": 4,
-      "view": 1077,
+      "view": 1078,
       "website": 6
     },
     "Dang Burger": {
@@ -80,7 +80,7 @@
       "share": 2,
       "un-upvote": 2,
       "upvote": 2,
-      "view": 370,
+      "view": 371,
       "website": 8
     },
     "Dave's Dogs Grill": {
@@ -90,7 +90,7 @@
       "instagram": 2,
       "restaurant-detail": 2,
       "share": 3,
-      "view": 943,
+      "view": 944,
       "website": 5
     },
     "Dom's Taverna": {
@@ -125,7 +125,7 @@
       "share": 2,
       "un-upvote": 2,
       "upvote": 6,
-      "view": 982,
+      "view": 983,
       "website": 15
     },
     "Finch and Fork": {
@@ -187,11 +187,11 @@
       "restaurant-detail": 2,
       "share": 2,
       "upvote": 1,
-      "view": 540,
+      "view": 541,
       "website": 3
     },
     "Isla Vista": {
-      "filter-area": 38
+      "filter-area": 39
     },
     "Islands Fine Burgers & Drinks": {
       "deeplink": 6,
@@ -215,7 +215,7 @@
       "share": 8,
       "un-upvote": 1,
       "upvote": 6,
-      "view": 1301,
+      "view": 1302,
       "website": 18
     },
     "Kyle's Kitchen (Calle Real)": {
@@ -225,7 +225,7 @@
       "share": 2,
       "un-upvote": 2,
       "upvote": 3,
-      "view": 672,
+      "view": 673,
       "website": 4
     },
     "Kyle's Kitchen (Hollister)": {
@@ -235,7 +235,7 @@
       "restaurant-detail": 1,
       "share": 1,
       "upvote": 1,
-      "view": 860,
+      "view": 861,
       "website": 11
     },
     "Little Bird Kitchen": {
@@ -260,7 +260,7 @@
       "website": 16
     },
     "Other SB": {
-      "filter-area": 115
+      "filter-area": 116
     },
     "Padaro Beach Grill": {
       "deeplink": 4,
@@ -289,7 +289,7 @@
       "share": 7,
       "un-upvote": 1,
       "upvote": 4,
-      "view": 968,
+      "view": 969,
       "website": 3
     },
     "Que Smoke Shack": {
@@ -344,7 +344,7 @@
       "share": 4,
       "un-upvote": 1,
       "upvote": 4,
-      "view": 1113,
+      "view": 1115,
       "website": 20
     },
     "Santa Ynez": {
@@ -366,7 +366,7 @@
       "phone": 8,
       "share": 4,
       "upvote": 2,
-      "view": 1134,
+      "view": 1135,
       "website": 17
     },
     "Shalhoob's Funk Zone Patio": {
@@ -389,7 +389,7 @@
       "share": 5,
       "un-upvote": 1,
       "upvote": 5,
-      "view": 1200,
+      "view": 1201,
       "website": 20
     },
     "The Brewhouse": {
@@ -405,7 +405,7 @@
       "deeplink": 2,
       "directions-google": 3,
       "share": 2,
-      "view": 329,
+      "view": 330,
       "website": 3
     },
     "The Nugget (Goleta)": {
@@ -416,7 +416,7 @@
       "share": 2,
       "un-upvote": 2,
       "upvote": 3,
-      "view": 774,
+      "view": 775,
       "website": 9
     },
     "The Nugget (Summerland)": {
@@ -478,13 +478,13 @@
       "website": 25
     },
     "Validation Ale": {
-      "deeplink": 11,
+      "deeplink": 12,
       "directions-google": 6,
       "instagram": 1,
       "share": 10,
       "un-upvote": 6,
       "upvote": 10,
-      "view": 953,
+      "view": 954,
       "website": 9
     },
     "Validation Annex": {
@@ -503,7 +503,7 @@
       "share": 2,
       "un-upvote": 1,
       "upvote": 4,
-      "view": 1231,
+      "view": 1232,
       "website": 15
     },
     "Yellow Belly Tap": {
@@ -552,7 +552,7 @@
       "filter-tag": 143
     }
   },
-  "timestamp": "2026-02-25T05:57:18Z",
+  "timestamp": "2026-02-25T07:03:44Z",
   "upvotes": {
     "Arnoldi's": 1,
     "Caya": 6,
