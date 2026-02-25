@@ -34,7 +34,7 @@
         sessionStorage.setItem("adminToken", token);
         authCard.style.display = "none";
         authError.style.display = "none";
-        dataView.style.display = "";
+        dataView.style.display = "block";
 
         var total = 0;
         var html = "";
