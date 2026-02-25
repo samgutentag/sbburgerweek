@@ -157,6 +157,61 @@ export default {
         }
       }
 
+      // RUM hourly breakdown — visitor counts grouped by hour from Cloudflare Web Analytics
+      if (url.searchParams.get("rum-hourly") === "true") {
+        try {
+          const now = new Date();
+          const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+          const query = `{
+            viewer {
+              accounts(filter: { accountTag: "${env.ACCOUNT_ID}" }) {
+                rumPageloadEventsAdaptiveGroups(
+                  filter: { siteTag: "${env.RUM_SITE_TAG}", datetime_geq: "${weekAgo.toISOString()}", datetime_leq: "${now.toISOString()}" }
+                  limit: 500
+                  orderBy: [datetimeHour_ASC]
+                ) { count dimensions { datetimeHour } }
+              }
+            }
+          }`;
+
+          const gqlResp = await fetch("https://api.cloudflare.com/client/v4/graphql", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${env.CF_API_TOKEN}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ query }),
+          });
+
+          if (!gqlResp.ok) {
+            return new Response("{}", {
+              headers: { ...corsHeaders, "Content-Type": "application/json", "Cache-Control": "public, max-age=300" },
+            });
+          }
+
+          const gql = await gqlResp.json();
+          const acct = gql.data && gql.data.viewer && gql.data.viewer.accounts && gql.data.viewer.accounts[0];
+          const result = {};
+
+          if (acct && acct.rumPageloadEventsAdaptiveGroups) {
+            acct.rumPageloadEventsAdaptiveGroups.forEach(function (r) {
+              var hour = r.dimensions.datetimeHour;
+              if (hour) {
+                result[hour] = (result[hour] || 0) + r.count;
+              }
+            });
+          }
+
+          return new Response(JSON.stringify(result), {
+            headers: { ...corsHeaders, "Content-Type": "application/json", "Cache-Control": "public, max-age=300" },
+          });
+        } catch (e) {
+          return new Response("{}", {
+            headers: { ...corsHeaders, "Content-Type": "application/json", "Cache-Control": "public, max-age=300" },
+          });
+        }
+      }
+
       // Hourly breakdown — event counts grouped by hour
       if (url.searchParams.get("hourly") === "true") {
         try {

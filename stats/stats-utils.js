@@ -13,7 +13,7 @@ var StatsUtils = (function () {
   }
 
   function isRestaurant(name, d) {
-    return !!(d.view || d["directions-apple"] || d["directions-google"] || d.website || d.phone);
+    return !!(d.view || d["sidebar-view"] || d["directions-apple"] || d["directions-google"] || d.website || d.phone);
   }
 
   function formatDate(ds) {
