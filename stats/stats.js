@@ -190,10 +190,10 @@
       }
 
       // Skip non-restaurant entries for the leaderboard
-      var hasRestaurantEvents = d.view || d["directions-apple"] || d["directions-google"] || d.website || d.phone || d.instagram || d.share || d.deeplink || d.upvote;
+      var hasRestaurantEvents = d.view || d["sidebar-view"] || d["directions-apple"] || d["directions-google"] || d.website || d.phone || d.instagram || d.share || d.deeplink || d.upvote;
       if (!hasRestaurantEvents) return;
 
-      var views = d.view || 0;
+      var views = (d.view || 0) + (d["sidebar-view"] || 0);
       var dirApple = d["directions-apple"] || 0;
       var dirGoogle = d["directions-google"] || 0;
       var directions = dirApple + dirGoogle;
@@ -272,9 +272,10 @@
 
     // Stats page view count
     var statsData = data["stats"];
-    if (statsData) {
+    var statsEl = document.getElementById("statsPageViews");
+    if (statsData && statsEl) {
       var statsViews = statsData["stats-view"] || 0;
-      document.getElementById("statsPageViews").textContent = statsViews.toLocaleString();
+      statsEl.textContent = statsViews.toLocaleString();
     }
 
     var note = document.getElementById("footerNote");
@@ -394,8 +395,9 @@
       .catch(function () { /* section stays hidden */ });
   }
 
-  updateLiveActivity();
-  setInterval(updateLiveActivity, 30000);
+  // Live activity polling — disabled while panel is hidden
+  // updateLiveActivity();
+  // setInterval(updateLiveActivity, 30000);
 
   // ── Hourly chart modal ──────────────────
   var hourlyCache = null;
@@ -494,16 +496,26 @@
     });
   }
 
+  // Metrics that render as heatmap instead of line chart
+  var heatmapMetrics = { "view": true };
+
   // Open chart for a metric (action-based, from ?hourly=true)
   function openChartModal(metricKey, label, opts) {
     fetchHourly().then(function (data) {
       if (!data) return;
 
+      var keys = metricKey.split(",");
+
+      // Use heatmap for qualifying metrics
+      if (heatmapMetrics[metricKey]) {
+        renderHeatmap(data, keys, label);
+        return;
+      }
+
       var overlay = document.getElementById("chartModalOverlay");
       document.getElementById("chartModalTitle").textContent = label + " per Hour";
       overlay.classList.add("open");
 
-      var keys = metricKey.split(",");
       var hourMap = {};
       Object.keys(data).forEach(function (hour) {
         var total = 0;
@@ -532,10 +544,184 @@
     });
   }
 
+  function heatColor(intensity) {
+    // Multi-stop: cream (#fde8d0) → orange (#e76f51) → deep red (#b5230f)
+    var stops = [
+      { p: 0,   r: 253, g: 232, b: 208 },
+      { p: 0.4, r: 231, g: 111, b: 81 },
+      { p: 1,   r: 181, g: 35,  b: 15 },
+    ];
+    var i = 0;
+    while (i < stops.length - 2 && intensity > stops[i + 1].p) i++;
+    var a = stops[i], z = stops[i + 1];
+    var t = (intensity - a.p) / (z.p - a.p);
+    var r = Math.round(a.r + (z.r - a.r) * t);
+    var g = Math.round(a.g + (z.g - a.g) * t);
+    var b = Math.round(a.b + (z.b - a.b) * t);
+    return "rgb(" + r + "," + g + "," + b + ")";
+  }
+
+  function formatHour12(h) {
+    if (h === 0) return "12am";
+    if (h < 12) return h + "am";
+    if (h === 12) return "12pm";
+    return (h - 12) + "pm";
+  }
+
+  // Render a day × hour heatmap in the chart modal
+  // hourlyData: raw ?hourly=true response, actionKeys: array of action names to sum, label: display name
+  function renderHeatmap(hourlyData, actionKeys, label) {
+    var overlay = document.getElementById("chartModalOverlay");
+    document.getElementById("chartModalTitle").textContent = label + " — Hourly Heatmap";
+    overlay.classList.add("open");
+
+    if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+
+    var dayMap = {};
+    Object.keys(hourlyData).forEach(function (hour) {
+      var d = new Date(hour.replace(" ", "T") + "Z");
+      var localDate = d.getFullYear() + "-" +
+        String(d.getMonth() + 1).padStart(2, "0") + "-" +
+        String(d.getDate()).padStart(2, "0");
+      var localHour = d.getHours();
+      if (!dayMap[localDate]) dayMap[localDate] = {};
+      var total = 0;
+      actionKeys.forEach(function (k) { total += hourlyData[hour][k] || 0; });
+      dayMap[localDate][localHour] = (dayMap[localDate][localHour] || 0) + total;
+    });
+
+    var days = Object.keys(dayMap).sort();
+    var maxVal = 0;
+    days.forEach(function (day) {
+      for (var h = 0; h < 24; h++) {
+        var v = dayMap[day][h] || 0;
+        if (v > maxVal) maxVal = v;
+      }
+    });
+
+    // Find peak cell (day + hour with highest count)
+    var peakDay = null, peakHour = -1;
+    if (maxVal > 0) {
+      days.forEach(function (day) {
+        for (var h = 0; h < 24; h++) {
+          if ((dayMap[day][h] || 0) === maxVal) { peakDay = day; peakHour = h; }
+        }
+      });
+    }
+
+    var fullDayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var shortDayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    var html = '<div class="heatmap-wrap">';
+
+    // Tooltip element
+    html += '<div class="heatmap-tooltip" id="heatmapTooltip"></div>';
+
+    // Header row with hour labels + "Total" column
+    html += '<div class="heatmap-row heatmap-header"><div class="heatmap-day-label"></div>';
+    for (var h = 0; h < 24; h++) {
+      var show = h % 3 === 0;
+      var lbl = show ? (h === 0 ? "12a" : h < 12 ? h + "a" : h === 12 ? "12p" : (h - 12) + "p") : "";
+      html += '<div class="heatmap-hour-label">' + lbl + '</div>';
+    }
+    html += '<div class="heatmap-row-total heatmap-hour-label"></div>';
+    html += '</div>';
+
+    // Day rows
+    days.forEach(function (day) {
+      var d = new Date(day + "T12:00:00");
+      var shortLabel = shortDayNames[d.getDay()] + " " + (d.getMonth() + 1) + "/" + d.getDate();
+      var fullDay = fullDayNames[d.getDay()];
+      var dateStr = (d.getMonth() + 1) + "/" + d.getDate();
+      var rowTotal = 0;
+      html += '<div class="heatmap-row"><div class="heatmap-day-label">' + shortLabel + '</div>';
+      for (var h = 0; h < 24; h++) {
+        var count = dayMap[day][h] || 0;
+        rowTotal += count;
+        var intensity = maxVal > 0 ? count / maxVal : 0;
+        var bg = count === 0 ? "#f0f0f0" : heatColor(intensity);
+        var isPeak = (day === peakDay && h === peakHour);
+        html += '<div class="heatmap-cell' + (isPeak ? ' heatmap-peak' : '') + '" style="background:' + bg + '"' +
+          ' data-day="' + fullDay + ' ' + dateStr + '"' +
+          ' data-hour="' + formatHour12(h) + '"' +
+          ' data-count="' + count + '"' +
+          ' data-label="' + escapeHtml(label) + '"></div>';
+      }
+      html += '<div class="heatmap-row-total">' + rowTotal.toLocaleString() + '</div>';
+      html += '</div>';
+    });
+
+    html += '<div class="heatmap-legend"><span>Less</span>';
+    [0, 0.25, 0.5, 0.75, 1].forEach(function (v) {
+      html += '<div class="heatmap-legend-cell" style="background:' + (v === 0 ? "#f0f0f0" : heatColor(v)) + '"></div>';
+    });
+    html += '<span>More</span></div>';
+    html += '</div>';
+
+    var body = document.querySelector(".chart-modal-body");
+    var canvas = document.getElementById("chartModalCanvas");
+    canvas.style.display = "none";
+    var existing = body.querySelector(".heatmap-wrap");
+    if (existing) existing.remove();
+    body.insertAdjacentHTML("beforeend", html);
+
+    // Wire up tooltip (mouse)
+    var wrap = body.querySelector(".heatmap-wrap");
+    var tip = document.getElementById("heatmapTooltip");
+
+    function showTip(cell) {
+      var count = cell.getAttribute("data-count");
+      var day = cell.getAttribute("data-day");
+      var hour = cell.getAttribute("data-hour");
+      var metricLabel = cell.getAttribute("data-label");
+      tip.innerHTML = '<strong>' + day + ', ' + hour + '</strong><br>' +
+        count + ' ' + metricLabel.toLowerCase();
+      tip.style.opacity = "1";
+    }
+
+    function positionTip(clientX, clientY) {
+      var rect = wrap.getBoundingClientRect();
+      var x = clientX - rect.left + 12;
+      var y = clientY - rect.top - 40;
+      var tipW = tip.offsetWidth;
+      if (x + tipW > rect.width) x = x - tipW - 24;
+      if (y < 0) y = clientY - rect.top + 16;
+      tip.style.left = x + "px";
+      tip.style.top = y + "px";
+    }
+
+    wrap.addEventListener("mouseover", function (e) {
+      var cell = e.target.closest(".heatmap-cell");
+      if (!cell) { tip.style.opacity = "0"; return; }
+      showTip(cell);
+    });
+
+    wrap.addEventListener("mousemove", function (e) {
+      positionTip(e.clientX, e.clientY);
+    });
+
+    wrap.addEventListener("mouseleave", function () {
+      tip.style.opacity = "0";
+    });
+
+    // Touch support — tap cell to show tooltip, tap elsewhere to hide
+    wrap.addEventListener("touchstart", function (e) {
+      var cell = e.target.closest(".heatmap-cell");
+      if (!cell) { tip.style.opacity = "0"; return; }
+      e.preventDefault();
+      showTip(cell);
+      var touch = e.touches[0];
+      positionTip(touch.clientX, touch.clientY);
+    }, { passive: false });
+  }
+
   function closeChartModal() {
     var overlay = document.getElementById("chartModalOverlay");
     overlay.classList.remove("open");
     if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+    // Clean up heatmap if present
+    var heatmap = document.querySelector(".chart-modal-body .heatmap-wrap");
+    if (heatmap) heatmap.remove();
+    document.getElementById("chartModalCanvas").style.display = "";
   }
 
   // Close handlers
@@ -565,37 +751,9 @@
     openFilterChartModal(filterKey, label);
   });
 
-  // Live card click → line chart
-  document.getElementById("liveCards").addEventListener("click", function (e) {
-    var card = e.target.closest(".card-clickable[data-live-metric]");
-    if (!card) return;
-    var metric = card.getAttribute("data-live-metric");
-    var label = card.getAttribute("data-metric-label");
-
-    if (metric === "all-actions") {
-      // Sum all actions per hour
-      fetchHourly().then(function (data) {
-        if (!data) return;
-        var overlay = document.getElementById("chartModalOverlay");
-        document.getElementById("chartModalTitle").textContent = label + " per Hour";
-        overlay.classList.add("open");
-
-        var hourMap = {};
-        Object.keys(data).forEach(function (hour) {
-          var total = 0;
-          Object.keys(data[hour]).forEach(function (k) { total += data[hour][k] || 0; });
-          hourMap[hour] = total;
-        });
-
-        var hours = Object.keys(hourMap).sort();
-        var values = hours.map(function (h) { return hourMap[h]; });
-        renderChart(hours, values, label);
-      });
-    } else {
-      // Label-based (e.g. stats-view)
-      openFilterChartModal(metric, label);
-    }
-  });
+  // Live card click — disabled while panel is hidden
+  // var liveCards = document.getElementById("liveCards");
+  // if (liveCards) { liveCards.addEventListener("click", function (e) { ... }); }
 
   // Try live fetch with ?detail=true
   if (THEME.trackUrl) {

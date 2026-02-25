@@ -99,6 +99,114 @@ thead th.col-num {
   color: #721c24;
 }
 
+/* -- Tag legend -- */
+
+.tag-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: #666;
+}
+
+.tag-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tag-legend-item .tag {
+  flex-shrink: 0;
+}
+
+/* -- Traffic flow diagram -- */
+
+.flow-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.flow-center-stat {
+  text-align: center;
+  padding: 12px 0 4px;
+}
+
+.flow-center-count {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--dark, #222);
+}
+
+.flow-center-label {
+  font-size: 0.75rem;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.flow-group-title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.flow-bar {
+  display: flex;
+  height: 28px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.flow-bar-seg {
+  transition: width 0.3s;
+  min-width: 2px;
+}
+
+.flow-bar-seg:first-child {
+  border-radius: 6px 0 0 6px;
+}
+
+.flow-bar-seg:last-child {
+  border-radius: 0 6px 6px 0;
+}
+
+.flow-bar-seg:only-child {
+  border-radius: 6px;
+}
+
+.flow-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+
+.flow-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+}
+
+.flow-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.flow-legend-label {
+  color: #555;
+}
+
+.flow-legend-value {
+  font-variant-numeric: tabular-nums;
+  color: #999;
+  font-size: 0.72rem;
+}
+
 /* -- Area cards -- */
 
 .area-cards {
@@ -331,6 +439,26 @@ thead th.col-num {
   .distribution-summary {
     font-size: 0.75rem;
     padding: 10px 12px;
+  }
+
+  .tag-legend {
+    font-size: 0.72rem;
+  }
+
+  .flow-center-count {
+    font-size: 1.5rem;
+  }
+
+  .flow-legend {
+    gap: 3px 10px;
+  }
+
+  .flow-legend-item {
+    font-size: 0.72rem;
+  }
+
+  .flow-bar {
+    height: 22px;
   }
 
   .col-tag {

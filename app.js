@@ -635,11 +635,13 @@
   map.on("popupopen", function (e) {
     showBurgerOverlay(e.popup.getLatLng());
 
-    // Track popup view
+    // Track popup view — distinguish sidebar click vs map interaction
     var popupEl = e.popup.getElement();
     var h3 = popupEl && popupEl.querySelector("h3");
     if (h3 && typeof window.track === "function") {
-      window.track("view", h3.textContent);
+      var source = map._viewSource || "map";
+      map._viewSource = null;
+      window.track(source === "sidebar" ? "sidebar-view" : "view", h3.textContent);
     }
 
     // Populate hours in popup
@@ -1062,12 +1064,20 @@
   var searchTerm = "";
   var searchBox = document.getElementById("searchBox");
 
+  var searchTrackTimer = null;
   searchBox.addEventListener("input", function () {
     searchTerm = this.value.toLowerCase().trim();
     renderList();
     // On mobile, snap drawer to half so user can see filtered results
     if (window.innerWidth <= 768 && searchTerm && currentStop < 1) {
       snapDrawerTo(1);
+    }
+    // Track search queries (debounced, 2+ chars)
+    clearTimeout(searchTrackTimer);
+    if (searchTerm.length >= 2 && typeof window.track === "function") {
+      searchTrackTimer = setTimeout(function () {
+        window.track("search", searchTerm);
+      }, 800);
     }
   });
 
@@ -1257,6 +1267,7 @@
       });
 
       li.addEventListener("click", function () {
+        map._viewSource = "sidebar";
         var isMobile = window.innerWidth <= 768;
         if (isMobile) {
           // Snap drawer to peek so user can see the map and popup

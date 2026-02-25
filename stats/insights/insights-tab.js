@@ -12,6 +12,14 @@
     '<div class="section" id="ins-funnelSection">' +
       '<h2>Conversion Funnel</h2>' +
       '<p class="section-hint">Views vs. intent actions (directions, website, phone) per restaurant</p>' +
+      '<p class="section-hint"><span class="scoring-toggle" id="ins-tagToggle">What do the tags mean? <span class="toggle-arrow">&#x25BC;</span></span></p>' +
+      '<div class="scoring-detail" id="ins-tagDetail">' +
+        '<div class="tag-legend">' +
+          '<div class="tag-legend-item"><span class="tag tag-hot">Hot</span> Above-median views AND conversion — well-known and driving action</div>' +
+          '<div class="tag-legend-item"><span class="tag tag-popular">Popular</span> Above-median views, below-median conversion — lots of lookers, fewer clicks</div>' +
+          '<div class="tag-legend-item"><span class="tag tag-gem">Hidden Gem</span> Below-median views, above-median conversion — under the radar but visitors take action</div>' +
+        '</div>' +
+      '</div>' +
       '<div class="table-wrap">' +
         '<table id="ins-funnelTable">' +
           '<thead><tr>' +
@@ -26,6 +34,11 @@
         '</table>' +
       '</div>' +
     '</div>' +
+    '<div class="section" id="ins-flowSection" style="display:none">' +
+      '<h2>Traffic Flow</h2>' +
+      '<p class="section-hint">How visitors arrive and what they do after viewing a restaurant</p>' +
+      '<div class="flow-diagram" id="ins-flowDiagram"></div>' +
+    '</div>' +
     '<div class="section" id="ins-areaSection">' +
       '<h2>Area Breakdown</h2>' +
       '<p class="section-hint">Engagement aggregated by neighborhood</p>' +
@@ -36,20 +49,18 @@
       '<p class="section-hint">How evenly attention is spread across restaurants</p>' +
       '<div class="distribution-summary" id="ins-distributionSummary"></div>' +
     '</div>' +
-    '<div class="section charts-row">' +
-      '<div class="section chart-half" id="ins-platformSection">' +
-        '<h2>Platform Split</h2>' +
-        '<p class="section-hint">Apple Maps vs Google Maps directions</p>' +
-        '<div class="chart-container"><canvas id="ins-platformChart"></canvas></div>' +
-        '<div class="platform-legend" id="ins-platformLegend"></div>' +
-      '</div>' +
-      '<div class="section chart-half" id="ins-actionSection">' +
-        '<h2>Action Breakdown</h2>' +
-        '<p class="section-hint">What people do after discovering a restaurant</p>' +
-        '<div class="chart-container"><canvas id="ins-actionChart"></canvas></div>' +
-      '</div>' +
-    '</div>' +
     '<p class="footer-note" id="ins-footerNote">Loading data...</p>';
+
+  // Tag legend toggle (matches scoring toggle pattern from leaderboard)
+  var tagToggle = document.getElementById("ins-tagToggle");
+  var tagDetail = document.getElementById("ins-tagDetail");
+  if (tagToggle && tagDetail) {
+    tagToggle.addEventListener("click", function () {
+      var arrow = tagToggle.querySelector(".toggle-arrow");
+      tagDetail.classList.toggle("open");
+      arrow.classList.toggle("open");
+    });
+  }
 
   function getIntents(d) {
     return (d["directions-apple"] || 0) + (d["directions-google"] || 0) + (d.website || 0) + (d.phone || 0);
@@ -62,12 +73,16 @@
     Object.keys(detail).forEach(function (name) {
       var d = detail[name];
       if (!StatsUtils.isRestaurant(name, d)) return;
-      var views = d.view || 0;
+      var mapViews = d.view || 0;
+      var sidebarViews = d["sidebar-view"] || 0;
+      var views = mapViews + sidebarViews;
       var intents = getIntents(d);
       var rate = views > 0 ? (intents / views * 100) : 0;
       rows.push({
         name: name,
         views: views,
+        mapViews: mapViews,
+        sidebarViews: sidebarViews,
         intents: intents,
         rate: rate,
         area: areaByName[name] || "Other SB",
@@ -103,10 +118,16 @@
     rows.sort(function (a, b) { return b.rate - a.rate || b.views - a.views; });
 
     renderFunnel(rows);
+
+    // Only show traffic flow when we have deeplink session data
+    var hasDeeplinks = rows.some(function (r) { return r.deeplinks > 0; });
+    if (hasDeeplinks) {
+      renderTrafficFlow(rows);
+      document.getElementById("ins-flowSection").style.display = "";
+    }
+
     renderAreaBreakdown(rows);
     renderDistribution(rows);
-    renderPlatformSplit(rows);
-    renderActionBreakdown(rows);
 
     document.getElementById("ins-footerNote").textContent =
       "Generated from snapshot data (" + (snapshot.timestamp || "").slice(0, 10) + "). Updated daily.";
@@ -129,6 +150,95 @@
         '<td class="col-tag">' + tagHtml + "</td>";
       tbody.appendChild(tr);
     });
+  }
+
+  function renderTrafficFlow(rows) {
+    var totalViews = 0, totalDeeplinks = 0, totalMapViews = 0, totalSidebarViews = 0;
+    var exitCounts = { apple: 0, google: 0, website: 0, phone: 0, instagram: 0, shares: 0 };
+
+    rows.forEach(function (r) {
+      totalViews += r.views;
+      totalDeeplinks += r.deeplinks;
+      totalMapViews += r.mapViews;
+      totalSidebarViews += r.sidebarViews;
+      exitCounts.apple += r.apple;
+      exitCounts.google += r.google;
+      exitCounts.website += r.website;
+      exitCounts.phone += r.phone;
+      exitCounts.instagram += r.instagram;
+      exitCounts.shares += r.shares;
+    });
+    var totalExitActions = exitCounts.apple + exitCounts.google + exitCounts.website +
+      exitCounts.phone + exitCounts.instagram + exitCounts.shares;
+    var viewOnly = Math.max(0, totalViews - totalExitActions);
+
+    var pct = function (n) { return totalViews > 0 ? (n / totalViews * 100).toFixed(1) : "0"; };
+
+    // Stacked bar for how visitors discover restaurants
+    // If we have sidebar-view data, show the 3-way split; otherwise fall back to deeplink vs browse
+    var hasSidebarData = totalSidebarViews > 0;
+    var entryItems = hasSidebarData ? [
+      { label: "Direct Link", count: totalDeeplinks, color: "#e76f51" },
+      { label: "Sidebar", count: totalSidebarViews, color: "#264653" },
+      { label: "Map", count: totalMapViews, color: "#2d6a4f" },
+    ] : [
+      { label: "Direct Link", count: totalDeeplinks, color: "#e76f51" },
+      { label: "Browsing", count: totalViews - totalDeeplinks, color: "#264653" },
+    ];
+
+    // Conversion bar: acted vs view-only
+    var actionRate = totalViews > 0 ? (totalExitActions / totalViews * 100).toFixed(1) : "0";
+    var conversionItems = [
+      { label: "Took Action", count: totalExitActions, color: "#2d6a4f" },
+      { label: "View Only", count: viewOnly, color: "#ddd" },
+    ].filter(function (e) { return e.count > 0; });
+
+    // Action breakdown (only people who did something)
+    var exitItems = [
+      { label: "Apple Maps", count: exitCounts.apple, color: "#333" },
+      { label: "Google Maps", count: exitCounts.google, color: "#4285f4" },
+      { label: "Website", count: exitCounts.website, color: "#2d6a4f" },
+      { label: "Phone", count: exitCounts.phone, color: "#1d3557" },
+      { label: "Instagram", count: exitCounts.instagram, color: "#7b2cbf" },
+      { label: "Shares", count: exitCounts.shares, color: "#f4a261" },
+    ].filter(function (e) { return e.count > 0; });
+
+    function stackedBar(items, total) {
+      var bar = items.map(function (item) {
+        var w = total > 0 ? (item.count / total * 100) : 0;
+        return '<div class="flow-bar-seg" style="width:' + w + '%;background:' + item.color + '" title="' + item.label + ': ' + item.count.toLocaleString() + '"></div>';
+      }).join("");
+
+      var legend = items.map(function (item) {
+        return '<div class="flow-legend-item">' +
+          '<span class="flow-legend-dot" style="background:' + item.color + '"></span>' +
+          '<span class="flow-legend-label">' + item.label + '</span>' +
+          '<span class="flow-legend-value">' + item.count.toLocaleString() + ' (' + pct(item.count) + '%)</span>' +
+        '</div>';
+      }).join("");
+
+      return '<div class="flow-bar">' + bar + '</div>' +
+        '<div class="flow-legend">' + legend + '</div>';
+    }
+
+    var el = document.getElementById("ins-flowDiagram");
+    el.innerHTML =
+      '<div class="flow-center-stat">' +
+        '<div class="flow-center-count">' + totalViews.toLocaleString() + '</div>' +
+        '<div class="flow-center-label">total restaurant views</div>' +
+      '</div>' +
+      '<div class="flow-group">' +
+        '<div class="flow-group-title">How visitors arrive</div>' +
+        stackedBar(entryItems, totalViews) +
+      '</div>' +
+      '<div class="flow-group">' +
+        '<div class="flow-group-title">Conversion — ' + actionRate + '% took action</div>' +
+        stackedBar(conversionItems, totalViews) +
+      '</div>' +
+      '<div class="flow-group">' +
+        '<div class="flow-group-title">Action breakdown (' + totalExitActions.toLocaleString() + ' total actions)</div>' +
+        stackedBar(exitItems, totalExitActions) +
+      '</div>';
   }
 
   function renderAreaBreakdown(rows) {
@@ -177,79 +287,6 @@
     summary.innerHTML =
       "<strong>Top 5</strong> restaurants account for <strong>" + top5Pct + "%</strong> of all views. " +
       "The most-viewed restaurant has <strong>" + ratio + "x</strong> the views of the least-viewed.";
-  }
-
-  function renderPlatformSplit(rows) {
-    var totalApple = rows.reduce(function (s, r) { return s + r.apple; }, 0);
-    var totalGoogle = rows.reduce(function (s, r) { return s + r.google; }, 0);
-    var total = totalApple + totalGoogle;
-
-    var ctx = document.getElementById("ins-platformChart").getContext("2d");
-    new Chart(ctx, {
-      type: "doughnut",
-      data: {
-        labels: ["Apple Maps", "Google Maps"],
-        datasets: [{
-          data: [totalApple, totalGoogle],
-          backgroundColor: ["#333", "#4285f4"],
-          borderWidth: 2,
-          borderColor: "#fff",
-        }],
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: false } },
-        cutout: "60%",
-      },
-    });
-
-    var legend = document.getElementById("ins-platformLegend");
-    var applePct = total > 0 ? (totalApple / total * 100).toFixed(0) : "0";
-    var googlePct = total > 0 ? (totalGoogle / total * 100).toFixed(0) : "0";
-    legend.innerHTML =
-      '<span style="color:#333">Apple Maps: ' + totalApple + ' (' + applePct + '%)</span> &nbsp; ' +
-      '<span style="color:#4285f4">Google Maps: ' + totalGoogle + ' (' + googlePct + '%)</span>';
-  }
-
-  function renderActionBreakdown(rows) {
-    var totals = { views: 0, directions: 0, website: 0, phone: 0, instagram: 0, shares: 0, deeplinks: 0 };
-    rows.forEach(function (r) {
-      totals.views += r.views;
-      totals.directions += r.apple + r.google;
-      totals.website += r.website;
-      totals.phone += r.phone;
-      totals.instagram += r.instagram;
-      totals.shares += r.shares;
-      totals.deeplinks += r.deeplinks;
-    });
-
-    var labels = ["Views", "Directions", "Website", "Phone", "Instagram", "Shares", "Deep Links"];
-    var values = [totals.views, totals.directions, totals.website, totals.phone, totals.instagram, totals.shares, totals.deeplinks];
-    var colors = ["#e63946", "#e76f51", "#2d6a4f", "#1d3557", "#7b2cbf", "#f4a261", "#264653"];
-
-    var ctx = document.getElementById("ins-actionChart").getContext("2d");
-    new Chart(ctx, {
-      type: "doughnut",
-      data: {
-        labels: labels,
-        datasets: [{
-          data: values,
-          backgroundColor: colors,
-          borderWidth: 2,
-          borderColor: "#fff",
-        }],
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: "bottom",
-            labels: { font: { size: 11 }, padding: 10 },
-          },
-        },
-        cutout: "50%",
-      },
-    });
   }
 
   // Fetch latest snapshot

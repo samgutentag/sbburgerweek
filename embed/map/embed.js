@@ -841,9 +841,17 @@
   var searchTerm = "";
   var searchBox = document.getElementById("searchBox");
 
+  var searchTrackTimer = null;
   searchBox.addEventListener("input", function () {
     searchTerm = this.value.toLowerCase().trim();
     renderList();
+    // Track search queries (debounced, 2+ chars)
+    clearTimeout(searchTrackTimer);
+    if (searchTerm.length >= 2 && typeof window.track === "function") {
+      searchTrackTimer = setTimeout(function () {
+        window.track("search", searchTerm);
+      }, 800);
+    }
   });
 
   function renderList() {
