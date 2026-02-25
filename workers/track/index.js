@@ -86,6 +86,47 @@ export default {
         }
       }
 
+      // Admin — search query aggregates (token-protected)
+      if (url.searchParams.get("admin") === "true") {
+        const token = url.searchParams.get("token") || "";
+        if (!env.ADMIN_TOKEN || token !== env.ADMIN_TOKEN) {
+          return new Response("Forbidden", { status: 403, headers: corsHeaders });
+        }
+
+        try {
+          const resp = await fetch(
+            `https://api.cloudflare.com/client/v4/accounts/${env.ACCOUNT_ID}/analytics_engine/sql`,
+            {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${env.CF_API_TOKEN}`,
+                "Content-Type": "text/plain",
+              },
+              body: `SELECT blob2 AS query, SUM(1) AS count FROM sbburgerweek WHERE blob1 = 'search' AND timestamp >= NOW() - INTERVAL '7' DAY GROUP BY query ORDER BY count DESC LIMIT 500`,
+            },
+          );
+
+          if (!resp.ok) {
+            return new Response("[]", {
+              headers: { ...corsHeaders, "Content-Type": "application/json" },
+            });
+          }
+
+          const data = await resp.json();
+          const results = (data.data || []).map(function (row) {
+            return { query: row.query, count: Number(row.count) || 0 };
+          });
+
+          return new Response(JSON.stringify(results), {
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        } catch (e) {
+          return new Response("[]", {
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+      }
+
       // RUM proxy — fetch device/browser/OS from Cloudflare Web Analytics
       if (url.searchParams.get("rum") === "true") {
         try {
