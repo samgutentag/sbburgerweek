@@ -90,7 +90,7 @@
   var map = L.map("map", {
     zoomControl: true,
     attributionControl: true,
-  }).setView([34.42, -119.7], 13);
+  }).setView(THEME.mapCenter, THEME.mapZoom);
 
   var tileLayer = L.tileLayer(
     "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
@@ -1210,59 +1210,82 @@
         THEME.itemLabel +
         ", consider sharing it with a friend or leaving a small tip.";
     }
-    var tipHalfEmoji = document.getElementById("tipHalfEmoji");
-    if (tipHalfEmoji) tipHalfEmoji.textContent = THEME.emoji;
-    var tipHalfLabel = document.getElementById("tipHalfLabel");
-    if (tipHalfLabel)
-      tipHalfLabel.textContent =
-        "Half a " +
-        THEME.itemLabel.charAt(0).toUpperCase() +
-        THEME.itemLabel.slice(1);
-    var tipFullEmoji = document.getElementById("tipFullEmoji");
-    if (tipFullEmoji) tipFullEmoji.textContent = THEME.emoji;
-    var tipFullLabel = document.getElementById("tipFullLabel");
-    if (tipFullLabel)
-      tipFullLabel.textContent =
-        "Full " +
-        THEME.itemLabel.charAt(0).toUpperCase() +
-        THEME.itemLabel.slice(1);
-
-    // Build Venmo links for tip amounts
-    var amounts = [
-      { id: "tipAmount1", amount: 1, track: "tip-fries" },
-      { id: "tipAmount5", amount: 5, track: "tip-half" },
-      { id: "tipAmount10", amount: 10, track: "tip-full" },
-    ];
+    // Build tip tiers dynamically from config
+    var tipAmountsContainer = document.getElementById("tipAmounts");
+    var tipShareBtn = document.getElementById("tipShare");
     var isMobileDev = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    amounts.forEach(function (item) {
-      var el = document.getElementById(item.id);
-      if (!el || !THEME.venmoUser) return;
-      var note = THEME.emoji + " " + THEME.venmoNote;
-      if (isMobileDev) {
-        el.href =
-          "venmo://paycharge?txn=pay&recipients=" +
-          THEME.venmoUser +
-          "&note=" +
-          encodeURIComponent(note) +
-          "&amount=" +
-          item.amount;
-      } else {
-        el.href =
-          "https://account.venmo.com/pay?recipients=%2C" +
-          THEME.venmoUser +
-          "&amount=" +
-          item.amount.toFixed(2) +
-          "&note=" +
-          encodeURIComponent(note) +
-          "&txn=pay";
-        el.target = "_blank";
-        el.rel = "noopener noreferrer";
-      }
-      el.addEventListener("click", function () {
-        if (typeof window.track === "function")
-          window.track(item.track, "tip-jar");
+    if (tipAmountsContainer && THEME.tipTiers && THEME.venmoUser) {
+      // Detach share button before inserting tiers
+      if (tipShareBtn) tipShareBtn.remove();
+      var tiers = THEME.tipTiers;
+      tiers.forEach(function (tier) {
+        var a = document.createElement("a");
+        a.className = "tip-amount-btn";
+        if (tier.size === "m") a.className += " tip-amount-featured";
+        a.href = "#";
+
+        // Emoji span
+        var emojiSpan = document.createElement("span");
+        emojiSpan.className = "tip-emoji";
+        if (tier.size === "m") {
+          var halfSpan = document.createElement("span");
+          halfSpan.className = "tip-emoji-half";
+          halfSpan.textContent = tier.emoji || THEME.emoji;
+          emojiSpan.appendChild(halfSpan);
+        } else if (tier.size === "l") {
+          emojiSpan.textContent = tier.emoji || THEME.emoji;
+        } else {
+          emojiSpan.textContent = tier.emoji || THEME.emoji;
+        }
+        a.appendChild(emojiSpan);
+
+        // Label span
+        var labelSpan = document.createElement("span");
+        labelSpan.className = "tip-label";
+        labelSpan.textContent = tier.label;
+        a.appendChild(labelSpan);
+
+        // Price span
+        var priceSpan = document.createElement("span");
+        priceSpan.className = "tip-price";
+        priceSpan.textContent = "$" + tier.amount;
+        a.appendChild(priceSpan);
+
+        // Venmo deep link
+        var note = THEME.emoji + " " + THEME.venmoNote;
+        if (isMobileDev) {
+          a.href =
+            "venmo://paycharge?txn=pay&recipients=" +
+            THEME.venmoUser +
+            "&note=" +
+            encodeURIComponent(note) +
+            "&amount=" +
+            tier.amount;
+        } else {
+          a.href =
+            "https://account.venmo.com/pay?recipients=%2C" +
+            THEME.venmoUser +
+            "&amount=" +
+            tier.amount.toFixed(2) +
+            "&note=" +
+            encodeURIComponent(note) +
+            "&txn=pay";
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+        }
+
+        // Click tracking
+        var trackName = "tip-" + tier.size;
+        a.addEventListener("click", function () {
+          if (typeof window.track === "function")
+            window.track(trackName, "tip-jar");
+        });
+
+        tipAmountsContainer.appendChild(a);
       });
-    });
+      // Re-append share button after tiers
+      if (tipShareBtn) tipAmountsContainer.appendChild(tipShareBtn);
+    }
 
     // Share button
     var tipShareBtn = document.getElementById("tipShare");
@@ -1451,7 +1474,7 @@
         "&note=" +
         encodeURIComponent(THEME.emoji + " " + THEME.venmoNote) +
         "&amount=" +
-        THEME.venmoAmount;
+        (THEME.tipTiers && THEME.tipTiers.length > 0 ? THEME.tipTiers[Math.floor(THEME.tipTiers.length / 2)].amount : 5);
       var qrUrl =
         "https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=" +
         encodeURIComponent(venmoDeeplink);
@@ -1655,12 +1678,28 @@
     concludedBanner.addEventListener("click", openConcluded);
   }
 
-  // Auto-open on first visit
-  try {
-    if (!localStorage.getItem(concludedSeenKey)) {
+  // Date-driven concluded: only show if eventEndDate is set and in the past
+  var eventOver =
+    THEME.eventEndDate &&
+    new Date() > new Date(THEME.eventEndDate + "T23:59:59");
+  if (eventOver) {
+    if (concludedBanner) {
+      concludedBanner.style.display = "";
+      // Adjust .app height to account for banner
+      var app = document.querySelector(".app");
+      if (app) {
+        var bannerH = concludedBanner.offsetHeight;
+        app.style.height =
+          "calc(100% - 36px - " + bannerH + "px)";
+      }
+    }
+    // Auto-open on first visit
+    try {
+      if (!localStorage.getItem(concludedSeenKey)) {
+        openConcluded();
+      }
+    } catch (e) {
       openConcluded();
     }
-  } catch (e) {
-    openConcluded();
   }
 })();

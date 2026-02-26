@@ -5,7 +5,9 @@ Usage:
     python3 apply-theme.py
 
 Updates: og-image.svg, og-image.png, CNAME, index.html,
-         embed/index.html, embed/map/index.html, README.md
+         embed/index.html, embed/map/index.html, README.md,
+         app.js, embed/map/embed.js, stats JS files,
+         workers/track/index.js, .github/workflows/snapshot-tracking.yml
 """
 
 import os
@@ -37,6 +39,13 @@ def parse_config(path):
         m = re.search(rf"{key}:\s*(\d+)", text)
         return int(m.group(1)) if m else None
 
+    def get_array(key):
+        """Parse an array like mapCenter: [34.42, -119.7]."""
+        m = re.search(rf"{key}:\s*\[([^\]]+)\]", text)
+        if not m:
+            return None
+        return [float(x.strip()) for x in m.group(1).split(",")]
+
     return {
         "eventName": get("eventName"),
         "eventDates": get("eventDates"),
@@ -51,12 +60,16 @@ def parse_config(path):
         "sourceUrl": get("sourceUrl"),
         "venmoUser": get("venmoUser"),
         "venmoNote": get("venmoNote"),
-        "venmoAmount": get_int("venmoAmount"),
         "storageKey": get("storageKey"),
         "printTitle": get("printTitle"),
         "cfAnalyticsToken": get("cfAnalyticsToken"),
         "contactDomain": get("contactDomain"),
         "dataLiveDate": get("dataLiveDate"),
+        "eventStartDate": get("eventStartDate"),
+        "eventEndDate": get("eventEndDate"),
+        "mapCenter": get_array("mapCenter"),
+        "mapZoom": get_int("mapZoom"),
+        "githubRepoUrl": get("githubRepoUrl"),
     }
 
 
@@ -195,7 +208,6 @@ def update_index_html(cfg):
     dates = cfg["eventDates"]
     venmo_user = cfg["venmoUser"]
     venmo_note = cfg["venmoNote"]
-    venmo_amount = cfg["venmoAmount"] or 5
 
     # Title fallback
     html = re.sub(
@@ -218,19 +230,8 @@ def update_index_html(cfg):
         html,
     )
 
-    # About modal: Venmo link href and text
-    encoded_note = urllib.parse.quote(f"{emoji} {venmo_note}", safe="!?")
-    venmo_href = f"venmo://paycharge?txn=pay&amp;recipients={venmo_user}&amp;note={encoded_note}&amp;amount={venmo_amount}"
-    html = re.sub(
-        r'(<a\s+id="aboutVenmo"\s+href=")[^"]*(")',
-        rf"\g<1>{venmo_href}\g<2>",
-        html,
-    )
-    html = re.sub(
-        r'(id="aboutVenmo"[^>]*>)[^<]*(</a)',
-        rf"\g<1>{emoji} {venmo_note}\g<2>",
-        html,
-    )
+    # About modal: Venmo link — JS click handler opens tip jar modal,
+    # href="#" is kept (no direct Venmo link needed here).
 
     # About modal: source link href and text
     html = re.sub(
@@ -267,6 +268,37 @@ def update_index_html(cfg):
             rf'\g<1>mailto:{contact_email}\g<2>',
             html,
         )
+
+    # GitHub repo URL
+    github_url = cfg["githubRepoUrl"]
+    if github_url:
+        repo_path = re.sub(r"^https://github\.com/", "", github_url)
+        html = re.sub(
+            r'(href="https://github\.com/)[^"]*(")',
+            rf"\g<1>{repo_path}\g<2>",
+            html,
+        )
+
+    # Concluded banner text
+    html = re.sub(
+        r'(<div class="concluded-banner"[^>]*>)\s*[^<]*(</div>)',
+        rf"\g<1>\n      {emoji} {event} has wrapped! Thanks for joining.\n    \g<2>",
+        html,
+    )
+
+    # Concluded modal heading
+    html = re.sub(
+        r"(<h2>)That's a Wrap! [^<]*(</h2>)",
+        rf"\g<1>That's a Wrap! {emoji}\g<2>",
+        html,
+    )
+
+    # Concluded modal body paragraph
+    html = re.sub(
+        r"(Thanks for exploring )[^!]*(! Whether you tried\s*\n\s*one )\w+( or all of them)",
+        rf"\g<1>{event}\g<2>{cfg['itemLabel']}\g<3>",
+        html,
+    )
 
     # Cloudflare Web Analytics — inject or remove based on token
     cf_token = cfg["cfAnalyticsToken"]
@@ -378,6 +410,37 @@ def update_embed_map_index(cfg):
             html,
         )
 
+    # GitHub repo URL
+    github_url = cfg["githubRepoUrl"]
+    if github_url:
+        repo_path = re.sub(r"^https://github\.com/", "", github_url)
+        html = re.sub(
+            r'(href="https://github\.com/)[^"]*(")',
+            rf"\g<1>{repo_path}\g<2>",
+            html,
+        )
+
+    # Concluded banner text
+    html = re.sub(
+        r'(<div class="concluded-banner"[^>]*>)\s*[^<]*(</div>)',
+        rf"\g<1>\n      {emoji} {event} has wrapped! Thanks for joining.\n    \g<2>",
+        html,
+    )
+
+    # Concluded modal heading
+    html = re.sub(
+        r"(<h2>)That's a Wrap! [^<]*(</h2>)",
+        rf"\g<1>That's a Wrap! {emoji}\g<2>",
+        html,
+    )
+
+    # Concluded modal body paragraph
+    html = re.sub(
+        r"(Thanks for exploring )[^!]*(! Whether you tried\s*\n\s*one )\w+( or all of them)",
+        rf"\g<1>{event}\g<2>{cfg['itemLabel']}\g<3>",
+        html,
+    )
+
     with open(path, "w", encoding="utf-8") as f:
         f.write(html)
 
@@ -430,6 +493,130 @@ def update_readme(cfg):
 
 
 # ---------------------------------------------------------------------------
+# JS files — setView, eventStartDate
+# ---------------------------------------------------------------------------
+
+def update_app_js(cfg):
+    path = os.path.join(SCRIPT_DIR, "app.js")
+    with open(path, encoding="utf-8") as f:
+        js = f.read()
+
+    center = cfg["mapCenter"]
+    zoom = cfg["mapZoom"]
+    if center and zoom:
+        js = re.sub(
+            r"\.setView\(THEME\.mapCenter, THEME\.mapZoom\)",
+            f".setView(THEME.mapCenter, THEME.mapZoom)",
+            js,
+        )
+
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(js)
+
+
+def update_embed_js(cfg):
+    path = os.path.join(SCRIPT_DIR, "embed", "map", "embed.js")
+    with open(path, encoding="utf-8") as f:
+        js = f.read()
+
+    center = cfg["mapCenter"]
+    zoom = cfg["mapZoom"]
+    if center and zoom:
+        js = re.sub(
+            r"\.setView\(THEME\.mapCenter, THEME\.mapZoom\)",
+            f".setView(THEME.mapCenter, THEME.mapZoom)",
+            js,
+        )
+
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(js)
+
+
+def update_stats_js_files(cfg):
+    """Update hardcoded eventStartDate in stats JS files that don't have
+    runtime access to THEME (already updated to read from THEME, so this
+    is a no-op — kept for completeness if they ever diverge)."""
+    pass
+
+
+def update_worker_js(cfg):
+    """Replace hardcoded event start date in Worker SQL queries."""
+    path = os.path.join(SCRIPT_DIR, "workers", "track", "index.js")
+    with open(path, encoding="utf-8") as f:
+        text = f.read()
+
+    start = cfg["eventStartDate"]
+    if start:
+        text = re.sub(
+            r"toDateTime\('[0-9-]+ [0-9:]+'\)",
+            f"toDateTime('{start} 09:00:00')",
+            text,
+        )
+
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(text)
+
+
+def update_snapshot_workflow(cfg):
+    """Replace hardcoded event start date in snapshot workflow SQL queries."""
+    path = os.path.join(SCRIPT_DIR, ".github", "workflows", "snapshot-tracking.yml")
+    with open(path, encoding="utf-8") as f:
+        text = f.read()
+
+    start = cfg["eventStartDate"]
+    if start:
+        text = re.sub(
+            r"toDateTime\('[0-9-]+ [0-9:]+'\)",
+            f"toDateTime('{start} 09:00:00')",
+            text,
+        )
+
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(text)
+
+
+def update_stats_html(cfg):
+    """Update stats/index.html fallback text."""
+    path = os.path.join(SCRIPT_DIR, "stats", "index.html")
+    with open(path, encoding="utf-8") as f:
+        html = f.read()
+
+    emoji = cfg["emoji"]
+    event = cfg["eventName"]
+
+    # Title fallback
+    html = re.sub(
+        r"<title>[^<]*</title>",
+        f"<title>Stats — {event} Map</title>",
+        html,
+    )
+
+    # Favicon emoji
+    html = re.sub(
+        r"""(href="data:image/svg\+xml,[^"]*font-size='90'>)[^<]*(</text>)""",
+        rf"\g<1>{emoji}\g<2>",
+        html,
+    )
+
+    # Page title fallback
+    html = re.sub(
+        r'(<a id="pageTitle" href="/">)[^<]*(</a>)',
+        rf"\g<1>{event}\g<2>",
+        html,
+    )
+
+    # Concluded banner text
+    html = re.sub(
+        r'(<div class="concluded-banner">)\s*[^<]*(<a)',
+        rf"\g<1>\n      {emoji} {event} has wrapped! \g<2>",
+        html,
+    )
+
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(html)
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -478,6 +665,18 @@ def main():
 
     print("Updating README.md...", end=" ", flush=True)
     update_readme(cfg)
+    print("done")
+
+    print("Updating stats/index.html...", end=" ", flush=True)
+    update_stats_html(cfg)
+    print("done")
+
+    print("Updating workers/track/index.js...", end=" ", flush=True)
+    update_worker_js(cfg)
+    print("done")
+
+    print("Updating snapshot-tracking.yml...", end=" ", flush=True)
+    update_snapshot_workflow(cfg)
     print("done")
 
 

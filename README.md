@@ -6,28 +6,632 @@ An interactive map of all participating restaurants for [Santa Barbara Burger We
 
 **Live at [sbburgerweekmap.com](https://sbburgerweekmap.com)**
 
-## Features
+---
 
-- **Interactive map** — Leaflet map with color-coded markers by area, marker clustering, and emoji overlays
-- **Search & filter** — Find restaurants by name, menu item, or area. Filter by dietary tags (vegetarian, gluten-free, fries). Area filter zooms to fit
-- **Deep linking** — Share a direct link to any restaurant (e.g. `sbburgerweekmap.com/#arnoldis`). URL hash updates as you browse
-- **Share button** — Each popup has a Share button — native share sheet on mobile, clipboard copy on desktop
-- **Upvotes** — Thumbs-up button on each popup with live counts fetched from the Worker API. Persists locally via localStorage
-- **Multi-item menus** — Restaurants with multiple specials show each item with its own name and description
-- **Sectioned popup cards** — Icon buttons for Apple Maps, Google Maps, Instagram, Website, Call, and Share
-- **Sidebar interaction** — Hover a restaurant in the list to highlight it on the map. Click to fly to it and open its popup
-- **Random picker** — Burger emoji button picks a random restaurant from the current filtered list and flies to it
-- **Pick Favorites** — Printer icon toggles checklist mode with All/None bulk actions. Selections persist via localStorage
-- **Print Selected** — Generates a printable page with a numbered map, grouped restaurant list, and Venmo QR code
-- **Mobile-friendly** — Bottom drawer with three-stop snap (peek, half, full), drag handle, and touch-friendly targets
-- **Embeddable map** — Self-contained iframe-friendly version at `/embed/map` with its own JS/CSS
-- **Stats dashboard** — Live leaderboard at `/stats` showing per-restaurant engagement scores
-- **Click tracking** — Cloudflare Worker + Analytics Engine tracks views, directions, website clicks, calls, shares, and upvotes
-- **About modal** — Info modal with source link, tip jar, embed link, stats, GitHub, and contact email
-- **Restaurant hours** — Shows today's hours in popups, open/closed badges in sidebar, and "Open Now" / Lunch / Dinner filters. Powered by Google Places API via daily GitHub Action
-- **Date-gated data** — Before `dataLiveDate`, loads skeleton data; after, loads full menu details
-- **Source monitoring** — GitHub Actions workflow checks the source article daily and opens an issue if content changes
-- **Placeholder support** — Restaurants without menu details show "Details coming soon!" in popups and sidebar
+## Fork It — Complete Setup Guide
+
+Have a burger week, taco week, coffee week, or any food event in your city? Fork this repo and make it your own. This guide walks you through every step from zero to a fully deployed site.
+
+We'll use **"SB Burrito Week"** as the running example throughout.
+
+### What You'll End Up With
+
+- An interactive map with search, filters, and directions
+- A shareable embed for local news sites and blogs
+- A live stats dashboard with per-restaurant engagement scores
+- Optional: click tracking, restaurant hours, daily data snapshots
+
+### What You'll Need
+
+| Tool | Required? | What For |
+|------|-----------|----------|
+| Git + GitHub account | Yes | Hosting via GitHub Pages |
+| Python 3 | Yes | `apply-theme.py` and data scripts |
+| ImageMagick | Yes | Social preview image generation |
+| A text editor | Yes | Editing config and data files |
+| Cloudflare account (free) | Optional | Web analytics + click tracking |
+| Google Cloud account (free tier) | Optional | Restaurant hours feature |
+| Wrangler CLI (npm) | Optional | Deploying the tracking Worker |
+| Custom domain | Optional | Nicer URL than `username.github.io` |
+
+---
+
+### Step 1: Fork, Clone, and Run Locally
+
+```bash
+# Fork on GitHub, then:
+git clone https://github.com/YOUR_USERNAME/sbburgerweek.git
+cd sbburgerweek
+python3 -m http.server 8000
+# Open http://localhost:8000
+```
+
+You'll see the existing Burger Week map with sample data. A local server is required — `file://` won't work because scripts load via relative paths.
+
+To test with skeleton data (no menu details), add `?year=9999` to the URL.
+
+---
+
+### Step 2: Install ImageMagick
+
+```bash
+# macOS
+brew install imagemagick
+
+# Ubuntu/Debian
+sudo apt-get install imagemagick
+
+# Verify
+magick --version
+```
+
+ImageMagick is used by `apply-theme.py` to generate the social preview PNG (`og-image.png`). If it's missing, the script will warn but continue — the SVG will still be updated, but you won't get a PNG.
+
+---
+
+### Step 3: Configure Your Theme
+
+Edit `config.js` — this is the single source of truth for your event. Every field has a comment explaining what it does.
+
+```js
+const THEME = {
+  // Event identity
+  eventName: "SB Burrito Week 2026",
+  eventDates: "Mar 5–11",
+  emoji: "🌯",
+
+  // OG image text (two lines for the social preview image)
+  ogLine1: "Santa Barbara",
+  ogLine2: "Burrito Week 2026",
+
+  // Labels (what to call the featured item)
+  itemLabel: "burrito",
+  itemLabelPlural: "burritos",
+
+  // Site URL (used for OG meta tags, embed snippets, print page)
+  siteUrl: "https://sbburritoweekmap.com",
+
+  // Description (used for meta tags)
+  description: "Interactive map of all participating restaurants. Search, filter by area, and get directions.",
+
+  // Source article link shown in header and About modal
+  sourceLabel: "Source: The Independent",
+  sourceUrl: "https://example.com/burrito-week-article",
+
+  // Venmo tip jar (set venmoUser to null to hide the tip jar entirely)
+  venmoUser: "yourusername",
+  venmoNote: "Buy me a burrito?",
+
+  // Tip jar tiers — size: "s" (custom emoji), "m" (half theme emoji), "l" (full theme emoji)
+  // The "m" tier gets an orange featured border. Tracking events: tip-s, tip-m, tip-l
+  tipTiers: [
+    { size: "s", label: "Side of Chips", emoji: "🫔", amount: 1 },
+    { size: "m", label: "Half a Burrito", amount: 5 },
+    { size: "l", label: "Full Burrito", amount: 10 },
+  ],
+
+  // LocalStorage namespace (unique per event to avoid collisions)
+  storageKey: "sbburritoweek-checklist",
+
+  // Print page
+  printTitle: "SB Burrito Week 2026 — My Picks",
+
+  // Event start/end dates — used for analytics time filters and concluded banner
+  eventStartDate: "2026-03-05",
+  eventEndDate: "2026-03-11",
+
+  // Map center and zoom level
+  mapCenter: [34.42, -119.7],
+  mapZoom: 13,
+
+  // GitHub repo URL (used in About modal and footer)
+  githubRepoUrl: "https://github.com/YOUR_USERNAME/sbburgerweek",
+
+  // Data launch date — before this date, data.js (skeleton) loads.
+  // On or after this date, data-<year>.js (full menu details) loads.
+  // Set null to always load full data.
+  dataLiveDate: "2026-03-04",
+
+  // Event tracking — Cloudflare Worker URL (null to disable, set up in Step 8)
+  trackUrl: null,
+
+  // Cloudflare Web Analytics (null to disable, set up in Step 7)
+  cfAnalyticsToken: null,
+
+  // Contact email domain — auto-generates sb{itemLabel}week{year}@{domain}
+  // Set null to hide the contact link in the About modal
+  contactDomain: "example.com",
+
+  // Google Places API key — documentation only, actual key goes in GitHub Secrets
+  googlePlacesApiKey: null,
+};
+```
+
+#### Config Field Reference
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `eventName` | string | Event title in header, about modal, OG tags |
+| `eventDates` | string | Date range shown in header (e.g. "Mar 5–11") |
+| `emoji` | string | Emoji for favicon, markers, popups, random picker |
+| `ogLine1` / `ogLine2` | string | Two-line text for the social preview image |
+| `itemLabel` / `itemLabelPlural` | string | What to call the menu item ("burrito" / "burritos") |
+| `siteUrl` | string | Full URL for OG tags, share links, embed snippets |
+| `description` | string | Meta description for search engines |
+| `sourceLabel` / `sourceUrl` | string | Source article link text and URL |
+| `venmoUser` | string \| null | Venmo username for tip jar. `null` hides it entirely |
+| `venmoNote` | string | Pre-filled Venmo payment note |
+| `tipTiers` | array | Tip jar tiers with size (s/m/l), label, emoji, amount |
+| `storageKey` | string | localStorage key for favorites (unique per event) |
+| `printTitle` | string | Title on the printable picks page |
+| `eventStartDate` | string | ISO date for analytics time filters |
+| `eventEndDate` | string \| null | ISO date for concluded banner. `null` to never show |
+| `mapCenter` | [lat, lng] | Starting map coordinates |
+| `mapZoom` | number | Starting zoom level (higher = more zoomed in) |
+| `githubRepoUrl` | string | GitHub repo URL for About modal and footer |
+| `dataLiveDate` | string \| null | ISO date to gate full data. `null` to always show |
+| `trackUrl` | string \| null | Cloudflare Worker URL. `null` disables tracking |
+| `cfAnalyticsToken` | string \| null | Cloudflare Web Analytics token. `null` disables it |
+| `contactDomain` | string \| null | Domain for contact email. `null` hides the link |
+
+---
+
+### Step 4: Add Your Restaurant Data
+
+Edit `data.js` (skeleton) and create `data-YYYY.js` (full details, where YYYY is your event year). Both files use the same format.
+
+#### Update Area Colors
+
+At the top of each data file, define your geographic areas and their marker colors:
+
+```js
+const AREA_COLORS = {
+  "Downtown": "#e63946",
+  "Westside": "#457b9d",
+  "Eastside": "#2a9d8f",
+  "Midtown": "#e9c46a",
+};
+```
+
+#### Add Restaurants
+
+```js
+const restaurants = [
+  {
+    name: "El Taco Loco",
+    address: "123 State St, Santa Barbara, CA 93101",
+    area: "Downtown",           // Must match an AREA_COLORS key
+    lat: 34.4208,
+    lng: -119.6982,
+    mapUrl: "https://maps.app.goo.gl/...",       // Google Maps link
+    appleMapsUrl: "https://maps.apple.com/...",   // or null
+    website: "https://eltacoloco.com",            // or null
+    phone: "805-555-1234",                        // or null
+    instagram: "eltacoloco",                      // handle only, no @. or null
+    vegetarian: true,                             // dietary tag flags
+    glutenFree: false,
+    hasFries: false,
+    menuItems: [
+      { name: "The Monster Burrito", description: "Carne asada, beans, rice, guac, and salsa verde." },
+      { name: "Veggie Supreme", description: null },  // null = "More details coming soon!"
+    ],
+  },
+  // ... more restaurants
+];
+```
+
+#### Tips for Getting Coordinates and Map Links
+
+| What | How |
+|------|-----|
+| **Lat/Lng** | Google Maps → right-click the pin → "Copy coordinates" |
+| **Google Maps link** (`mapUrl`) | Google Maps → click "Share" → copy link |
+| **Apple Maps link** (`appleMapsUrl`) | Apple Maps → tap "Share" → copy link. Set `null` to use address-based directions |
+| **Fallback Google Maps URL** | `https://www.google.com/maps/search/?api=1&query=123+Main+St+City+CA` |
+
+#### Data Conventions
+
+- Empty `menuItems: []` shows "Details coming soon!" in popup and sidebar
+- `description: null` shows "More details coming soon!" for that specific item
+- Multi-location restaurants get separate entries with suffixes: `"Mesa Burger (De La Vina)"`
+
+---
+
+### Step 5: Generate Assets
+
+```bash
+python3 apply-theme.py
+```
+
+This reads `config.js` and updates everything that can't read the config at runtime:
+
+| File | What Gets Updated |
+|------|-------------------|
+| `og-image.svg` | Event name, dates, emoji, domain |
+| `og-image.png` | Rendered from SVG with Twemoji emoji composite |
+| `CNAME` | Custom domain for GitHub Pages |
+| `index.html` | Favicon emoji, title, header, concluded banner, analytics snippet |
+| `embed/index.html` | Favicon emoji, showcase title |
+| `embed/map/index.html` | Favicon emoji, embed bar title, full map link, contact email |
+| `stats/index.html` | Favicon emoji, page title, concluded banner |
+| `README.md` | Hits badge domain, embed snippet, title |
+| `workers/track/index.js` | Event start date in SQL queries |
+| `.github/workflows/snapshot-tracking.yml` | Event start date in SQL queries |
+
+**Run this every time you change `config.js`.**
+
+---
+
+### Step 6: Deploy to GitHub Pages
+
+1. Go to your repo on GitHub → **Settings** → **Pages**
+2. Under "Source", select **Deploy from a branch**
+3. Select **main** branch → **/ (root)** → click **Save**
+4. Wait 1–2 minutes. Your site is live at `https://YOUR_USERNAME.github.io/sbburgerweek/`
+
+At this point you have a working map. Everything below is optional.
+
+---
+
+### Step 7: Custom Domain (Optional)
+
+If you want a clean URL like `sbburritoweekmap.com` instead of `username.github.io/sbburgerweek`.
+
+#### 7a. Buy a Domain
+
+Any registrar works (Namecheap, Cloudflare, Google Domains, etc).
+
+#### 7b. Set Up DNS
+
+Add these records at your DNS provider (pointing to GitHub Pages):
+
+| Type | Name | Value |
+|------|------|-------|
+| A | @ | 185.199.108.153 |
+| A | @ | 185.199.109.153 |
+| A | @ | 185.199.110.153 |
+| A | @ | 185.199.111.153 |
+| CNAME | www | YOUR_USERNAME.github.io |
+
+#### 7c. Configure GitHub Pages
+
+1. In your repo → **Settings** → **Pages** → **Custom domain**
+2. Enter your domain (e.g. `sbburritoweekmap.com`) and click **Save**
+3. Check **Enforce HTTPS** once the DNS check passes (may take up to 24 hours)
+
+The `CNAME` file in your repo is auto-updated by `apply-theme.py` from `config.js` → `siteUrl`.
+
+> **Cloudflare DNS users:** You **must** set the proxy status to **OFF** (grey cloud icon) for all DNS records pointing to GitHub Pages. If the orange cloud (proxy) is on, GitHub can't issue an SSL certificate via Let's Encrypt, and your site will have HTTPS errors.
+
+---
+
+### Step 8: Cloudflare Web Analytics (Optional)
+
+Free, cookieless, privacy-friendly page view analytics. No tracking Worker required.
+
+1. Create a free [Cloudflare account](https://dash.cloudflare.com/sign-up) (if you don't have one)
+2. Go to **Web Analytics** in the sidebar → **Add a site**
+3. Enter your domain → copy the **token** (a hex string like `f1a2b3c4d5e6f7g8h`)
+4. Paste it in `config.js`:
+   ```js
+   cfAnalyticsToken: "f1a2b3c4d5e6f7g8h",
+   ```
+5. Run `python3 apply-theme.py` — this injects the analytics snippet into `index.html`
+6. Commit and push
+
+The token is public (it's in client-side JS). Setting it to `null` removes the snippet entirely.
+
+---
+
+### Step 9: Click Tracking + Stats Dashboard (Optional)
+
+This powers the `/stats` leaderboard and tracks per-restaurant engagement (views, directions, shares, etc). It uses a Cloudflare Worker writing to Analytics Engine (free tier: 100k writes/day, 10k reads/query, 90-day retention).
+
+#### 9a. Install Wrangler
+
+```bash
+npm install -g wrangler
+wrangler login
+```
+
+This opens a browser window to authenticate with your Cloudflare account.
+
+#### 9b. Create an Analytics Engine Dataset
+
+1. In the [Cloudflare dashboard](https://dash.cloudflare.com), go to **Workers & Pages** → **Analytics Engine**
+2. Click **Create a dataset**
+3. Name it something like `sbburritoweek`
+4. Note the dataset name — you'll need it for `wrangler.toml`
+
+#### 9c. Get Your Cloudflare Account ID
+
+1. Go to the Cloudflare dashboard home page
+2. Your **Account ID** is in the right sidebar (or URL: `dash.cloudflare.com/<ACCOUNT_ID>/...`)
+3. Copy it
+
+#### 9d. Configure the Worker
+
+Edit `workers/track/wrangler.toml`:
+
+```toml
+name = "sbburritoweek-track"
+main = "index.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+ACCOUNT_ID = "YOUR_CLOUDFLARE_ACCOUNT_ID"
+
+[[analytics_engine_datasets]]
+binding = "TRACKER"
+dataset = "sbburritoweek"
+```
+
+You can remove the `RUM_SITE_TAG` line if you don't plan to use Cloudflare RUM (Browser Insights).
+
+#### 9e. Create an API Token
+
+1. Cloudflare dashboard → **My Profile** (top-right) → **API Tokens** → **Create Token**
+2. Use "Custom token" with these permissions:
+   - **Account** → **Analytics Engine** → **Read**
+   - **Account** → **Workers Scripts** → **Edit**
+3. Scope it to your account only
+4. Copy the token
+
+#### 9f. Add the Token as a Worker Secret
+
+```bash
+cd workers/track
+wrangler secret put CF_API_TOKEN
+# Paste your token when prompted
+```
+
+#### 9g. Update the Event Start Date in the Worker
+
+Open `workers/track/index.js` and find all lines with:
+```sql
+WHERE timestamp >= toDateTime('2026-02-19 09:00:00')
+```
+
+Change the date to your event start date in UTC. (`apply-theme.py` does this automatically if you've already set `eventStartDate` in config.js and run the script.)
+
+#### 9h. Enable Event Writes
+
+In `workers/track/index.js`, find the POST handler. If there's an early `return` near the top that short-circuits writes (added when winding down the previous event), remove it and uncomment the `writeDataPoint` call.
+
+#### 9i. Deploy the Worker
+
+```bash
+cd workers/track
+wrangler deploy
+```
+
+Wrangler prints the Worker URL, something like:
+```
+https://sbburritoweek-track.YOUR_SUBDOMAIN.workers.dev
+```
+
+#### 9j. Enable Tracking in config.js
+
+```js
+trackUrl: "https://sbburritoweek-track.YOUR_SUBDOMAIN.workers.dev",
+```
+
+Run `python3 apply-theme.py`, commit, and push.
+
+#### 9k. Verify
+
+1. Open your site and click on a restaurant popup
+2. Run `wrangler tail` in another terminal — you should see POST requests logging
+3. Visit `/stats` — the leaderboard should start populating
+
+#### What Gets Tracked
+
+| Action | When | Label |
+|--------|------|-------|
+| `view` | Popup opened (map or sidebar click) | Restaurant name |
+| `sidebar-view` | Sidebar item scrolled into view | Restaurant name |
+| `directions-apple` | Apple Maps link clicked | Restaurant name |
+| `directions-google` | Google Maps link clicked | Restaurant name |
+| `website` | Website link clicked | Restaurant name |
+| `phone` | Phone link clicked | Restaurant name |
+| `instagram` | Instagram link clicked | Restaurant name |
+| `share` | Share button clicked | Restaurant name |
+| `upvote` / `un-upvote` | Like button toggled | Restaurant name |
+| `deeplink` | Arrived via URL hash (#slug) | Restaurant name |
+| `filter-area` | Area filter button clicked | Area name |
+| `filter-tag` | Dietary tag filter clicked | Tag name |
+| `filter-hours` | Hours filter clicked | Filter type |
+| `tip-s` / `tip-m` / `tip-l` | Tip jar tier clicked | "tip-jar" |
+| `tip-share` | Tip jar share clicked | "tip-jar" |
+| `stats-view` | Stats page loaded | "stats" |
+
+---
+
+### Step 10: Tracking Data Snapshots (Optional)
+
+Cloudflare Analytics Engine only retains data for 90 days. This GitHub Action snapshots your tracking data daily and commits it to the repo as JSON files.
+
+**Prerequisites:** You need the tracking Worker from Step 9 deployed and working.
+
+#### 10a. Add GitHub Repo Secrets
+
+Go to your repo → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**:
+
+| Secret Name | Value |
+|-------------|-------|
+| `CF_ACCOUNT_ID` | Your Cloudflare Account ID (from Step 9c) |
+| `CF_API_TOKEN` | Your API token (from Step 9e) |
+
+#### 10b. Configure the Workflow
+
+Edit `.github/workflows/snapshot-tracking.yml`:
+
+1. **Uncomment the schedule block:**
+   ```yaml
+   schedule:
+     # Hourly during event week — adjust date range for next event
+     - cron: "0 * 5-14 3 *"   # Mar 5–14, hourly
+   ```
+
+2. **Update the SQL timestamp filters** (two places in the inline Python script):
+   ```sql
+   WHERE timestamp >= toDateTime('2026-03-05 09:00:00')
+   ```
+
+3. **Update the dataset name** in the SQL queries if you changed it:
+   ```sql
+   FROM sbburritoweek
+   ```
+
+4. Commit and push. The workflow also supports **manual dispatch** from the Actions tab.
+
+Snapshots are saved to `snapshots/tracking-YYYY-MM-DD.json`.
+
+---
+
+### Step 11: Restaurant Hours (Optional)
+
+Show today's hours in popups, open/closed badges in the sidebar, and "Open Now" / "Lunch" / "Dinner" filter buttons. Uses the Google Places API via a daily GitHub Action.
+
+The free tier gives you $200/month in credit, which covers roughly 6,600 Place Details requests — more than enough for daily updates of ~50 restaurants.
+
+#### 11a. Create a Google Cloud Project
+
+1. Go to [console.cloud.google.com](https://console.cloud.google.com)
+2. Create a new project (e.g. "Burrito Week Map")
+3. Go to **APIs & Services** → **Library** → search "Places API" → **Enable**
+
+#### 11b. Create an API Key
+
+1. **APIs & Services** → **Credentials** → **Create Credentials** → **API Key**
+2. Click **Edit** on the new key → under "API restrictions", select **Restrict key** → choose **Places API** only
+3. Copy the key
+
+#### 11c. Add as GitHub Secret
+
+Go to your repo → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**:
+
+| Secret Name | Value |
+|-------------|-------|
+| `GOOGLE_PLACES_API_KEY` | Your API key |
+
+#### 11d. Generate Place IDs (One-Time)
+
+This script resolves your Google Maps links to stable Place IDs:
+
+```bash
+GOOGLE_PLACES_API_KEY=your_key python3 fetch-place-ids.py
+```
+
+- Reads `mapUrl` from your data file
+- Calls the Find Place API to get Place IDs (format: `ChIJ...`)
+- Falls back to following redirect URLs and extracting the ID from the expanded URL
+- Writes `place-ids.json`
+
+Spot-check a few entries, then commit `place-ids.json`.
+
+#### 11e. Generate Initial Hours
+
+```bash
+GOOGLE_PLACES_API_KEY=your_key python3 fetch-hours.py
+```
+
+- Reads `place-ids.json`
+- Calls the Places Details API (`fields=opening_hours`) for each restaurant
+- Writes `hours.json` with periods, lunch/dinner flags
+
+Verify `hours.json` looks correct, then commit it.
+
+#### 11f. Enable the Daily Workflow
+
+Edit `.github/workflows/fetch-hours.yml`:
+
+1. **Uncomment the schedule block:**
+   ```yaml
+   schedule:
+     # Daily at 6am PT (13:00 UTC) — adjust date range for next event
+     - cron: "0 13 3-14 3 *"   # Mar 3–14 (2 days before through 3 days after)
+   ```
+
+2. Commit and push. The workflow runs daily, fetches fresh hours, and auto-commits `hours.json` if anything changed.
+
+**Graceful degradation:** If `hours.json` is missing or fails to load, the hours features simply don't appear. Everything else works normally.
+
+---
+
+### Step 12: Embed (Optional)
+
+The map can be embedded on other websites via an iframe. A showcase page at `/embed` has copy-paste instructions.
+
+```html
+<iframe
+  src="https://sbburgerweekmap.com/embed/map"
+  width="100%"
+  height="600"
+  style="border: none; border-radius: 8px;"
+  title="SB Burger Week 2026 Interactive Map"
+  loading="lazy"
+  allowfullscreen
+></iframe>
+```
+
+The embed lives in `embed/map/` and has its own `embed.js` and `embed.css`. It shares `config.js` and data files with the main site via relative paths (`../../`), but **changes to `app.js` or `style.css` do NOT propagate to the embed**. If you add a feature to the main map that should also appear in the embed, you need to implement it in `embed/map/embed.js` separately.
+
+| | Main Site | Embed |
+|---|-----------|-------|
+| Sidebar width | 360px | 280px |
+| Mobile breakpoint | 768px | 600px |
+| JS | `app.js` | `embed/map/embed.js` |
+| CSS | `style.css` | `embed/map/embed.css` |
+| Header | Full header with nav | Compact bar with "Open full map" link |
+
+---
+
+### Step 13: Venmo QR Code (Optional)
+
+The tip jar modal shows a QR code that links to your Venmo profile. Replace `venmo_qr.png` in the repo root with your own Venmo QR code image:
+
+1. Open Venmo → tap your profile → **Scan to Pay** → screenshot or save the QR code
+2. Save as `venmo_qr.png` in the repo root (any square image works)
+
+The QR code in the HTML also uses a dynamically generated one from `api.qrserver.com` — both are displayed.
+
+---
+
+## Event Day Checklist
+
+### Activating for Your Event
+
+1. Finalize `config.js` (all fields, especially `trackUrl`, `cfAnalyticsToken`, `dataLiveDate`)
+2. Run `python3 apply-theme.py`
+3. Populate `data-YYYY.js` with full restaurant data and menu items
+4. Uncomment cron schedules in `.github/workflows/fetch-hours.yml` and `snapshot-tracking.yml`
+5. Enable Worker writes in `workers/track/index.js` (remove early return, uncomment `writeDataPoint`)
+6. Deploy Worker: `cd workers/track && wrangler deploy`
+7. Commit and push everything
+8. Verify: site loads, `/stats` shows data, tracking events appear in `wrangler tail`
+
+### Winding Down After Your Event
+
+1. Run a final snapshot: go to **Actions** tab → **Snapshot Tracking Data** → **Run workflow**
+2. Set `trackUrl: null` and `cfAnalyticsToken: null` in `config.js`
+3. Run `python3 apply-theme.py`
+4. Comment out cron schedules in both workflow files
+5. Add early return + comment out `writeDataPoint` in `workers/track/index.js`
+6. Deploy Worker: `cd workers/track && wrangler deploy`
+7. Commit and push
+
+---
+
+## Run Locally
+
+```bash
+python3 -m http.server 8000
+```
+
+Open [http://localhost:8000](http://localhost:8000). Add `?year=9999` to test with skeleton data.
+
+---
 
 ## Architecture
 
@@ -101,48 +705,7 @@ graph TD
     EJS --> CARTO
 ```
 
-### Page Load Sequence
-
-```mermaid
-sequenceDiagram
-    participant Browser
-    participant GitHub Pages
-    participant CDN
-    participant Worker
-
-    Browser->>GitHub Pages: GET /
-    GitHub Pages-->>Browser: index.html + config.js
-    Browser->>CDN: Leaflet CSS/JS + MarkerCluster
-    Browser->>GitHub Pages: data-2026.js (date-gated)
-    Browser->>GitHub Pages: track.js, app.js, style.css
-    Browser->>CDN: CARTO basemap tiles
-    Note over Browser: Map renders, markers placed
-    Browser->>Worker: fetch ?upvotes=true
-    Worker-->>Browser: {name: count, ...}
-    Note over Browser: Upvote badges appear
-    Browser->>Worker: sendBeacon POST (on interactions)
-```
-
-### Click Tracking Flow
-
-```mermaid
-flowchart LR
-    A[User clicks popup link] --> B[track.js sendBeacon]
-    B --> C[Worker POST /]
-    C --> D[Analytics Engine write]
-
-    E[Stats page loads] --> F[fetch ?detail=true]
-    F --> G[Worker GET]
-    G --> H[Analytics Engine SQL query]
-    H --> I[JSON response]
-    I --> J[Render leaderboard]
-
-    K[Map page loads] --> L[fetch ?upvotes=true]
-    L --> M[Worker GET]
-    M --> N[Analytics Engine SQL query]
-    N --> O[Upvote counts JSON]
-    O --> P[Update popup + sidebar badges]
-```
+---
 
 ## File Structure
 
@@ -154,14 +717,10 @@ sbburgerweek/
 ├── config.js               # Theme config — edit this to rebrand
 ├── data.js                 # Restaurant data skeleton (empty menuItems)
 ├── data-2026.js            # Production data with full menuItems
-├── mock_data.js            # Test data with placeholder names/descriptions
 ├── track.js                # sendBeacon tracker (reads THEME.trackUrl)
 ├── apply-theme.py          # Generates OG image, updates CNAME/HTML/README
 ├── og-image.svg            # Social preview image (source)
 ├── og-image.png            # Social preview image (generated)
-├── icon-vegetarian.svg     # Dietary tag icon
-├── icon-gf.svg             # Dietary tag icon
-├── icon-fries.svg          # Dietary tag icon
 ├── venmo_qr.png            # Venmo QR code
 ├── CNAME                   # Custom domain for GitHub Pages
 ├── fetch-place-ids.py      # One-time Place ID lookup from mapUrl redirects
@@ -169,14 +728,14 @@ sbburgerweek/
 ├── fetch-hours.py          # Daily hours fetch from Google Places API
 ├── hours.json              # Operating hours data (committed, updated daily)
 │
-├── snapshots/              # Daily tracking data snapshots (committed by GitHub Action)
+├── snapshots/              # Daily tracking data snapshots (auto-committed)
 │   └── tracking-YYYY-MM-DD.json
 │
 ├── embed/
 │   ├── index.html          # Embed showcase page (/embed)
 │   └── map/
 │       ├── index.html      # Embeddable map page (/embed/map)
-│       ├── embed.js        # Self-contained map logic
+│       ├── embed.js        # Self-contained map logic (separate from app.js)
 │       └── embed.css       # Compact styles (280px sidebar)
 │
 ├── stats/
@@ -184,11 +743,17 @@ sbburgerweek/
 │   ├── stats.js            # Fetches ?detail=true, renders leaderboard
 │   └── stats.css           # Dashboard styles
 │
+├── .github/workflows/
+│   ├── fetch-hours.yml     # Daily Google Places hours fetch
+│   └── snapshot-tracking.yml  # Daily tracking data snapshot
+│
 └── workers/track/
     ├── index.js            # Cloudflare Worker (POST + GET endpoints)
-    ├── wrangler.toml       # Worker config (binding, dataset)
-    └── pull-data.sh        # Dump all tracking events as JSON
+    ├── wrangler.toml       # Worker config (binding, dataset, account ID)
+    └── pull-data.sh        # Utility: dump all tracking events as JSON
 ```
+
+---
 
 ## Data Format
 
@@ -206,7 +771,7 @@ Each restaurant in `data.js` / `data-2026.js`:
   website: "https://mesaburger.com",                 // or null
   phone: "805-963-1346",                             // or null
   instagram: "mesaburger",                           // or null (handle only, no @)
-  vegetarian: true,                                  // dietary tag flags
+  vegetarian: true,
   glutenFree: false,
   hasFries: true,
   menuItems: [
@@ -216,341 +781,42 @@ Each restaurant in `data.js` / `data-2026.js`:
 }
 ```
 
-- Empty `menuItems: []` → "Details coming soon!" in popup and sidebar
-- `description: null` → individual item shows "More details coming soon!"
-- `appleMapsUrl: null` → falls back to address-based directions
-- Area colors are defined in `AREA_COLORS` at the top of the data file
+---
 
 ## Worker API
 
-The Cloudflare Worker (`workers/track/index.js`) exposes three endpoints:
+The Cloudflare Worker (`workers/track/index.js`) exposes these endpoints:
 
-| Method | Path / Params    | Purpose                          | Response                                       |
-| ------ | ---------------- | -------------------------------- | ---------------------------------------------- |
-| POST   | `/`              | Record a tracking event          | `"ok"`                                         |
-| GET    | `/`              | Per-restaurant action breakdown  | `{name: {view: N, directions-apple: N, ...}}`  |
-| GET    | `/?upvotes=true` | Net upvote counts                | `{name: N, ...}`                               |
-
-**Tracked actions:** `view`, `directions-apple`, `directions-google`, `website`, `phone`, `instagram`, `share`, `upvote`, `un-upvote`, `deeplink`, `filter-area`, `filter-tag`, `stats-view`
+| Method | Params | Purpose | Response |
+|--------|--------|---------|----------|
+| POST | `/` | Record a tracking event | `"ok"` |
+| GET | `/` | Per-restaurant action breakdown | `{name: {view: N, ...}}` |
+| GET | `?upvotes=true` | Net upvote counts | `{name: N, ...}` |
+| GET | `?hourly=true` | Hourly event breakdown | `{hour: {action: N, ...}}` |
+| GET | `?rum=true` | Device/browser/OS stats | `{devices: {}, browsers: {}, os: {}}` |
+| GET | `?active=true` | Recent visitors + actions | `{visitors1h: N, recentActions: N}` |
 
 **POST body:** `{ "action": "view", "label": "Mesa Burger" }`
 
-All responses include CORS headers (echoes request Origin) and a 5-minute cache.
-
-## Tracking Data Snapshots
-
-Cloudflare Analytics Engine has a 90-day retention limit. To preserve tracking data beyond that window, a GitHub Action (`.github/workflows/snapshot-tracking.yml`) runs daily and commits a JSON snapshot to `snapshots/tracking-YYYY-MM-DD.json`.
-
-Each snapshot contains:
-
-```json
-{
-  "timestamp": "2026-02-20T14:00:00Z",
-  "detail": {
-    "Mesa Burger": { "view": 42, "directions-apple": 5, "share": 3 }
-  },
-  "upvotes": {
-    "Mesa Burger": 12
-  }
-}
-```
-
-**Required secrets:** `CF_ACCOUNT_ID` and `CF_API_TOKEN` (same token used for the Worker). You can also trigger it manually from the Actions tab.
-
-## Stats Dashboard
-
-The stats page at `/stats` fetches the Worker's detail endpoint and computes an engagement score per restaurant:
-
-```
-Score = (Directions + Phone) × 3
-      + (Direct Links + Shares + Likes) × 2
-      + (Website + Instagram + Views) × 1
-```
-
-The leaderboard table is sortable by clicking column headers (3-way toggle: desc → asc → default). Restaurant names link back to the main map via deep-link anchors. A separate section shows filter usage stats (area + dietary tag taps).
-
-## Run Locally
-
-```bash
-python3 -m http.server 8000
-```
-
-Open [http://localhost:8000](http://localhost:8000). A local server is required — `file://` won't work due to script loading.
-
-To test with placeholder data, add `?year=9999` to the URL (triggers a fallback to `data.js` skeleton).
-
-## Fork It — Setup Guide
-
-Have a burger week (or any food event) in your city? Fork this repo and make it your own.
-
-We'll use **"SB Burrito Week"** as the running example.
-
 ---
 
-### Step 1: Fork & Clone
+## GitHub Secrets Reference
 
-```bash
-git clone https://github.com/YOUR_USERNAME/sbburgerweek.git
-cd sbburgerweek
-python3 -m http.server 8000
-# Open http://localhost:8000
-```
-
----
-
-### Step 2: Add Your Restaurant Data
-
-Edit `data.js` — see [Data Format](#data-format) above. Update `AREA_COLORS` at the top to match your areas and color scheme.
-
-**Tips for coordinates and map links:**
-
-- Search on [Google Maps](https://maps.google.com), right-click the pin → copy coordinates
-- Click "Share" on Google Maps → copy link for `mapUrl`
-- Search on Apple Maps → tap "Share" → copy link for `appleMapsUrl`
-- Fallback Google Maps URL: `https://www.google.com/maps/search/?api=1&query=123+Main+St+City+CA`
-- If `appleMapsUrl` is `null`, the app uses address-based directions
+| Secret | Used By | Required For |
+|--------|---------|--------------|
+| `GOOGLE_PLACES_API_KEY` | `fetch-hours.yml` | Restaurant hours feature |
+| `CF_ACCOUNT_ID` | `snapshot-tracking.yml` | Tracking data snapshots |
+| `CF_API_TOKEN` | `snapshot-tracking.yml`, Worker | Tracking + snapshots |
 
 ---
-
-### Step 3: Set the Map Center
-
-Update the starting coordinates in **two files**:
-
-- **`app.js`** (~line 72): `.setView([34.42, -119.70], 13)`
-- **`embed/map/embed.js`** (~line 80): `.setView([34.42, -119.70], 13)`
-
-Change `[lat, lng]` to your city's center. Adjust the zoom level as needed (higher = more zoomed in).
-
----
-
-### Step 4: Configure Your Theme
-
-Edit `config.js`:
-
-```js
-const THEME = {
-  eventName: "SB Burrito Week 2026",
-  eventDates: "Mar 5–11",
-  emoji: "🌯",
-  ogLine1: "Santa Barbara",
-  ogLine2: "Burrito Week 2026",
-  itemLabel: "burrito",
-  itemLabelPlural: "burritos",
-  siteUrl: "https://sbburritoweekmap.com",
-  description: "Interactive map of all participating restaurants. Search, filter by area, and get directions.",
-  sourceLabel: "Source: The Independent",
-  sourceUrl: "https://example.com/burrito-week-article",
-  venmoUser: "yourusername",       // null to hide tip jar
-  venmoNote: "Buy me a burrito?",
-  venmoAmount: 5,
-  storageKey: "sbburritoweek-checklist",
-  printTitle: "SB Burrito Week 2026 — My Picks",
-  dataLiveDate: "2026-03-04",     // null to always show full data
-  trackUrl: null,                 // Cloudflare Worker URL, null to disable
-  cfAnalyticsToken: null,         // Cloudflare Web Analytics token, null to disable
-  contactDomain: "example.com",   // null to hide contact link
-};
-```
-
-See the [Config Reference](#config-reference) table for details on every field.
-
----
-
-### Step 5: Generate Assets
-
-```bash
-python3 apply-theme.py
-```
-
-**Requires:** Python 3 + ImageMagick (`brew install imagemagick`)
-
-**Updates:** `og-image.svg`, `og-image.png` (social preview), `CNAME`, `index.html` (favicon, title, header, analytics snippet), `embed/index.html`, `README.md`
-
----
-
-### Step 6: Deploy to GitHub Pages
-
-1. Go to your repo → **Settings** → **Pages**
-2. Select **Deploy from a branch** → **main** → **/ (root)** → **Save**
-3. Live at `https://YOUR_USERNAME.github.io/sbburgerweek/`
-
-#### Custom Domain (optional)
-
-| Type  | Name | Content                 |
-| ----- | ---- | ----------------------- |
-| A     | @    | 185.199.108.153         |
-| A     | @    | 185.199.109.153         |
-| A     | @    | 185.199.110.153         |
-| A     | @    | 185.199.111.153         |
-| CNAME | www  | YOUR_USERNAME.github.io |
-
-> **Cloudflare DNS users:** Set proxy to **OFF** (grey cloud) for all records. GitHub Pages needs direct SSL termination.
-
----
-
-### Step 7: Cloudflare Web Analytics (optional)
-
-1. Create a free [Cloudflare account](https://dash.cloudflare.com/sign-up)
-2. Go to **Web Analytics** → **Add a site** → copy the token
-3. Set `cfAnalyticsToken` in `config.js`
-4. Run `python3 apply-theme.py`
-5. Deploy
-
----
-
-### Step 8: Click Tracking + Stats (optional)
-
-```mermaid
-flowchart TD
-    A[Edit wrangler.toml] --> B[Create Analytics Engine dataset]
-    B --> C[Create API token]
-    C --> D[wrangler secret put CF_API_TOKEN]
-    D --> E[Update timestamp filter in index.js]
-    E --> F[wrangler deploy]
-    F --> G[Set trackUrl in config.js]
-    G --> H[Deploy site]
-```
-
-1. **Install Wrangler:**
-   ```bash
-   npm install -g wrangler && wrangler login
-   ```
-
-2. **Create an Analytics Engine dataset** in Cloudflare dashboard → Workers & Pages → Analytics Engine
-
-3. **Update `workers/track/wrangler.toml`:**
-   ```toml
-   name = "sbburritoweek-track"
-   main = "index.js"
-   compatibility_date = "2024-01-01"
-
-   [vars]
-   ACCOUNT_ID = "YOUR_CLOUDFLARE_ACCOUNT_ID"
-
-   [[analytics_engine_datasets]]
-   binding = "TRACKER"
-   dataset = "sbburritoweek"
-   ```
-
-4. **Create an API token** (Cloudflare dashboard → My Profile → API Tokens) with permissions: Analytics Engine Read + Workers Scripts Edit
-
-5. **Add the token as a Worker secret:**
-   ```bash
-   cd workers/track
-   wrangler secret put CF_API_TOKEN
-   ```
-
-6. **Update the event start date** in `workers/track/index.js` — find the `WHERE timestamp >= toDateTime('...')` lines and set your event start date in UTC
-
-7. **Deploy:**
-   ```bash
-   wrangler deploy
-   ```
-
-8. **Set `trackUrl` in `config.js`** to the Worker URL printed by Wrangler
-
-9. **Verify:** Open the site, interact with popups, then check `wrangler tail` for POST requests
-
----
-
-### Step 9: Tracking Data Snapshots (optional)
-
-Cloudflare Analytics Engine only retains data for 90 days. To preserve your tracking data beyond that, set up the snapshot workflow:
-
-1. **Add repo secrets** (`Settings → Secrets and variables → Actions`):
-   - `CF_ACCOUNT_ID` — your Cloudflare account ID
-   - `CF_API_TOKEN` — same API token from Step 8
-
-2. **Update `.github/workflows/snapshot-tracking.yml`:**
-   - Change the cron schedule `19-28 2` to match your event month/days
-   - Update the `WHERE timestamp >= toDateTime('...')` dates to your event start
-
-3. **Push and enable** — the workflow runs daily during your event window and on manual dispatch. Each run commits a JSON snapshot to `snapshots/tracking-YYYY-MM-DD.json` with per-restaurant action breakdowns and upvote counts.
-
----
-
-### Step 10: Restaurant Hours (optional)
-
-Show operating hours, "Open Now" filter, and Lunch/Dinner filters on the map. Uses the Google Places API (free $200/mo credit covers ~48 lookups/day).
-
-1. **Get a Google Places API key:**
-   - Go to [console.cloud.google.com](https://console.cloud.google.com), create a project
-   - Enable "Places API"
-   - Create an API key (APIs & Services → Credentials → Create Credentials → API Key)
-   - Restrict the key to "Places API" only
-
-2. **Add as GitHub repo secret:** `Settings → Secrets → GOOGLE_PLACES_API_KEY`
-
-3. **Run the one-time Place ID lookup:**
-   ```bash
-   GOOGLE_PLACES_API_KEY=xxx python3 fetch-place-ids.py
-   ```
-   - Verify `place-ids.json` — spot-check a few entries
-   - Commit `place-ids.json` to the repo
-
-4. **Generate initial hours data:**
-   ```bash
-   GOOGLE_PLACES_API_KEY=xxx python3 fetch-hours.py
-   ```
-   - Verify `hours.json` has entries for all restaurants
-   - Commit `hours.json` to the repo
-
-5. **Update `.github/workflows/fetch-hours.yml`:**
-   - Change the cron schedule `17-26 2` to match your event month/days (2 days before through 1 day after)
-
-6. **Push and enable** — the workflow runs daily during your event window, fetching fresh hours and committing `hours.json`. The map automatically loads it and shows hours filters, open/closed badges, and today's hours in popups.
-
-**Graceful degradation:** If `hours.json` is missing or fails to load, the hours features simply don't appear — everything else works normally.
-
----
-
-### Step 11: Embed (optional)
-
-```html
-<iframe
-  src="https://sbburgerweekmap.com/embed/map"
-  width="100%"
-  height="600"
-  style="border: none; border-radius: 8px;"
-  title="SB Burger Week 2026 Interactive Map"
-  loading="lazy"
-  allowfullscreen
-></iframe>
-```
-
-The embed shares `data.js` and `config.js` with the main site (via relative paths) but has its own `embed.js` and `embed.css`. Feature changes to `app.js` / `style.css` do **not** propagate to the embed. A showcase page lives at `/embed`.
-
----
-
-## Config Reference
-
-| Field                           | Type           | Description                                                             |
-| ------------------------------- | -------------- | ----------------------------------------------------------------------- |
-| `eventName`                     | string         | Event title shown in header, about modal, and OG tags                   |
-| `eventDates`                    | string         | Date range shown in header                                              |
-| `emoji`                         | string         | Emoji for favicon, markers, random picker, and popups                   |
-| `ogLine1` / `ogLine2`           | string         | Two-line text for OG social preview image                               |
-| `itemLabel` / `itemLabelPlural` | string         | What to call the menu item (e.g. "burrito" / "burritos")                |
-| `siteUrl`                       | string         | Full URL for OG tags, share links, and embed snippets                   |
-| `description`                   | string         | Meta description for search engines                                     |
-| `sourceLabel` / `sourceUrl`     | string         | Header link text and URL for source article                             |
-| `venmoUser`                     | string \| null | Venmo username for tip jar. `null` hides the link                       |
-| `venmoNote`                     | string         | Pre-filled Venmo payment note                                           |
-| `venmoAmount`                   | number         | Pre-filled Venmo amount                                                 |
-| `storageKey`                    | string         | localStorage key for favorites (unique per event)                       |
-| `printTitle`                    | string         | Title shown on the printable picks page                                 |
-| `dataLiveDate`                  | string \| null | `"YYYY-MM-DD"` to gate full data until that date. `null` to always show |
-| `trackUrl`                      | string \| null | Cloudflare Worker URL for click tracking. `null` to disable             |
-| `cfAnalyticsToken`              | string \| null | Cloudflare Web Analytics token. `null` to disable                       |
-| `contactDomain`                 | string \| null | Domain for auto-generated contact email. `null` to hide                 |
-| `googlePlacesApiKey`            | null           | Documentation field — actual key goes in GitHub Secrets                 |
 
 ## Tech Stack
 
 - **Map:** [Leaflet](https://leafletjs.com/) + [MarkerCluster](https://github.com/Leaflet/Leaflet.markercluster) + [CARTO](https://carto.com/) basemap tiles
-- **Hosting:** GitHub Pages with custom domain via Cloudflare DNS
+- **Hosting:** GitHub Pages with custom domain
 - **Tracking:** Cloudflare Worker + Analytics Engine (free tier)
 - **Analytics:** Cloudflare Web Analytics (free, cookieless)
+- **Hours:** Google Places API via GitHub Actions
 - **Build:** None — plain HTML/CSS/JS, no npm, no bundler
 
 ## Issues & Feedback

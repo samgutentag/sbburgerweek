@@ -30,13 +30,33 @@ const THEME = {
   // Venmo tip jar (set venmoUser to null to hide the link)
   venmoUser: "samgutentag",
   venmoNote: "Buy me a burger?",
-  venmoAmount: 5,
+
+  // Tip jar tiers — size: "s" (custom emoji), "m" (half theme emoji), "l" (full theme emoji)
+  // The "m" tier is auto-featured (orange border). Tracking: tip-s, tip-m, tip-l
+  tipTiers: [
+    { size: "s", label: "Side of Fries", emoji: "🍟", amount: 1 },
+    { size: "m", label: "Half a Burger", amount: 5 },
+    { size: "l", label: "Full Burger", amount: 10 },
+  ],
 
   // LocalStorage namespace
   storageKey: "sbburgerweek-checklist",
 
   // Print page
   printTitle: "SB Burger Week 2026 — My Picks",
+
+  // Event start date — used for analytics/stats time filters (ISO date)
+  eventStartDate: "2026-02-19",
+
+  // Event end date — concluded banner/modal auto-shows after this date (ISO date, null to never show)
+  eventEndDate: "2026-02-25",
+
+  // Map center and zoom level
+  mapCenter: [34.42, -119.7],
+  mapZoom: 13,
+
+  // GitHub repo URL (used in About modal, footer links)
+  githubRepoUrl: "https://github.com/samgutentag/sbburgerweek",
 
   // Data launch date — before this date, data.js (skeleton) is loaded.
   // On or after this date, data-<year>.js (full menu details) is loaded.
