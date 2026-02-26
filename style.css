@@ -95,13 +95,57 @@ header h1 span {
   vertical-align: -0.1em;
 }
 
+/* ── Concluded banner ──────────────────────── */
+
+.concluded-banner {
+  background: linear-gradient(135deg, #fff8f0 0%, #ffe8cc 100%);
+  color: var(--dark);
+  text-align: center;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+  border-bottom: 1px solid #f0d9b5;
+  transition: background 0.15s;
+}
+
+.concluded-banner:hover {
+  background: linear-gradient(135deg, #ffe8cc 0%, #ffd9a8 100%);
+}
+
+/* ── Concluded modal ──────────────────────── */
+
+.concluded-modal {
+  max-width: 360px;
+}
+
+.concluded-ctas {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.concluded-ctas .tip-amount-btn {
+  flex: 1 1 0;
+  max-width: 50%;
+}
+
+.concluded-note {
+  font-size: 0.78rem;
+  color: #999;
+  font-style: italic;
+  margin-bottom: 0;
+}
+
 /* ── Layout ─────────────────────────────────── */
 
 .app {
   display: flex;
   flex: 1;
-  height: calc(100vh - 47px);
-  height: calc(100dvh - 47px);
+  height: calc(100vh - 47px - 37px);
+  height: calc(100dvh - 47px - 37px);
   overflow: hidden;
 }
 
@@ -1394,8 +1438,8 @@ header h1 span {
 
   #map {
     width: 100%;
-    height: calc(100vh - 36px);
-    height: calc(100dvh - 36px);
+    height: calc(100vh - 36px - 37px);
+    height: calc(100dvh - 36px - 37px);
   }
 
   /* Bigger touch targets */

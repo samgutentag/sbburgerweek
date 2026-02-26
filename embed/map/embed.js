@@ -178,8 +178,13 @@
 
   loadUpvotes();
 
-  // Fetch upvote counts (non-blocking)
-  if (THEME.trackUrl) {
+  // Load upvote counts from snapshot or live API
+  if (typeof TRACKING_SNAPSHOT !== "undefined" && TRACKING_SNAPSHOT.upvotes) {
+    upvoteCounts = TRACKING_SNAPSHOT.upvotes;
+    setTimeout(function () {
+      refreshOpenPopupUpvote();
+    }, 0);
+  } else if (THEME.trackUrl) {
     fetch(THEME.trackUrl + "?upvotes=true", { method: "GET" })
       .then(function (resp) {
         return resp.json();
@@ -1592,4 +1597,70 @@
   }
 
   redirectHash();
+
+  // ── Event Concluded modal ─────────────────────
+  var concludedOverlay = document.getElementById("concludedOverlay");
+  var concludedClose = document.getElementById("concludedClose");
+  var concludedBanner = document.getElementById("concludedBanner");
+  var concludedSeenKey = THEME.storageKey + "-concluded-seen";
+
+  function openConcluded() {
+    if (concludedOverlay) concludedOverlay.classList.add("open");
+  }
+
+  function closeConcluded() {
+    if (concludedOverlay) concludedOverlay.classList.remove("open");
+    try {
+      localStorage.setItem(concludedSeenKey, "1");
+    } catch (e) {}
+  }
+
+  // Tip Jar CTA — close concluded modal, open tip jar
+  var concludedVenmo = document.getElementById("concludedVenmo");
+  if (concludedVenmo) {
+    concludedVenmo.addEventListener("click", function (e) {
+      e.preventDefault();
+      closeConcluded();
+      var tipJarOverlay = document.getElementById("tipJarOverlay");
+      if (tipJarOverlay) tipJarOverlay.classList.add("open");
+    });
+  }
+
+  // Contact CTA
+  var concludedContact = document.getElementById("concludedContact");
+  if (concludedContact && THEME.contactDomain) {
+    var year =
+      (THEME.dataLiveDate || "").slice(0, 4) || new Date().getFullYear();
+    var contactEmail =
+      "sb" + THEME.itemLabel + "week" + year + "@" + THEME.contactDomain;
+    concludedContact.href =
+      "mailto:" +
+      contactEmail +
+      "?subject=" +
+      encodeURIComponent("Ideas for next year");
+  }
+
+  // Close handlers
+  if (concludedClose) {
+    concludedClose.addEventListener("click", closeConcluded);
+  }
+  if (concludedOverlay) {
+    concludedOverlay.addEventListener("click", function (e) {
+      if (e.target === concludedOverlay) closeConcluded();
+    });
+  }
+
+  // Banner click → reopen
+  if (concludedBanner) {
+    concludedBanner.addEventListener("click", openConcluded);
+  }
+
+  // Auto-open on first visit
+  try {
+    if (!localStorage.getItem(concludedSeenKey)) {
+      openConcluded();
+    }
+  } catch (e) {
+    openConcluded();
+  }
 })();
