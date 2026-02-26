@@ -755,8 +755,10 @@
   // var liveCards = document.getElementById("liveCards");
   // if (liveCards) { liveCards.addEventListener("click", function (e) { ... }); }
 
-  // Try live fetch with ?detail=true
-  if (THEME.trackUrl) {
+  // Load from snapshot or live API
+  if (typeof TRACKING_SNAPSHOT !== "undefined" && TRACKING_SNAPSHOT.detail) {
+    render(TRACKING_SNAPSHOT.detail);
+  } else if (THEME.trackUrl) {
     fetch(THEME.trackUrl + "?detail=true", { method: "GET" })
       .then(function (resp) {
         return resp.json();

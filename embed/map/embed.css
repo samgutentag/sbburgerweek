@@ -216,11 +216,55 @@ body {
   vertical-align: -0.1em;
 }
 
+/* ── Concluded banner ──────────────────────── */
+
+.concluded-banner {
+  background: linear-gradient(135deg, #fff8f0 0%, #ffe8cc 100%);
+  color: var(--dark);
+  text-align: center;
+  padding: 6px 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+  border-bottom: 1px solid #f0d9b5;
+  transition: background 0.15s;
+}
+
+.concluded-banner:hover {
+  background: linear-gradient(135deg, #ffe8cc 0%, #ffd9a8 100%);
+}
+
+/* ── Concluded modal ──────────────────────── */
+
+.concluded-modal {
+  max-width: 340px;
+}
+
+.concluded-ctas {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.concluded-ctas .tip-amount-btn {
+  flex: 1 1 0;
+  max-width: 50%;
+}
+
+.concluded-note {
+  font-size: 0.72rem;
+  color: #999;
+  font-style: italic;
+  margin-bottom: 0;
+}
+
 /* ── Layout ─────────────────────────────────── */
 
 .app {
   display: flex;
-  height: calc(100% - 36px);
+  height: calc(100% - 36px - 33px);
   overflow: hidden;
 }
 
