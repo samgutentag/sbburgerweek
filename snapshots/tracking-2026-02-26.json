@@ -17,7 +17,7 @@
       "sidebar-view": 7,
       "un-upvote": 8,
       "upvote": 10,
-      "view": 1051,
+      "view": 1053,
       "website": 16
     },
     "Carpinteria": {
@@ -33,7 +33,7 @@
       "sidebar-view": 14,
       "un-upvote": 7,
       "upvote": 13,
-      "view": 1080,
+      "view": 1084,
       "website": 21
     },
     "Corner Tap": {
@@ -44,11 +44,11 @@
       "sidebar-view": 9,
       "un-upvote": 1,
       "upvote": 1,
-      "view": 463,
+      "view": 466,
       "website": 8
     },
     "Cristino's Bakery": {
-      "deeplink": 34,
+      "deeplink": 35,
       "directions-apple": 1,
       "directions-google": 10,
       "instagram": 2,
@@ -70,7 +70,7 @@
       "sidebar-view": 3,
       "un-upvote": 1,
       "upvote": 4,
-      "view": 945,
+      "view": 948,
       "website": 7
     },
     "Crushcakes and Cafe": {
@@ -102,7 +102,7 @@
       "restaurant-detail": 2,
       "share": 3,
       "sidebar-view": 9,
-      "view": 1034,
+      "view": 1035,
       "website": 5
     },
     "Dom's Taverna": {
@@ -114,8 +114,8 @@
       "share": 19,
       "sidebar-view": 9,
       "un-upvote": 1,
-      "upvote": 3,
-      "view": 1179,
+      "upvote": 4,
+      "view": 1185,
       "website": 27
     },
     "Downtown Eats": {
@@ -125,11 +125,11 @@
       "phone": 5,
       "share": 7,
       "sidebar-view": 4,
-      "view": 1226,
+      "view": 1231,
       "website": 18
     },
     "Downtown SB": {
-      "filter-area": 332
+      "filter-area": 333
     },
     "Eureka!": {
       "deeplink": 18,
@@ -139,10 +139,10 @@
       "phone": 1,
       "restaurant-detail": 1,
       "share": 2,
-      "sidebar-view": 6,
+      "sidebar-view": 7,
       "un-upvote": 2,
       "upvote": 6,
-      "view": 1052,
+      "view": 1061,
       "website": 15
     },
     "Finch and Fork": {
@@ -156,7 +156,7 @@
       "sidebar-view": 7,
       "un-upvote": 2,
       "upvote": 6,
-      "view": 1458,
+      "view": 1466,
       "website": 20
     },
     "Fresco At The Market": {
@@ -174,8 +174,8 @@
       "instagram": 1,
       "restaurant-detail": 1,
       "share": 11,
-      "sidebar-view": 10,
-      "view": 1020,
+      "sidebar-view": 11,
+      "view": 1023,
       "website": 15
     },
     "Goat Tree": {
@@ -187,7 +187,7 @@
       "sidebar-view": 4,
       "un-upvote": 6,
       "upvote": 8,
-      "view": 1052,
+      "view": 1056,
       "website": 11
     },
     "Goleta": {
@@ -213,7 +213,7 @@
       "share": 2,
       "sidebar-view": 2,
       "upvote": 1,
-      "view": 594,
+      "view": 602,
       "website": 3
     },
     "Isla Vista": {
@@ -243,8 +243,8 @@
       "sidebar-view": 4,
       "un-upvote": 1,
       "upvote": 6,
-      "view": 1423,
-      "website": 20
+      "view": 1426,
+      "website": 21
     },
     "Kyle's Kitchen (Calle Real)": {
       "deeplink": 20,
@@ -254,7 +254,7 @@
       "sidebar-view": 3,
       "un-upvote": 2,
       "upvote": 3,
-      "view": 758,
+      "view": 762,
       "website": 4
     },
     "Kyle's Kitchen (Hollister)": {
@@ -265,7 +265,7 @@
       "share": 2,
       "sidebar-view": 4,
       "upvote": 1,
-      "view": 946,
+      "view": 950,
       "website": 11
     },
     "Little Bird Kitchen": {
@@ -274,10 +274,10 @@
       "instagram": 1,
       "phone": 1,
       "share": 2,
-      "sidebar-view": 8,
+      "sidebar-view": 9,
       "un-upvote": 1,
       "upvote": 3,
-      "view": 968,
+      "view": 970,
       "website": 7
     },
     "Mesa Burger": {
@@ -286,10 +286,10 @@
       "directions-google": 4,
       "phone": 1,
       "share": 3,
-      "sidebar-view": 10,
+      "sidebar-view": 11,
       "un-upvote": 2,
       "upvote": 5,
-      "view": 564,
+      "view": 567,
       "website": 16
     },
     "Other SB": {
@@ -314,18 +314,19 @@
       "share": 1,
       "sidebar-view": 4,
       "upvote": 2,
-      "view": 1329,
+      "view": 1335,
       "website": 15
     },
     "Poke House": {
-      "deeplink": 18,
+      "deeplink": 19,
       "directions-apple": 1,
       "directions-google": 4,
+      "phone": 1,
       "share": 7,
       "sidebar-view": 10,
       "un-upvote": 1,
       "upvote": 4,
-      "view": 1037,
+      "view": 1044,
       "website": 3
     },
     "Que Smoke Shack": {
@@ -347,7 +348,7 @@
       "sidebar-view": 9,
       "un-upvote": 2,
       "upvote": 2,
-      "view": 1225,
+      "view": 1232,
       "website": 16
     },
     "SB Biergarten": {
@@ -360,7 +361,7 @@
       "sidebar-view": 3,
       "un-upvote": 2,
       "upvote": 5,
-      "view": 1025,
+      "view": 1030,
       "website": 20
     },
     "Sama San Roque": {
@@ -370,7 +371,7 @@
       "instagram": 2,
       "phone": 5,
       "share": 1,
-      "sidebar-view": 11,
+      "sidebar-view": 12,
       "un-upvote": 2,
       "upvote": 6,
       "view": 1154,
@@ -425,7 +426,7 @@
       "sidebar-view": 8,
       "un-upvote": 1,
       "upvote": 5,
-      "view": 982,
+      "view": 987,
       "website": 13
     },
     "The Blue Owl": {
@@ -437,7 +438,7 @@
       "sidebar-view": 10,
       "un-upvote": 1,
       "upvote": 5,
-      "view": 1302,
+      "view": 1307,
       "website": 21
     },
     "The Brewhouse": {
@@ -445,10 +446,11 @@
       "directions-apple": 2,
       "directions-google": 6,
       "instagram": 2,
+      "phone": 1,
       "share": 2,
       "sidebar-view": 6,
-      "view": 868,
-      "website": 3
+      "view": 875,
+      "website": 4
     },
     "The Nugget (Carpinteria)": {
       "deeplink": 2,
@@ -468,7 +470,7 @@
       "sidebar-view": 11,
       "un-upvote": 2,
       "upvote": 3,
-      "view": 873,
+      "view": 876,
       "website": 10
     },
     "The Nugget (Summerland)": {
@@ -487,7 +489,7 @@
       "sidebar-view": 3,
       "un-upvote": 1,
       "upvote": 5,
-      "view": 938,
+      "view": 939,
       "website": 10
     },
     "The Victor": {
@@ -509,7 +511,7 @@
       "restaurant-detail": 1,
       "share": 3,
       "sidebar-view": 7,
-      "view": 1174,
+      "view": 1180,
       "website": 16
     },
     "Third Window Brewing (Carpinteria)": {
@@ -521,7 +523,7 @@
       "share": 1,
       "sidebar-view": 6,
       "upvote": 1,
-      "view": 423,
+      "view": 424,
       "website": 6
     },
     "Third Window Brewing (Santa Barbara)": {
@@ -531,9 +533,9 @@
       "instagram": 6,
       "phone": 4,
       "share": 5,
-      "sidebar-view": 13,
+      "sidebar-view": 14,
       "upvote": 1,
-      "view": 1108,
+      "view": 1110,
       "website": 29
     },
     "Validation Ale": {
@@ -544,7 +546,7 @@
       "sidebar-view": 8,
       "un-upvote": 6,
       "upvote": 11,
-      "view": 1015,
+      "view": 1018,
       "website": 9
     },
     "Validation Annex": {
@@ -565,7 +567,7 @@
       "sidebar-view": 6,
       "un-upvote": 1,
       "upvote": 4,
-      "view": 1344,
+      "view": 1345,
       "website": 16
     },
     "Yellow Belly Tap": {
@@ -577,13 +579,16 @@
       "sidebar-view": 6,
       "un-upvote": 2,
       "upvote": 5,
-      "view": 1250,
+      "view": 1251,
       "website": 19
     },
     "blue o": {
       "search": 1
     },
     "combo": {
+      "search": 1
+    },
+    "dana": {
       "search": 1
     },
     "dave": {
@@ -635,7 +640,7 @@
       "search": 5
     },
     "open": {
-      "filter-hours": 72
+      "filter-hours": 73
     },
     "peanut": {
       "search": 1
@@ -643,8 +648,11 @@
     "poke": {
       "search": 1
     },
-    "sama": {
+    "sam": {
       "search": 1
+    },
+    "sama": {
+      "search": 2
     },
     "sha": {
       "search": 1
@@ -656,7 +664,7 @@
       "insights-view": 63,
       "restaurant-stats-view": 3,
       "restaurants-view": 58,
-      "stats-view": 273,
+      "stats-view": 277,
       "trends-view": 64
     },
     "the": {
@@ -688,9 +696,9 @@
     },
     "tip-jar": {
       "tip-fries": 6,
-      "tip-full": 21,
+      "tip-full": 22,
       "tip-half": 6,
-      "tip-jar-open": 309,
+      "tip-jar-open": 310,
       "tip-share": 3
     },
     "vegan": {
@@ -703,14 +711,14 @@
       "search": 1
     }
   },
-  "timestamp": "2026-02-26T04:12:41Z",
+  "timestamp": "2026-02-26T05:54:49Z",
   "upvotes": {
     "Arnoldi's": 2,
     "Caya": 6,
     "Cristino's Bakery": 3,
     "Crushcakes": 3,
     "Crushcakes and Cafe": 3,
-    "Dom's Taverna": 2,
+    "Dom's Taverna": 3,
     "Eureka!": 4,
     "Finch and Fork": 4,
     "Fresco At The Market": 2,
