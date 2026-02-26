@@ -59,6 +59,26 @@
 - Favicon regex: match `href="data:image/svg+xml` prefix to avoid hitting JS template strings
 - Badge URL regex: use lazy `+?` with lookahead to not consume `.svg` extension
 
+## Event Activation Checklist
+
+When preparing for the next event:
+
+1. Update `config.js`: set `trackUrl`, `cfAnalyticsToken`, `eventName`, `eventDates`, `dataLiveDate`
+2. Run: `python3 apply-theme.py`
+3. Uncomment cron schedules in `.github/workflows/fetch-hours.yml` and `snapshot-tracking.yml` (update date ranges)
+4. Re-enable Worker writes in `workers/track/index.js` (remove early return, uncomment `writeDataPoint`)
+5. Deploy Worker: `cd workers/track && wrangler deploy`
+6. Verify: check `/stats` loads, tracking events appear
+
+When winding down after an event:
+
+1. Run final snapshot: `gh workflow run "Snapshot Tracking Data"`
+2. Set `trackUrl: null` and `cfAnalyticsToken: null` in `config.js`
+3. Run: `python3 apply-theme.py`
+4. Comment out cron schedules in workflow files
+5. Add early return + comment out `writeDataPoint` in `workers/track/index.js`
+6. Deploy Worker: `cd workers/track && wrangler deploy`
+
 ## Git & Deployment
 
 - Hosted on GitHub Pages with custom domain (sbburgerweekmap.com)

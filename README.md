@@ -508,11 +508,11 @@ Show operating hours, "Open Now" filter, and Lunch/Dinner filters on the map. Us
 
 ```html
 <iframe
-  src="https://sbburritoweekmap.com/embed/map"
+  src="https://sbburgerweekmap.com/embed/map"
   width="100%"
   height="600"
   style="border: none; border-radius: 8px;"
-  title="SB Burrito Week 2026 Interactive Map"
+  title="SB Burger Week 2026 Interactive Map"
   loading="lazy"
   allowfullscreen
 ></iframe>

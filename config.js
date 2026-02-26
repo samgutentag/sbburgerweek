@@ -44,10 +44,10 @@ const THEME = {
   dataLiveDate: "2026-02-18",
 
   // Event tracking — Cloudflare Worker URL (null to disable)
-  trackUrl: "https://sbburgerweek-track.developer-95b.workers.dev",
+  trackUrl: null,
 
   // Cloudflare Web Analytics (null to disable)
-  cfAnalyticsToken: "4a7b8d80cde44aaeae633e477756e567",
+  cfAnalyticsToken: null,
 
   // Contact email domain — generates sb{itemLabel}week{year}@{domain}
   // Set null to hide the contact link

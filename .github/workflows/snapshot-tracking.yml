@@ -1,9 +1,15 @@
 name: Snapshot Tracking Data
 
 on:
-  schedule:
-    # Hourly during Feb 19–28 — overwrites today's file to keep it fresh
-    - cron: "0 * 19-28 2 *"
+  # Schedule disabled between events. To re-enable for the next event:
+  # 1. Uncomment the schedule block below
+  # 2. Update the cron day range to cover event week + a few days after
+  # 3. Update the timestamp filter in the SQL queries below for the new event start
+  # 4. Commit and push
+  #
+  # schedule:
+  #   # Hourly during event week — adjust date range for next event
+  #   - cron: "0 * 19-28 2 *"
   workflow_dispatch:
 
 permissions:

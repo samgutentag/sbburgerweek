@@ -392,16 +392,22 @@ export default {
       return new Response("Method not allowed", { status: 405 });
     }
 
+    // Writes disabled between events. To re-enable:
+    // 1. Remove the early return below
+    // 2. Uncomment the writeDataPoint call
+    // 3. Deploy: cd workers/track && wrangler deploy
+    return new Response("ok", { headers: corsHeaders });
+
     try {
       const { action, label } = await request.json();
       if (!action || !label) {
         return new Response("Missing fields", { status: 400, headers: corsHeaders });
       }
 
-      env.TRACKER.writeDataPoint({
-        blobs: [action, label],
-        indexes: [action],
-      });
+      // env.TRACKER.writeDataPoint({
+      //   blobs: [action, label],
+      //   indexes: [action],
+      // });
 
       return new Response("ok", { headers: corsHeaders });
     } catch (e) {
