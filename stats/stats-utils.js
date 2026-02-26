@@ -38,7 +38,7 @@ var StatsUtils = (function () {
     basePath = basePath || "../snapshots/";
     var today = new Date();
     var dates = [];
-    for (var d = new Date("2026-02-19"); d <= today; d.setDate(d.getDate() + 1)) {
+    for (var d = new Date(THEME.eventStartDate); d <= today; d.setDate(d.getDate() + 1)) {
       dates.push(d.toISOString().slice(0, 10));
     }
 

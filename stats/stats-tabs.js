@@ -15,11 +15,13 @@
       insights: "insights/insights.css",
       trends: "trends/trends.css",
       restaurants: "restaurant/restaurant.css",
+      "post-event": "post-event/post-event.css",
     };
     var jsMap = {
       insights: "insights/insights-tab.js",
       trends: "trends/trends-tab.js",
       restaurants: "restaurant/restaurant-tab.js",
+      "post-event": "post-event/post-event-tab.js",
     };
 
     // Load CSS
@@ -82,7 +84,7 @@
     var tabName = parts[0];
 
     // Map valid tab names
-    var validTabs = { activity: 1, insights: 1, trends: 1, restaurants: 1 };
+    var validTabs = { activity: 1, insights: 1, trends: 1, restaurants: 1, "post-event": 1 };
     if (validTabs[tabName]) {
       switchTab(tabName);
     } else {

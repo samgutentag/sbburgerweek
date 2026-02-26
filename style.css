@@ -98,6 +98,7 @@ header h1 span {
 /* ── Concluded banner ──────────────────────── */
 
 .concluded-banner {
+  display: none;
   background: linear-gradient(135deg, #fff8f0 0%, #ffe8cc 100%);
   color: var(--dark);
   text-align: center;
@@ -144,8 +145,8 @@ header h1 span {
 .app {
   display: flex;
   flex: 1;
-  height: calc(100vh - 47px - 37px);
-  height: calc(100dvh - 47px - 37px);
+  height: calc(100vh - 47px);
+  height: calc(100dvh - 47px);
   overflow: hidden;
 }
 
@@ -1438,8 +1439,8 @@ header h1 span {
 
   #map {
     width: 100%;
-    height: calc(100vh - 36px - 37px);
-    height: calc(100dvh - 36px - 37px);
+    height: calc(100vh - 36px);
+    height: calc(100dvh - 36px);
   }
 
   /* Bigger touch targets */

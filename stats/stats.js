@@ -15,6 +15,16 @@
   var backLink = document.getElementById("backLink");
   if (backLink) backLink.href = THEME.siteUrl + "/";
 
+  // Date-driven concluded banner
+  var concludedBanner = document.querySelector(".concluded-banner");
+  if (
+    concludedBanner &&
+    THEME.eventEndDate &&
+    new Date() > new Date(THEME.eventEndDate + "T23:59:59")
+  ) {
+    concludedBanner.style.display = "";
+  }
+
   var escapeHtml = StatsUtils.escapeHtml;
   var slugify = StatsUtils.slugify;
 
