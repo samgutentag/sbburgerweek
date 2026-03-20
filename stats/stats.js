@@ -296,8 +296,11 @@
       if (__statsEventState === "off-season") {
         note.textContent = "Showing final results from " + THEME.eventName + ".";
       } else {
+        var startLabel = THEME.eventStartDate
+          ? new Date(THEME.eventStartDate + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" })
+          : "event start";
         note.textContent =
-          "Updated every 5 minutes. Data collected since event start (Feb 19).";
+          "Updated every 5 minutes. Data collected since event start (" + startLabel + ").";
       }
     } else {
       note.textContent =

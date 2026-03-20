@@ -42,7 +42,7 @@ We'll use **"SB Burrito Week"** as the running example throughout.
 # Fork on GitHub, then:
 git clone https://github.com/YOUR_USERNAME/sbburgerweek.git
 cd sbburgerweek
-python3 -m http.server 8000
+python3 -m http.server 8000 --bind 127.0.0.1
 # Open http://localhost:8000
 ```
 
@@ -227,7 +227,7 @@ const restaurants = [
 | **Lat/Lng** | Google Maps → right-click the pin → "Copy coordinates" |
 | **Google Maps link** (`mapUrl`) | Google Maps → click "Share" → copy link |
 | **Apple Maps link** (`appleMapsUrl`) | Apple Maps → tap "Share" → copy link. Set `null` to use address-based directions |
-| **Fallback Google Maps URL** | `https://www.google.com/maps/search/?api=1&query=123+Main+St+City+CA` |
+| **Fallback Google Maps URL** | `https://www.google.com/maps/search/?api=1&query=Business+Name+123+Main+St+City+CA` — useful for quick data entry before collecting share links. `fetch-place-ids.py` resolves these to Place IDs correctly. |
 
 #### Data Conventions
 
@@ -259,6 +259,8 @@ This reads `config.js` and updates everything that can't read the config at runt
 | `.github/workflows/snapshot-tracking.yml` | Event start date in SQL queries |
 
 **Run this every time you change `config.js`.**
+
+> **If forking:** Delete `tracking-snapshot.js` if it exists in the repo root. This file contains baked-in stats data from the previous event and will cause the stats page to show stale data. It gets regenerated automatically by the snapshot workflow during your event.
 
 ---
 
@@ -626,7 +628,7 @@ The QR code in the HTML also uses a dynamically generated one from `api.qrserver
 ## Run Locally
 
 ```bash
-python3 -m http.server 8000
+python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
 Open [http://localhost:8000](http://localhost:8000). Add `?year=9999` to test with skeleton data.
