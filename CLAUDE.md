@@ -73,11 +73,13 @@ When preparing for the next event:
 When winding down after an event:
 
 1. Run final snapshot: `gh workflow run "Snapshot Tracking Data"`
-2. Set `trackUrl: null` and `cfAnalyticsToken: null` in `config.js`
-3. Run: `python3 apply-theme.py`
-4. Comment out cron schedules in workflow files
-5. Add early return + comment out `writeDataPoint` in `workers/track/index.js`
-6. Deploy Worker: `cd workers/track && wrangler deploy`
+2. Snapshot hourly data for stats charts (before disabling trackUrl): `./snapshot-hourly.sh`
+3. Commit hourly snapshots: `git add snapshots/hourly-events.json snapshots/hourly-labels.json`
+4. Set `trackUrl: null` and `cfAnalyticsToken: null` in `config.js`
+5. Run: `python3 apply-theme.py`
+6. Comment out cron schedules in workflow files
+7. Add early return + comment out `writeDataPoint` in `workers/track/index.js`
+8. Deploy Worker: `cd workers/track && wrangler deploy`
 
 ## Git & Deployment
 

@@ -257,16 +257,22 @@ export default {
       if (url.searchParams.get("hourly") === "true") {
         try {
           const label = url.searchParams.get("label");
+          const startParam = url.searchParams.get("start");
+          const endParam = url.searchParams.get("end");
+          // Use client-provided event dates if available, otherwise fall back to 7-day window
+          const timeFilter = (startParam && endParam)
+            ? `timestamp >= toDateTime('${startParam.replace(/'/g, "''")} 00:00:00') AND timestamp <= toDateTime('${endParam.replace(/'/g, "''")} 23:59:59')`
+            : `timestamp >= NOW() - INTERVAL '7' DAY`;
           const sql = label
             ? `SELECT toStartOfHour(timestamp) AS hour, blob2 AS label, SUM(1) AS count
                FROM sbburgerweek
-               WHERE timestamp >= NOW() - INTERVAL '7' DAY AND blob1 != 'test' AND blob2 = '${label.replace(/'/g, "''")}'
+               WHERE ${timeFilter} AND blob1 != 'test' AND blob2 = '${label.replace(/'/g, "''")}'
                GROUP BY hour, label
                ORDER BY hour ASC
                LIMIT 5000`
             : `SELECT toStartOfHour(timestamp) AS hour, blob1 AS action, SUM(1) AS count
                FROM sbburgerweek
-               WHERE timestamp >= NOW() - INTERVAL '7' DAY AND blob1 != 'test'
+               WHERE ${timeFilter} AND blob1 != 'test'
                GROUP BY hour, action
                ORDER BY hour ASC
                LIMIT 5000`;

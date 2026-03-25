@@ -616,12 +616,18 @@ The QR code in the HTML also uses a dynamically generated one from `api.qrserver
 ### Winding Down After Your Event
 
 1. Run a final snapshot: go to **Actions** tab → **Snapshot Tracking Data** → **Run workflow**
-2. Set `trackUrl: null` and `cfAnalyticsToken: null` in `config.js`
-3. Run `python3 apply-theme.py`
-4. Comment out cron schedules in both workflow files
-5. Add early return + comment out `writeDataPoint` in `workers/track/index.js`
-6. Deploy Worker: `cd workers/track && wrangler deploy`
-7. Commit and push
+2. Snapshot hourly data for the stats dashboard charts (do this **before** disabling `trackUrl`):
+   ```bash
+   ./snapshot-hourly.sh
+   git add snapshots/hourly-events.json snapshots/hourly-labels.json
+   ```
+   This fetches hourly action data and per-filter-label data from the Worker, scoped to your event dates from `config.js`. The stats page loads these files automatically when the event is concluded — no more Worker calls needed for charts.
+3. Set `trackUrl: null` and `cfAnalyticsToken: null` in `config.js`
+4. Run `python3 apply-theme.py`
+5. Comment out cron schedules in both workflow files
+6. Add early return + comment out `writeDataPoint` in `workers/track/index.js`
+7. Deploy Worker: `cd workers/track && wrangler deploy`
+8. Commit and push
 
 ---
 
@@ -725,13 +731,16 @@ sbburgerweek/
 ├── og-image.png            # Social preview image (generated)
 ├── venmo_qr.png            # Venmo QR code
 ├── CNAME                   # Custom domain for GitHub Pages
+├── snapshot-hourly.sh      # One-time: snapshot hourly data for concluded event stats
 ├── fetch-place-ids.py      # One-time Place ID lookup from mapUrl redirects
 ├── place-ids.json          # Restaurant name → Google Place ID mapping
 ├── fetch-hours.py          # Daily hours fetch from Google Places API
 ├── hours.json              # Operating hours data (committed, updated daily)
 │
-├── snapshots/              # Daily tracking data snapshots (auto-committed)
-│   └── tracking-YYYY-MM-DD.json
+├── snapshots/              # Tracking data snapshots (auto-committed)
+│   ├── tracking-YYYY-MM-DD.json   # Daily aggregate snapshots
+│   ├── hourly-events.json         # Hourly action counts (created by snapshot-hourly.sh)
+│   └── hourly-labels.json         # Hourly per-filter-label counts (created by snapshot-hourly.sh)
 │
 ├── embed/
 │   ├── index.html          # Embed showcase page (/embed)
@@ -794,7 +803,8 @@ The Cloudflare Worker (`workers/track/index.js`) exposes these endpoints:
 | POST | `/` | Record a tracking event | `"ok"` |
 | GET | `/` | Per-restaurant action breakdown | `{name: {view: N, ...}}` |
 | GET | `?upvotes=true` | Net upvote counts | `{name: N, ...}` |
-| GET | `?hourly=true` | Hourly event breakdown | `{hour: {action: N, ...}}` |
+| GET | `?hourly=true` | Hourly event breakdown (add `&start=YYYY-MM-DD&end=YYYY-MM-DD` to constrain date range, otherwise last 7 days) | `{hour: {action: N, ...}}` |
+| GET | `?hourly=true&label=X` | Hourly counts for a specific label (supports `&start`/`&end`) | `{hour: N, ...}` |
 | GET | `?rum=true` | Device/browser/OS stats | `{devices: {}, browsers: {}, os: {}}` |
 | GET | `?active=true` | Recent visitors + actions | `{visitors1h: N, recentActions: N}` |
 

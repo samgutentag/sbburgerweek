@@ -424,10 +424,27 @@
   var hourlyLabelCache = {};
   var chartInstance = null;
 
+  // Build date range params from config for hourly queries
+  var __eventConcluded = __statsEventState === "post-event" || __statsEventState === "off-season";
+
+  function hourlyDateParams() {
+    if (THEME.eventStartDate && THEME.eventEndDate) {
+      return "&start=" + encodeURIComponent(THEME.eventStartDate) + "&end=" + encodeURIComponent(THEME.eventEndDate);
+    }
+    return "";
+  }
+
   function fetchHourly() {
     if (hourlyCache) return Promise.resolve(hourlyCache);
+    // Use snapshot for concluded events
+    if (__eventConcluded) {
+      return fetch("../snapshots/hourly-events.json", { method: "GET" })
+        .then(function (resp) { return resp.ok ? resp.json() : null; })
+        .then(function (data) { hourlyCache = data; return data; })
+        .catch(function () { return null; });
+    }
     if (!THEME.trackUrl) return Promise.resolve(null);
-    return fetch(THEME.trackUrl + "?hourly=true", { method: "GET" })
+    return fetch(THEME.trackUrl + "?hourly=true" + hourlyDateParams(), { method: "GET" })
       .then(function (resp) { return resp.json(); })
       .then(function (data) { hourlyCache = data; return data; })
       .catch(function () { return null; });
@@ -435,8 +452,21 @@
 
   function fetchHourlyLabel(label) {
     if (hourlyLabelCache[label]) return Promise.resolve(hourlyLabelCache[label]);
+    // Use snapshot for concluded events
+    if (__eventConcluded) {
+      if (!hourlyLabelCache.__snapshot) {
+        hourlyLabelCache.__snapshot = fetch("../snapshots/hourly-labels.json", { method: "GET" })
+          .then(function (resp) { return resp.ok ? resp.json() : {}; })
+          .catch(function () { return {}; });
+      }
+      return hourlyLabelCache.__snapshot.then(function (all) {
+        var data = all[label] || null;
+        hourlyLabelCache[label] = data;
+        return data;
+      });
+    }
     if (!THEME.trackUrl) return Promise.resolve(null);
-    return fetch(THEME.trackUrl + "?hourly=true&label=" + encodeURIComponent(label), { method: "GET" })
+    return fetch(THEME.trackUrl + "?hourly=true&label=" + encodeURIComponent(label) + hourlyDateParams(), { method: "GET" })
       .then(function (resp) { return resp.json(); })
       .then(function (data) { hourlyLabelCache[label] = data; return data; })
       .catch(function () { return null; });

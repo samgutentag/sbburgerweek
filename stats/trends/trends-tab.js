@@ -65,9 +65,22 @@
   }
 
   // Try to fetch hourly data from the Worker for the Views chart
+  var __trendsConcluded = (typeof getEventState === "function") &&
+    (getEventState() === "post-event" || getEventState() === "off-season");
+
   function fetchHourlyData() {
+    // Use snapshot for concluded events
+    if (__trendsConcluded) {
+      return fetch("../snapshots/hourly-events.json", { method: "GET" })
+        .then(function (resp) { return resp.ok ? resp.json() : null; })
+        .catch(function () { return null; });
+    }
     if (!THEME.trackUrl) return Promise.resolve(null);
-    return fetch(THEME.trackUrl + "?hourly=true", { method: "GET" })
+    var dateParams = "";
+    if (THEME.eventStartDate && THEME.eventEndDate) {
+      dateParams = "&start=" + encodeURIComponent(THEME.eventStartDate) + "&end=" + encodeURIComponent(THEME.eventEndDate);
+    }
+    return fetch(THEME.trackUrl + "?hourly=true" + dateParams, { method: "GET" })
       .then(function (resp) { return resp.ok ? resp.json() : null; })
       .catch(function () { return null; });
   }
