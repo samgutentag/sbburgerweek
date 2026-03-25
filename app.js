@@ -389,7 +389,7 @@
   }
 
   // Dietary tag icon helper
-  var tagDefs = [
+  var tagDefs = THEME.tagFilters || [
     { key: "vegetarian", icon: "icon-vegetarian.svg", label: "Vegetarian" },
     { key: "glutenFree", icon: "icon-gf.svg", label: "Gluten Free" },
     { key: "hasFries", icon: "icon-fries.svg", label: "Fries" },
@@ -940,7 +940,7 @@
   hoursFilterSpan.id = "hoursFilters";
   hoursFilterSpan.className = "filter-row filter-row-hours";
   hoursFilterSpan.style.display = "none";
-  var hoursDefs = [
+  var hoursDefs = THEME.hoursFilters || [
     { key: "open", icon: "🟢", label: "Open Now" },
     { key: "lunch", icon: "☀️", label: "Lunch" },
     { key: "dinner", icon: "🌙", label: "Dinner" },

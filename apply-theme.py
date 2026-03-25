@@ -5,9 +5,9 @@ Usage:
     python3 apply-theme.py
 
 Updates: og-image.svg, og-image.png, CNAME, index.html,
-         embed/index.html, embed/map/index.html, README.md,
-         app.js, embed/map/embed.js, stats JS files,
-         workers/track/index.js, .github/workflows/snapshot-tracking.yml
+         embed/index.html, embed/map/index.html, admin/index.html,
+         README.md, stats/index.html, workers/track/index.js,
+         .github/workflows/snapshot-tracking.yml
 """
 
 import os
@@ -235,15 +235,17 @@ def update_index_html(cfg):
 
     # About modal: source link href and text
     html = re.sub(
-        r'(<a\s+id="aboutSource"\s+href=")[^"]*(")',
+        r'(id="aboutSource"[^>]*href=")[^"]*(")',
         rf'\g<1>{cfg["sourceUrl"]}\g<2>',
         html,
+        flags=re.DOTALL,
     )
     source_text = cfg["sourceLabel"].replace("Source: ", "", 1) if cfg["sourceLabel"].startswith("Source: ") else cfg["sourceLabel"]
     html = re.sub(
         r'(id="aboutSource"[^>]*>)[^<]*(</a)',
         r"\g<1>" + "\U0001F4F0 " + source_text + r"\g<2>",
         html,
+        flags=re.DOTALL,
     )
 
     # About modal: title and dates
@@ -297,6 +299,31 @@ def update_index_html(cfg):
     html = re.sub(
         r"(Thanks for exploring )[^!]*(! Whether you tried\s*\n\s*one )\w+( or all of them)",
         rf"\g<1>{event}\g<2>{cfg['itemLabel']}\g<3>",
+        html,
+    )
+
+    # Search placeholder
+    item = cfg["itemLabelPlural"] or "items"
+    html = re.sub(
+        r'(placeholder="Search restaurants or )\w+(…")',
+        rf"\g<1>{item}\g<2>",
+        html,
+    )
+
+    # About modal: Venmo tip description
+    venmo_note = cfg["venmoNote"]
+    if venmo_note:
+        html = re.sub(
+            r'(id="aboutVenmo"[^>]*>.*?<span class="about-link-desc">)[^<]*(</span>)',
+            rf"\g<1>{venmo_note}\g<2>",
+            html,
+            flags=re.DOTALL,
+        )
+
+    # Tip jar body paragraph (HTML fallback)
+    html = re.sub(
+        r"(find your next )\w+(, consider leaving a tip!)",
+        rf"\g<1>{cfg['itemLabel']}\g<2>",
         html,
     )
 
@@ -396,6 +423,58 @@ def update_embed_map_index(cfg):
     html = re.sub(
         r'(id="embedFullMapLink" href=")[^"]*(")',
         rf"\g<1>{site_url}/\g<2>",
+        html,
+    )
+
+    # About modal: title and dates
+    html = re.sub(
+        r'(<h2\s+id="aboutTitle">)[^<]*(</h2>)',
+        rf"\g<1>{event}\g<2>",
+        html,
+    )
+    html = re.sub(
+        r'(<p\s+id="aboutDates"[^>]*>)[^<]*(</p>)',
+        rf"\g<1>{dates}\g<2>",
+        html,
+    )
+
+    # About modal: source link href and text
+    html = re.sub(
+        r'(id="aboutSource"[^>]*href=")[^"]*(")',
+        rf'\g<1>{cfg["sourceUrl"]}\g<2>',
+        html,
+        flags=re.DOTALL,
+    )
+    source_text = cfg["sourceLabel"].replace("Source: ", "", 1) if cfg["sourceLabel"].startswith("Source: ") else cfg["sourceLabel"]
+    html = re.sub(
+        r'(id="aboutSource"[^>]*>)[^<]*(</a)',
+        r"\g<1>" + "\U0001F4F0 " + source_text + r"\g<2>",
+        html,
+        flags=re.DOTALL,
+    )
+
+    # About modal: Venmo tip description
+    venmo_note = cfg["venmoNote"]
+    if venmo_note:
+        html = re.sub(
+            r'(id="aboutVenmo"[^>]*>.*?<span class="about-link-desc">)[^<]*(</span>)',
+            rf"\g<1>{venmo_note}\g<2>",
+            html,
+            flags=re.DOTALL,
+        )
+
+    # Search placeholder
+    item_plural = cfg["itemLabelPlural"] or "items"
+    html = re.sub(
+        r'(placeholder="Search restaurants or )\w+(…")',
+        rf"\g<1>{item_plural}\g<2>",
+        html,
+    )
+
+    # Tip jar body paragraph (HTML fallback)
+    html = re.sub(
+        r"(find your next )\w+(, consider leaving a tip!)",
+        rf"\g<1>{cfg['itemLabel']}\g<2>",
         html,
     )
 
@@ -575,6 +654,40 @@ def update_snapshot_workflow(cfg):
         f.write(text)
 
 
+def update_admin_html(cfg):
+    """Update admin/index.html fallback text."""
+    path = os.path.join(SCRIPT_DIR, "admin", "index.html")
+    with open(path, encoding="utf-8") as f:
+        html = f.read()
+
+    emoji = cfg["emoji"]
+    event = cfg["eventName"]
+
+    # Title fallback
+    html = re.sub(
+        r"<title>[^<]*</title>",
+        f"<title>Admin — {event} Map</title>",
+        html,
+    )
+
+    # Favicon emoji
+    html = re.sub(
+        r"""(href="data:image/svg\+xml,[^"]*font-size='90'>)[^<]*(</text>)""",
+        rf"\g<1>{emoji}\g<2>",
+        html,
+    )
+
+    # Page title fallback
+    html = re.sub(
+        r'(<a id="pageTitle" href="/">)[^<]*(</a>)',
+        rf"\g<1>{event}\g<2>",
+        html,
+    )
+
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(html)
+
+
 def update_stats_html(cfg):
     """Update stats/index.html fallback text."""
     path = os.path.join(SCRIPT_DIR, "stats", "index.html")
@@ -665,6 +778,10 @@ def main():
 
     print("Updating README.md...", end=" ", flush=True)
     update_readme(cfg)
+    print("done")
+
+    print("Updating admin/index.html...", end=" ", flush=True)
+    update_admin_html(cfg)
     print("done")
 
     print("Updating stats/index.html...", end=" ", flush=True)

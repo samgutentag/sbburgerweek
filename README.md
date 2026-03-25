@@ -379,13 +379,18 @@ You can remove the `RUM_SITE_TAG` line if you don't plan to use Cloudflare RUM (
 3. Scope it to your account only
 4. Copy the token
 
-#### 9f. Add the Token as a Worker Secret
+#### 9f. Add Worker Secrets
 
 ```bash
 cd workers/track
 wrangler secret put CF_API_TOKEN
-# Paste your token when prompted
+# Paste your Cloudflare API token when prompted
+
+wrangler secret put ADMIN_TOKEN
+# Choose a password for the /admin search query viewer
 ```
+
+The `ADMIN_TOKEN` protects the `/admin` page, which shows what users are searching for during the event. Pick any password — you'll enter it at `yoursite.com/admin` to view the data.
 
 #### 9g. Update the Event Start Date in the Worker
 
@@ -807,18 +812,30 @@ The Cloudflare Worker (`workers/track/index.js`) exposes these endpoints:
 | GET | `?hourly=true&label=X` | Hourly counts for a specific label (supports `&start`/`&end`) | `{hour: N, ...}` |
 | GET | `?rum=true` | Device/browser/OS stats | `{devices: {}, browsers: {}, os: {}}` |
 | GET | `?active=true` | Recent visitors + actions | `{visitors1h: N, recentActions: N}` |
+| GET | `?admin=true&token=X` | Top search queries, last 7 days (requires `ADMIN_TOKEN` secret) | `[{query, count}]` |
 
 **POST body:** `{ "action": "view", "label": "Mesa Burger" }`
 
 ---
 
-## GitHub Secrets Reference
+## Secrets Reference
+
+### GitHub Repo Secrets
 
 | Secret | Used By | Required For |
 |--------|---------|--------------|
 | `GOOGLE_PLACES_API_KEY` | `fetch-hours.yml` | Restaurant hours feature |
 | `CF_ACCOUNT_ID` | `snapshot-tracking.yml` | Tracking data snapshots |
 | `CF_API_TOKEN` | `snapshot-tracking.yml`, Worker | Tracking + snapshots |
+
+### Cloudflare Worker Secrets
+
+Set via `wrangler secret put <NAME>` from `workers/track/`.
+
+| Secret | Required For |
+|--------|--------------|
+| `CF_API_TOKEN` | Worker reads from Analytics Engine (same token as GitHub secret) |
+| `ADMIN_TOKEN` | Password for `/admin` search query viewer |
 
 ---
 
