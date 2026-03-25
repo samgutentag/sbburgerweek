@@ -31,21 +31,19 @@
   var escapeHtml = StatsUtils.escapeHtml;
   var slugify = StatsUtils.slugify;
 
-  // Labels for filter stats display
-  var filterLabels = {
-    "Downtown SB": "Downtown SB",
-    "Goleta": "Goleta",
-    "Carpinteria": "Carpinteria",
-    "Isla Vista": "Isla Vista",
-    "Santa Ynez": "Santa Ynez",
-    "Other SB": "Other SB",
-    "vegetarian": "Vegetarian",
-    "glutenFree": "Gluten Free",
-    "hasFries": "Fries",
-    "open": "Open Now",
-    "lunch": "Lunch",
-    "dinner": "Dinner",
-  };
+  // Build filter labels dynamically from AREA_COLORS (data file) and THEME config
+  var filterLabels = {};
+  if (typeof AREA_COLORS !== "undefined") {
+    Object.keys(AREA_COLORS).forEach(function (area) {
+      filterLabels[area] = area;
+    });
+  }
+  (THEME.tagFilters || []).forEach(function (t) {
+    filterLabels[t.key] = t.label;
+  });
+  (THEME.hoursFilters || []).forEach(function (h) {
+    filterLabels[h.key] = h.label;
+  });
 
   // Column definitions for sortable leaderboard
   var columns = [
