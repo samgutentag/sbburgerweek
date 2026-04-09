@@ -64,7 +64,7 @@ const THEME = {
   dataLiveDate: "2026-02-18",
 
   // Event tracking — Cloudflare Worker URL (null to disable)
-  trackUrl: "https://sbburgerweek-track.developer-95b.workers.dev",
+  trackUrl: null,
 
   // Cloudflare Web Analytics (null to disable)
   cfAnalyticsToken: null,
